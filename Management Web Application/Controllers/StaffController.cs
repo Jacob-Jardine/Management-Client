@@ -30,6 +30,7 @@ namespace Management_Web_Application.Controllers
 
         public async Task<ActionResult<IEnumerable<StaffReadViewModel>>> GetAllStaff()
         {
+            string baseURL = Environment.GetEnvironmentVariable("BASE_URL");
             try
             {
                 var getAllStaff = await _staffService.GetAllStaffAsync();
@@ -37,7 +38,7 @@ namespace Management_Web_Application.Controllers
             }
             catch
             {
-                return Redirect("https://localhost:44333/Home/Privacy");
+                return Redirect($"{baseURL}");
             }
         }
 
@@ -83,7 +84,7 @@ namespace Management_Web_Application.Controllers
             }
             catch
             {
-                return BadRequest();
+                return Redirect($"{baseURL}");
             }
         }
 

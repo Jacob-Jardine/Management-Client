@@ -28,7 +28,8 @@ namespace Management_Web_Application
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddSingleton<IStaffService, FakeStaffService>();
+            //services.AddSingleton<IStaffService, FakeStaffService>();
+            services.AddHttpClient<IStaffService, StaffService>();
             services.AddRazorPages().AddRazorRuntimeCompilation();
             //if (_env.IsDevelopment())
             //{
