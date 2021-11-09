@@ -28,16 +28,18 @@ namespace Management_Web_Application
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            if (_env.IsDevelopment())
-            {
-                services.AddSingleton<IStaffService, FakeStaffService>();
-                services.AddRazorPages().AddRazorRuntimeCompilation();
-                //services.AddHttpClient<IStaffService, StaffService>();
-            }
-            else
-            {
-                services.AddHttpClient<IStaffService, StaffService>();
-            }
+            services.AddSingleton<IStaffService, FakeStaffService>();
+            services.AddRazorPages().AddRazorRuntimeCompilation();
+            //if (_env.IsDevelopment())
+            //{
+            //    services.AddSingleton<IStaffService, FakeStaffService>();
+            //    services.AddRazorPages().AddRazorRuntimeCompilation();
+            //    //services.AddHttpClient<IStaffService, StaffService>();
+            //}
+            //else
+            //{
+            //    services.AddHttpClient<IStaffService, StaffService>();
+            //}
             services.AddControllersWithViews();
         }
 
