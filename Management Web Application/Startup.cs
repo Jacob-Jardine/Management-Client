@@ -1,3 +1,4 @@
+using Management_Web_Application.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -13,9 +14,12 @@ namespace Management_Web_Application
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private IWebHostEnvironment _env = null;
+
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            _env = env;
         }
 
         public IConfiguration Configuration { get; }
@@ -23,6 +27,17 @@ namespace Management_Web_Application
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            if (_env.IsDevelopment())
+            {
+                services.AddSingleton<IStaffService, FakeStaffService>();
+                services.AddRazorPages().AddRazorRuntimeCompilation();
+                //services.AddHttpClient<IStaffService, StaffService>();
+            }
+            else
+            {
+                services.AddHttpClient<IStaffService, StaffService>();
+            }
             services.AddControllersWithViews();
         }
 

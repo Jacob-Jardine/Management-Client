@@ -1,0 +1,35 @@
+﻿@model List<Management_Web_Application.Models.StaffReadViewModel>;
+
+<div class="table-responsive-xl">
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Full Name</th>
+                <th scope="col">Profile</th>
+                <th scope="col">Update Staff Permissions</th>
+                <th scope="col">Update Staff Account</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in @Model)
+            {
+                <tr>
+                    <td id="fullName">@item.StaffFullName</td>
+                    <td><a asp-action="GetStaffById" asp-route-id="@item.StaffID" class="btn btn-secondary btn-sm">View Profile</a></td>
+                    <td><a asp-action="Index" class="btn btn-primary btn-sm">Update Staff Permissions</a></td>
+                    <td><a asp-action="UpdateStaff" asp-route-id="@item.StaffID" class="btn btn-warning btn-sm">Update Staff Accounts</a></td>
+                </tr>
+            }
+            <tr>
+                <td><a asp-action="CreateStaff" class="btn btn-success btn-sm">Add Staff Account</a></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>  
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-primary btn-sm">Back to Portal</a>
+</div>
