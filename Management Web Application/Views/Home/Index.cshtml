@@ -3,6 +3,28 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Management Web Application</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1>ThAmCo</h1>
+    <hr />
+    <form method="post">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Staff</h5>
+                            <button asp-controller="Staff" asp-action="GetAllStaff" class="btn btn-success btn-lg">Go!</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Staff Permissions</h5>
+                            <button asp-controller="Purchase" asp-action="Index" class="btn btn-success btn-lg">Go!</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>

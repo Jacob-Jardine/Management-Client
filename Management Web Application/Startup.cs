@@ -1,4 +1,5 @@
-using Management_Web_Application.Services;
+using Management_Web_Application.Services.PurchaseService;
+using Management_Web_Application.Services.StaffService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,8 +29,10 @@ namespace Management_Web_Application
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            //services.AddSingleton<IStaffService, FakeStaffService>();
-            services.AddHttpClient<IStaffService, StaffService>();
+            services.AddSingleton<IPurchaseService, FakePurchaseService>();
+            services.AddSingleton<IStaffService, FakeStaffService>();
+            
+            //services.AddHttpClient<IStaffService, StaffService>();
             services.AddRazorPages().AddRazorRuntimeCompilation();
             //if (_env.IsDevelopment())
             //{

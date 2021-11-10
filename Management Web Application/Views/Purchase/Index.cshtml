@@ -1,0 +1,33 @@
+﻿@model List<Management_Web_Application.Models.PurchaseModels.PurchaseReadViewModel>;
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<h1>Purchase Requests</h1>
+<hr />
+
+<div class="table-responsive-xl">
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Full Name</th>
+                <th scope="col">Profile</th>
+                <th scope="col">Update Staff Permissions</th>
+                <th scope="col">Update Staff Account</th>
+                <th scope="col">Accept</th>
+                <th scope="col">Deny</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in @Model)
+            {
+            <tr>
+                <td id="purchaseID">@item.PurchaseID</td>
+                <td>@item.PurchaseName</td>
+                <td>@item.PurchaseQTY</td>
+                <td>£@item.PurchaseCost</td>
+                <td><a class="btn btn-success"><i class="fa fa-check"></i> Accept</a></td>
+                <td><a class="btn btn-danger"><i class="fa fa-close"></i> Deny</a></td>
+                
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

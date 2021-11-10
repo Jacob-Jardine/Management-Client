@@ -11,7 +11,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text;
 
-namespace Management_Web_Application.Services
+namespace Management_Web_Application.Services.StaffService
 {
     public class StaffService : IStaffService
     {

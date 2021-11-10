@@ -2,7 +2,7 @@
 using AutoMapper.Configuration;
 using Management_Web_Application.DomainModel;
 using Management_Web_Application.Models;
-using Management_Web_Application.Services;
+using Management_Web_Application.Services.StaffService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -38,12 +38,13 @@ namespace Management_Web_Application.Controllers
             }
             catch
             {
-                return Redirect($"{baseURL}");
+                return Redirect($"{baseURL}home/noaction");
             }
         }
 
         public async Task<ActionResult<StaffReadViewModel>> GetStaffByID(int ID)
         {
+            string baseURL = Environment.GetEnvironmentVariable("BASE_URL");
             try
             {
                 var getStaffByID = await _staffService.GetStaffByIDAsnyc(ID);
@@ -53,12 +54,12 @@ namespace Management_Web_Application.Controllers
                 }
                 else
                 {
-                    return NotFound();
+                    return Redirect($"{baseURL}home/noaction");
                 }
             }
             catch
             {
-                return NotFound();
+                return Redirect($"{baseURL}home/noaction");
             }
         }
 
@@ -84,13 +85,14 @@ namespace Management_Web_Application.Controllers
             }
             catch
             {
-                return Redirect($"{baseURL}");
+                return Redirect($"{baseURL}home/noaction");
             }
         }
 
         [HttpGet]
         public async Task<ActionResult> UpdateStaff(int? ID, StaffUpdateViewModel staffUpdateViewModel)
         {
+            string baseURL = Environment.GetEnvironmentVariable("BASE_URL");
             try
             {
                 if (!ModelState.IsValid) 
@@ -104,12 +106,12 @@ namespace Management_Web_Application.Controllers
                 }
                 else
                 {
-                    return NotFound();
+                    return Redirect($"{baseURL}home/noaction");
                 }
             }
             catch
             {
-                return NotFound();
+                return Redirect($"{baseURL}home/noaction");
             }
         }
 
@@ -130,19 +132,19 @@ namespace Management_Web_Application.Controllers
                 {
                     return Redirect($"{baseURL}staff/GetStaffById/{newStaffDomainModel.StaffID}");
                 }
-                return BadRequest();
+                return Redirect($"{baseURL}home/noaction");
             }
             catch
             {
-                return BadRequest();
+                return Redirect($"{baseURL}home/noaction");
             }
         }
 
         public async Task<ActionResult> DeleteStaff(int? ID)
         {
+            string baseURL = Environment.GetEnvironmentVariable("BASE_URL");
             try
             {
-                string baseURL = Environment.GetEnvironmentVariable("BASE_URL");
                 var getStaffByID = await _staffService.GetStaffByIDAsnyc(ID);
                 if (getStaffByID != null)
                 {
@@ -151,12 +153,12 @@ namespace Management_Web_Application.Controllers
                 }
                 else
                 {
-                    return BadRequest();
+                    return Redirect($"{baseURL}home/noaction");
                 }
             }
             catch
             {
-                return BadRequest();
+                return Redirect($"{baseURL}home/noaction");
             }
         }
     }
