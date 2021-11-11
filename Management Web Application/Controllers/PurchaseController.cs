@@ -33,5 +33,33 @@ namespace Management_Web_Application.Controllers
                 return Redirect($"{baseURL}home/noaction");
             }
         }
+
+        public async Task<ActionResult> ConfirmPurchaseRequest(int? ID)
+        {
+            string baseURL = Environment.GetEnvironmentVariable("BASE_URL");
+            try
+            {
+                await _purchaseService.ConfirmOrder(ID);
+                return Redirect($"{baseURL}purchase/Index");
+            }
+            catch
+            {
+                return Redirect($"{baseURL}home/noaction");
+            }
+        }
+
+        public async Task<ActionResult> DenyPurchaseRequest(int? ID)
+        {
+            string baseURL = Environment.GetEnvironmentVariable("BASE_URL");
+            try
+            {
+                await _purchaseService.DenyOrder(ID);
+                return Redirect($"{baseURL}purchase/Index");
+            }
+            catch
+            {
+                return Redirect($"{baseURL}home/noaction");
+            }
+        }
     }
 }

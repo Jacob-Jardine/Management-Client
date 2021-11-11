@@ -21,6 +21,23 @@ namespace Management_Web_Application.Services.PurchaseService
                 new PurchaseDomainModel() {PurchaseID = 5, PurchaseQTY = 5, PurchaseName = "Belts", PurchaseCost = 555.55}
             };
         }
+
         public Task<IEnumerable<PurchaseDomainModel>> GetAllPurchaseAsync() => Task.FromResult(_purchaseList.AsEnumerable());
+
+        public Task ConfirmOrder(int? ID)
+        {
+            var confirmOrderDomainModel = GetPurchaseById(ID);
+            _purchaseList.RemoveAll(x => x.PurchaseID == confirmOrderDomainModel.Result.PurchaseID);
+            return Task.CompletedTask;
+        }
+
+        public Task DenyOrder(int? ID)
+        {
+            var denyOrderDomainModel = GetPurchaseById(ID);
+            _purchaseList.RemoveAll(x => x.PurchaseID == denyOrderDomainModel.Result.PurchaseID);
+            return Task.CompletedTask;
+        }
+
+        private Task<PurchaseDomainModel> GetPurchaseById(int? ID) => Task.FromResult(_purchaseList.FirstOrDefault(x => x.PurchaseID == ID));
     }
 }
