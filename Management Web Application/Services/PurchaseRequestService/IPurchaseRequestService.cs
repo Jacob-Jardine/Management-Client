@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Management_Web_Application.Services.PurchaseService
 {
-    public interface IPurchaseService
+    public interface IPurchaseRequestService
     {
         public Task<IEnumerable<PurchaseDomainModel>> GetAllPurchaseAsync();
         public Task ConfirmOrder(int? ID);

@@ -15,7 +15,8 @@
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation",
         "BASE_URL": "https://localhost:44322/",
-        "STAFF_BASE_URL": "https://t7077222-test-staff.azurewebsites.net/api/staff/"
+        "STAFF_BASE_URL": "https://t7077222-test-staff.azurewebsites.net/api/staff/",
+        "PURCHASE_BASE_URL": "https://localhost:44326/api/purchase/"
       }
     },
     "Management_Web_Application": {

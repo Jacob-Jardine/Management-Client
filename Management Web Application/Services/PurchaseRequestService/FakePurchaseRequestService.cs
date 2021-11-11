@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Management_Web_Application.Services.PurchaseService
 {
-    public class FakePurchaseService : IPurchaseService
+    public class FakePurchaseRequestService : IPurchaseRequestService
     {
         private readonly List<PurchaseDomainModel> _purchaseList;
 
-        public FakePurchaseService()
+        public FakePurchaseRequestService()
         {
             _purchaseList = new List<PurchaseDomainModel>()
             {

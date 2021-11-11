@@ -29,10 +29,11 @@ namespace Management_Web_Application
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddSingleton<IPurchaseService, FakePurchaseService>();
+            //services.AddSingleton<IPurchaseRequestService, PurchaseRequestService>();
             services.AddSingleton<IStaffService, FakeStaffService>();
             
             //services.AddHttpClient<IStaffService, StaffService>();
+            services.AddHttpClient<IPurchaseRequestService, PurchaseRequestService>();
             services.AddRazorPages().AddRazorRuntimeCompilation();
             //if (_env.IsDevelopment())
             //{

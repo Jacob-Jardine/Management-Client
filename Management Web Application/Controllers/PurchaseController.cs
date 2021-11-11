@@ -11,10 +11,10 @@ namespace Management_Web_Application.Controllers
 {
     public class PurchaseController : Controller
     {
-        private readonly IPurchaseService _purchaseService;
+        private readonly IPurchaseRequestService _purchaseService;
         private IMapper _mapper;
 
-        public PurchaseController(IPurchaseService purchaseService, IMapper mapper)
+        public PurchaseController(IPurchaseRequestService purchaseService, IMapper mapper)
         {
             _purchaseService = purchaseService;
             _mapper = mapper;
@@ -39,7 +39,7 @@ namespace Management_Web_Application.Controllers
             string baseURL = Environment.GetEnvironmentVariable("BASE_URL");
             try
             {
-                await _purchaseService.ConfirmOrder(ID);
+                await _purchaseService.SendPurchaseRequest(ID);
                 return Redirect($"{baseURL}purchase/Index");
             }
             catch
