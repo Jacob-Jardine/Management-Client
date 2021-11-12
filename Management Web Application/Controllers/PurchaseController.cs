@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Management_Web_Application.DomainModel;
 using Management_Web_Application.Models.PurchaseModels;
+using Management_Web_Application.Services.GetPurchaseRequestService;
 using Management_Web_Application.Services.PurchaseService;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,21 +13,24 @@ namespace Management_Web_Application.Controllers
 {
     public class PurchaseController : Controller
     {
-        private readonly IPurchaseRequestService _purchaseService;
+        private readonly IPurchaseRequestService _sendPurchaseService;
+        private readonly IGetPurchaseRequestService _getPurchaseService;
         private IMapper _mapper;
 
-        public PurchaseController(IPurchaseRequestService purchaseService, IMapper mapper)
+        public PurchaseController(IPurchaseRequestService sendPurchaseService, IGetPurchaseRequestService getPurchaseRequestService, IMapper mapper)
         {
-            _purchaseService = purchaseService;
+            _sendPurchaseService = sendPurchaseService;
+            _getPurchaseService = getPurchaseRequestService;
             _mapper = mapper;
         }
 
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<PurchaseReadViewModel>>> Index()
         {
             string baseURL = Environment.GetEnvironmentVariable("BASE_URL");
             try
             {
-                var getAllPurcahse = await _purchaseService.GetAllPurchaseAsync();
+                var getAllPurcahse = await _getPurchaseService.GetAllPurchaseAsync();
                 return View(_mapper.Map<IEnumerable<PurchaseReadViewModel>>(getAllPurcahse));
             }
             catch
@@ -34,31 +39,21 @@ namespace Management_Web_Application.Controllers
             }
         }
 
-        public async Task<ActionResult> ConfirmPurchaseRequest(int? ID)
+        public async Task<ActionResult> SendPurchaseRequest(int? ID, PurchaseSendViewModel purchaseReadViewModel)
         {
             string baseURL = Environment.GetEnvironmentVariable("BASE_URL");
-            try
+            try 
             {
-                await _purchaseService.SendPurchaseRequest(ID);
+                var getAllPurcahse = await _getPurchaseService.GetAllPurchaseAsync();
+                var getPurchaseRequest = getAllPurcahse.FirstOrDefault(x => x.PurchaseID == ID);
+                purchaseReadViewModel = _mapper.Map<PurchaseSendViewModel>(getPurchaseRequest);
+                var test = _mapper.Map<PurchaseDomainModel>(purchaseReadViewModel);
+                await _sendPurchaseService.SendPurchaseRequest(test);
+                return Redirect($"{baseURL}staff/GetAllStaff");
+            }
+            catch 
+            {
                 return Redirect($"{baseURL}purchase/Index");
-            }
-            catch
-            {
-                return Redirect($"{baseURL}home/noaction");
-            }
-        }
-
-        public async Task<ActionResult> DenyPurchaseRequest(int? ID)
-        {
-            string baseURL = Environment.GetEnvironmentVariable("BASE_URL");
-            try
-            {
-                await _purchaseService.DenyOrder(ID);
-                return Redirect($"{baseURL}purchase/Index");
-            }
-            catch
-            {
-                return Redirect($"{baseURL}home/noaction");
             }
         }
     }

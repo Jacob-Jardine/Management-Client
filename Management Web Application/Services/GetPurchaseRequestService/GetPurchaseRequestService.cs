@@ -10,15 +10,16 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text;
+using Management_Web_Application.Services.PurchaseService;
 
-namespace Management_Web_Application.Services.PurchaseService
+namespace Management_Web_Application.Services.GetPurchaseRequestService
 {
-    public class PurchaseRequestService : IPurchaseRequestService
+    public class GetPurchaseRequestService : IGetPurchaseRequestService
     {
         private readonly IConfiguration _config;
         private readonly HttpClient _client;
 
-        public PurchaseRequestService(IConfiguration config, HttpClient client)
+        public GetPurchaseRequestService(IConfiguration config, HttpClient client)
         {
             _config = config;
             client.BaseAddress = _config.GetValue<Uri>("PURCHASE_BASE_URL");
@@ -37,32 +38,6 @@ namespace Management_Web_Application.Services.PurchaseService
             response.EnsureSuccessStatusCode();
             var purchaseRequests = await response.Content.ReadAsAsync<IEnumerable<PurchaseDomainModel>>();
             return purchaseRequests;
-        }
-
-        public async Task<PurchaseDomainModel> SendPurchaseRequest(PurchaseDomainModel purchaseDomainModel)
-        {
-            var json = JsonSerializer.Serialize(purchaseDomainModel);
-            var data = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _client.PostAsync("SendPurchaseRequest", data);
-            if (response.StatusCode == HttpStatusCode.NotFound)
-            {
-                return null;
-            }
-            response.EnsureSuccessStatusCode();
-            var emptyDomainModel = new PurchaseDomainModel();
-            return emptyDomainModel;
-        }
-
-        public Task ConfirmOrder(int? ID)
-        {
-            throw new NotImplementedException();
-        }
-        
-        public Task DenyOrder(int? ID)
-        {
-            throw new NotImplementedException();
-        }
-
-        
+        }   
     }
 }

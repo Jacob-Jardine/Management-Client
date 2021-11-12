@@ -1,3 +1,4 @@
+using Management_Web_Application.Services.GetPurchaseRequestService;
 using Management_Web_Application.Services.PurchaseService;
 using Management_Web_Application.Services.StaffService;
 using Microsoft.AspNetCore.Builder;
@@ -31,9 +32,11 @@ namespace Management_Web_Application
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             //services.AddSingleton<IPurchaseRequestService, PurchaseRequestService>();
             services.AddSingleton<IStaffService, FakeStaffService>();
+            services.AddSingleton<IGetPurchaseRequestService, FakeGetPurchaseRequestService>();
+            //services.AddSingleton<IPurchaseRequestService, FakePurchaseRequestService>();
             
             //services.AddHttpClient<IStaffService, StaffService>();
-            services.AddHttpClient<IPurchaseRequestService, PurchaseRequestService>();
+            services.AddHttpClient<IPurchaseRequestService, SendPurchaseRequestService>();
             services.AddRazorPages().AddRazorRuntimeCompilation();
             //if (_env.IsDevelopment())
             //{

@@ -24,7 +24,7 @@
                         <td>@item.PurchaseName</td>
                         <td>@item.PurchaseQTY</td>
                         <td>£@item.PurchaseCost</td>
-                        <td><a class="btn btn-success"asp-controller="Purchase" asp-action="ConfirmPurchaseRequest" asp-route-id="@item.PurchaseID" ><i class="fa fa-check"></i> Accept</a></td>
+                        <td><a class="btn btn-success"asp-controller="Purchase" asp-action="SendPurchaseRequest" asp-route-id="@item.PurchaseID" ><i class="fa fa-check"></i> Accept</a></td>
                         <td><a class="btn btn-danger" asp-controller="Purchase" asp-action="DenyPurchaseRequest" asp-route-id="@item.PurchaseID"><i class="fa fa-close"></i> Deny</a></td>
 
                     </tr>

@@ -14,6 +14,8 @@ namespace Management_Web_Application.Profiles
         {
             CreateMap<PurchaseDomainModel, PurchaseReadViewModel>();
             CreateMap<PurchaseReadViewModel, PurchaseDomainModel>();
+            CreateMap<PurchaseSendViewModel, PurchaseDomainModel>();
+            CreateMap<PurchaseDomainModel, PurchaseSendViewModel>();
         }
     }
 }

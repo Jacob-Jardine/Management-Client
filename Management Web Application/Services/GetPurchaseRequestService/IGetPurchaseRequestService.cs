@@ -4,12 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Management_Web_Application.Services.PurchaseService
+namespace Management_Web_Application.Services.GetPurchaseRequestService
 {
-    public interface IPurchaseRequestService
+    public interface IGetPurchaseRequestService
     {
         public Task<IEnumerable<PurchaseDomainModel>> GetAllPurchaseAsync();
-        public Task ConfirmOrder(int? ID);
-        public Task DenyOrder(int? ID);
     }
 }
