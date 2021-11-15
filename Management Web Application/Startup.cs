@@ -29,26 +29,20 @@ namespace Management_Web_Application
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            //services.AddSingleton<IPurchaseRequestService, PurchaseRequestService>();
-            services.AddSingleton<IStaffService, FakeStaffService>();
-            services.AddSingleton<IGetPurchaseRequestService, FakeGetPurchaseRequestService>();
-            //services.AddSingleton<IPurchaseRequestService, FakePurchaseRequestService>();
-            
-            //services.AddHttpClient<IStaffService, StaffService>();
-            services.AddHttpClient<IPurchaseRequestService, SendPurchaseRequestService>();
-            services.AddRazorPages().AddRazorRuntimeCompilation();
-            //if (_env.IsDevelopment())
-            //{
-            //    services.AddSingleton<IStaffService, FakeStaffService>();
-            //    services.AddRazorPages().AddRazorRuntimeCompilation();
-            //    //services.AddHttpClient<IStaffService, StaffService>();
-            //}
-            //else
-            //{
-            //    services.AddHttpClient<IStaffService, StaffService>();
-            //}
             services.AddControllersWithViews();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddRazorPages().AddRazorRuntimeCompilation();
+
+            if (_env.IsDevelopment()) 
+            {
+                services.AddSingleton<IStaffService, FakeStaffService>();
+                services.AddSingleton<IGetPurchaseRequestService, FakeGetPurchaseRequestService>();
+            }
+            else if(_env.IsStaging()|| _env.IsProduction())
+            {
+                services.AddHttpClient<IStaffService, StaffService>();
+                services.AddHttpClient<IPurchaseRequestService, SendPurchaseRequestService>();
+            }     
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
