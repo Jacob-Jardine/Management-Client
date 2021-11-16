@@ -9,20 +9,16 @@ namespace Management_Web_Application.Services.GetPurchaseRequestService
 {
     public class FakeGetPurchaseRequestService : IGetPurchaseRequestService
     {
-        private readonly List<PurchaseDomainModel> _purchaseList;
+        private readonly List<GetPurchaseRequestDomainModel> _purchaseList;
 
         public FakeGetPurchaseRequestService()
         {
-            _purchaseList = new List<PurchaseDomainModel>()
+            _purchaseList = new List<GetPurchaseRequestDomainModel>()
             {
-                new PurchaseDomainModel() {PurchaseID = 1, PurchaseName = "Jeans", PurchaseCost = 1.1},
-                new PurchaseDomainModel() {PurchaseID = 2, PurchaseQTY = 2, PurchaseName = "T-Shirt", PurchaseCost = 22.22},
-                new PurchaseDomainModel() {PurchaseID = 3, PurchaseQTY = 3, PurchaseName = "Trainers", PurchaseCost = 333.33},
-                new PurchaseDomainModel() {PurchaseID = 4, PurchaseQTY = 4, PurchaseName = "Caps", PurchaseCost = 4444.44},
-                new PurchaseDomainModel() {PurchaseID = 5, PurchaseQTY = 5, PurchaseName = "Belts", PurchaseCost = 555.55}
+                new GetPurchaseRequestDomainModel() {Id = 1, AccountName = "sample string 1", CardNumber = "sample string 2", ProductId = 1, Quantity = 1, When = DateTime.Now, ProductName = "sample string 3", ProductEan = "sample string 4", TotalPrice = 1.1M}
             };
         }
 
-        public Task<IEnumerable<PurchaseDomainModel>> GetAllPurchaseAsync() => Task.FromResult(_purchaseList.AsEnumerable());
+        public Task<IEnumerable<GetPurchaseRequestDomainModel>> GetAllPurchaseAsync() => Task.FromResult(_purchaseList.AsEnumerable());
     }
 }

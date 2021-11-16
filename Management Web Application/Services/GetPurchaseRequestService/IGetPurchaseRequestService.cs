@@ -8,6 +8,6 @@ namespace Management_Web_Application.Services.GetPurchaseRequestService
 {
     public interface IGetPurchaseRequestService
     {
-        public Task<IEnumerable<PurchaseDomainModel>> GetAllPurchaseAsync();
+        public Task<IEnumerable<GetPurchaseRequestDomainModel>> GetAllPurchaseAsync();
     }
 }

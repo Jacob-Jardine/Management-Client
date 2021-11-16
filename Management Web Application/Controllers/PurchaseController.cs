@@ -13,11 +13,11 @@ namespace Management_Web_Application.Controllers
 {
     public class PurchaseController : Controller
     {
-        private readonly IPurchaseRequestService _sendPurchaseService;
+        private readonly ISendPurchaseRequestService _sendPurchaseService;
         private readonly IGetPurchaseRequestService _getPurchaseService;
         private IMapper _mapper;
 
-        public PurchaseController(IPurchaseRequestService sendPurchaseService, IGetPurchaseRequestService getPurchaseRequestService, IMapper mapper)
+        public PurchaseController(ISendPurchaseRequestService sendPurchaseService, IGetPurchaseRequestService getPurchaseRequestService, IMapper mapper)
         {
             _sendPurchaseService = sendPurchaseService;
             _getPurchaseService = getPurchaseRequestService;
@@ -45,9 +45,9 @@ namespace Management_Web_Application.Controllers
             try 
             {
                 var getAllPurcahse = await _getPurchaseService.GetAllPurchaseAsync();
-                var getPurchaseRequest = getAllPurcahse.FirstOrDefault(x => x.PurchaseID == ID);
+                var getPurchaseRequest = getAllPurcahse.FirstOrDefault(x => x.Id == ID);
                 purchaseReadViewModel = _mapper.Map<PurchaseSendViewModel>(getPurchaseRequest);
-                var test = _mapper.Map<PurchaseDomainModel>(purchaseReadViewModel);
+                var test = _mapper.Map<SendPurchaseRequestDomainModel>(purchaseReadViewModel);
                 await _sendPurchaseService.SendPurchaseRequest(test);
                 return Redirect($"{baseURL}staff/GetAllStaff");
             }

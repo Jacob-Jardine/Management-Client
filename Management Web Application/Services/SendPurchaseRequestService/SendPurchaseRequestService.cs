@@ -13,7 +13,7 @@ using System.Text;
 
 namespace Management_Web_Application.Services.PurchaseService
 {
-    public class SendPurchaseRequestService : IPurchaseRequestService
+    public class SendPurchaseRequestService : ISendPurchaseRequestService
     {
         private readonly IConfiguration _config;
         private readonly HttpClient _client;
@@ -27,7 +27,7 @@ namespace Management_Web_Application.Services.PurchaseService
             _client = client;
         }
 
-        public async Task SendPurchaseRequest(PurchaseDomainModel purchaseDomainModel)
+        public async Task SendPurchaseRequest(SendPurchaseRequestDomainModel purchaseDomainModel)
         {
             var json = JsonSerializer.Serialize(purchaseDomainModel);
             var data = new StringContent(json, Encoding.UTF8, "application/json");

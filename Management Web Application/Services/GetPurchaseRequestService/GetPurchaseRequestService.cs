@@ -28,7 +28,7 @@ namespace Management_Web_Application.Services.GetPurchaseRequestService
             _client = client;
         }
 
-        public async Task<IEnumerable<PurchaseDomainModel>> GetAllPurchaseAsync()
+        public async Task<IEnumerable<GetPurchaseRequestDomainModel>> GetAllPurchaseAsync()
         {
             var response = await _client.GetAsync("GetPurchaseRequests");
             if (response.StatusCode == HttpStatusCode.NotFound)
@@ -36,7 +36,7 @@ namespace Management_Web_Application.Services.GetPurchaseRequestService
                 return null;
             }
             response.EnsureSuccessStatusCode();
-            var purchaseRequests = await response.Content.ReadAsAsync<IEnumerable<PurchaseDomainModel>>();
+            var purchaseRequests = await response.Content.ReadAsAsync<IEnumerable<GetPurchaseRequestDomainModel>>();
             return purchaseRequests;
         }   
     }

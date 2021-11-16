@@ -12,10 +12,10 @@ namespace Management_Web_Application.Profiles
     {
         public PurchaseProfile() 
         {
-            CreateMap<PurchaseDomainModel, PurchaseReadViewModel>();
-            CreateMap<PurchaseReadViewModel, PurchaseDomainModel>();
-            CreateMap<PurchaseSendViewModel, PurchaseDomainModel>();
-            CreateMap<PurchaseDomainModel, PurchaseSendViewModel>();
+            CreateMap<GetPurchaseRequestDomainModel, PurchaseReadViewModel>();
+            CreateMap<PurchaseReadViewModel, GetPurchaseRequestDomainModel>();
+            CreateMap<PurchaseSendViewModel, SendPurchaseRequestDomainModel>();
+            CreateMap<SendPurchaseRequestDomainModel, PurchaseSendViewModel>();
         }
     }
 }

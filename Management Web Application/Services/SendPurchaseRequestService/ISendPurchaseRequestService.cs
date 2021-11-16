@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Management_Web_Application.Services.PurchaseService
 {
-    public interface IPurchaseRequestService
+    public interface ISendPurchaseRequestService
     {
-        public Task SendPurchaseRequest(PurchaseDomainModel purchaseDomainModel);
+        public Task SendPurchaseRequest(SendPurchaseRequestDomainModel purchaseDomainModel);
     }
 }

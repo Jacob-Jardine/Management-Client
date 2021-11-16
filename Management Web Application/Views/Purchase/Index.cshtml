@@ -8,10 +8,15 @@
         <table class="table">
             <thead class="thead-dark">
                 <tr>
-                    <th scope="col">Full Name</th>
-                    <th scope="col">Profile</th>
-                    <th scope="col">Update Staff Permissions</th>
-                    <th scope="col">Update Staff Account</th>
+                    <th scope="col">Id</th>
+                    <th scope="col">Account Name</th>
+                    <th scope="col">Card Number</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Product Id</th>
+                    <th scope="col">When</th>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">Product Ean</th>
+                    <th scope="col">Total Price</th>
                     <th scope="col">Accept</th>
                     <th scope="col">Deny</th>
                 </tr>
@@ -19,15 +24,20 @@
             <tbody>
                 @foreach (var item in @Model)
                 {
-                    <tr>
-                        <td id="purchaseID">@item.PurchaseID</td>
-                        <td>@item.PurchaseName</td>
-                        <td>@item.PurchaseQTY</td>
-                        <td>£@item.PurchaseCost</td>
-                        <td><a class="btn btn-success"asp-controller="Purchase" asp-action="SendPurchaseRequest" asp-route-id="@item.PurchaseID" ><i class="fa fa-check"></i> Accept</a></td>
-                        <td><a class="btn btn-danger" asp-controller="Purchase" asp-action="DenyPurchaseRequest" asp-route-id="@item.PurchaseID"><i class="fa fa-close"></i> Deny</a></td>
+                <tr>
+                    <td id="purchaseID">@item.Id</td>
+                    <td>@item.AccountName</td>
+                    <td>@item.CardNumber</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.ProductId</td>
+                    <td>@item.When</td>
+                    <td>@item.ProductName</td>
+                    <td>@item.ProductEan</td>
+                    <td>£@item.TotalPrice</td>
+                    <td><a class="btn btn-success" asp-controller="Purchase" asp-action="SendPurchaseRequest" asp-route-id="@item.Id"><i class="fa fa-check"></i> Accept</a></td>
+                    <td><a class="btn btn-danger" asp-controller="Purchase" asp-action="DenyPurchaseRequest" asp-route-id="@item.Id"><i class="fa fa-close"></i> Deny</a></td>
 
-                    </tr>
+                </tr>
                 }
             </tbody>
         </table>

@@ -9,12 +9,22 @@ namespace Management_Web_Application.Models.PurchaseModels
     public class PurchaseSendViewModel
     {
         [Required]
-        public int PurchaseID { get; set; }
+        public int Id { get; set; }
         [Required]
-        public string PurchaseName { get; set; }
+        public string AccountName { get; set; }
         [Required]
-        public int PurchaseQTY { get; set; }
+        public string CardNumber { get; set; }
         [Required]
-        public double PurchaseCost { get; set; }
+        public int ProductId { get; set; }
+        [Required]
+        public int Quantity { get; set; }
+        [Required]
+        public DateTime When { get; set; }
+        [Required]
+        public string ProductName { get; set; }
+        [Required]
+        public string ProductEan { get; set; }
+        [Required]
+        public decimal TotalPrice { get; set; }
     }
 }
