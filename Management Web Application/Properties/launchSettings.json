@@ -16,7 +16,7 @@
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation",
         "BASE_URL": "https://localhost:44322/",
         "STAFF_BASE_URL": "https://localhost:44315/api/staff/",
-        "PURCHASE_BASE_URL": "https://localhost:44326/api/purchase/"
+        "PURCHASE_BASE_URL": "https://localhost:44326/api/third-party/"
       }
     },
     "Management_Web_Application": {

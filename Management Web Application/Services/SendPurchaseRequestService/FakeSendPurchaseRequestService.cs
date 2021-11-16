@@ -16,8 +16,6 @@ namespace Management_Web_Application.Services.PurchaseService
         }
         public Task SendPurchaseRequest(SendPurchaseRequestDomainModel purchaseDomainModel)
         {
-            int newPurchaseRequestID = 2;
-            purchaseDomainModel.Id = newPurchaseRequestID;
             _purchaseList.Add(purchaseDomainModel);
             return Task.CompletedTask;
         }

@@ -15,7 +15,7 @@ namespace Management_Web_Application.Services.GetPurchaseRequestService
         {
             _purchaseList = new List<GetPurchaseRequestDomainModel>()
             {
-                new GetPurchaseRequestDomainModel() {Id = 1, AccountName = "sample string 1", CardNumber = "sample string 2", ProductId = 1, Quantity = 1, When = DateTime.Now, ProductName = "sample string 3", ProductEan = "sample string 4", TotalPrice = 1.1M}
+                new GetPurchaseRequestDomainModel() {Id = 2, AccountName = "GROUP A Test", CardNumber = "GROUP A Test", ProductId = 1, Quantity = 1, When = DateTime.Now, ProductName = "sample string 3", ProductEan = "sample string 4", TotalPrice = 1.1M}
             };
         }
 

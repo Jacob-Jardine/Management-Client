@@ -31,7 +31,7 @@ namespace Management_Web_Application.Services.PurchaseService
         {
             var json = JsonSerializer.Serialize(purchaseDomainModel);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _client.PostAsync("SendPurchaseRequest", data);
+            var response = await _client.PostAsync("Send-Purchase-Request", data);
             response.EnsureSuccessStatusCode();
         }
     }

@@ -37,7 +37,7 @@ namespace Management_Web_Application
             {
                 services.AddSingleton<IStaffService, FakeStaffService>();
                 services.AddSingleton<IGetPurchaseRequestService, FakeGetPurchaseRequestService>();
-                services.AddSingleton<ISendPurchaseRequestService, FakeSendPurchaseRequestService>();
+                services.AddHttpClient<ISendPurchaseRequestService, SendPurchaseRequestService>();
             }
             else if(_env.IsStaging()|| _env.IsProduction())
             {

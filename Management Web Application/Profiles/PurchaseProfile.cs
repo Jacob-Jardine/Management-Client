@@ -13,6 +13,8 @@ namespace Management_Web_Application.Profiles
         public PurchaseProfile() 
         {
             CreateMap<GetPurchaseRequestDomainModel, PurchaseReadViewModel>();
+            CreateMap<GetPurchaseRequestDomainModel, PurchaseSendViewModel>();
+            CreateMap<PurchaseSendViewModel, GetPurchaseRequestDomainModel>();
             CreateMap<PurchaseReadViewModel, GetPurchaseRequestDomainModel>();
             CreateMap<PurchaseSendViewModel, SendPurchaseRequestDomainModel>();
             CreateMap<SendPurchaseRequestDomainModel, PurchaseSendViewModel>();
