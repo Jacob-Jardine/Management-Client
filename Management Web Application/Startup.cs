@@ -37,13 +37,13 @@ namespace Management_Web_Application
             {
                 services.AddSingleton<IStaffService, FakeStaffService>();
                 services.AddSingleton<IGetPurchaseRequestService, FakeGetPurchaseRequestService>();
-                services.AddHttpClient<ISendPurchaseRequestService, SendPurchaseRequestService>();
+                services.AddSingleton<ISendPurchaseRequestService, FakeSendPurchaseRequestService>();
             }
             else if(_env.IsStaging()|| _env.IsProduction())
             {
                 services.AddHttpClient<IStaffService, StaffService>();
                 services.AddHttpClient<ISendPurchaseRequestService, SendPurchaseRequestService>();
-                services.AddSingleton<IGetPurchaseRequestService, FakeGetPurchaseRequestService>();
+                services.AddHttpClient<IGetPurchaseRequestService, FakeGetPurchaseRequestService>();
             }     
         }
 

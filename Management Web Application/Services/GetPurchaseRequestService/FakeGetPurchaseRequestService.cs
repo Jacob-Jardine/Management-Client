@@ -19,6 +19,14 @@ namespace Management_Web_Application.Services.GetPurchaseRequestService
             };
         }
 
+        public Task DeletePurchaseRequest(int ID)
+        {
+            _purchaseList.RemoveAll(x => x.Id == ID);
+            return Task.CompletedTask;
+        }
+
         public Task<IEnumerable<GetPurchaseRequestDomainModel>> GetAllPurchaseAsync() => Task.FromResult(_purchaseList.AsEnumerable());
+
+        public Task<GetPurchaseRequestDomainModel> GetPurchaseRequestByIdAsync(int? ID) => Task.FromResult(_purchaseList.FirstOrDefault(x => x.Id == ID));
     }
 }

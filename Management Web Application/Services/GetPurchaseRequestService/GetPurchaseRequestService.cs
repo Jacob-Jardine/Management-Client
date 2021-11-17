@@ -30,7 +30,7 @@ namespace Management_Web_Application.Services.GetPurchaseRequestService
 
         public async Task<IEnumerable<GetPurchaseRequestDomainModel>> GetAllPurchaseAsync()
         {
-            var response = await _client.GetAsync("GetPurchaseRequests");
+            var response = await _client.GetAsync("PurchaseRequest");
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
@@ -38,6 +38,29 @@ namespace Management_Web_Application.Services.GetPurchaseRequestService
             response.EnsureSuccessStatusCode();
             var purchaseRequests = await response.Content.ReadAsAsync<IEnumerable<GetPurchaseRequestDomainModel>>();
             return purchaseRequests;
-        }   
+        }
+
+        public async Task<GetPurchaseRequestDomainModel> GetPurchaseRequestByIdAsync(int? ID)
+        {
+            var response = await _client.GetAsync($"PurchaseRequest/{ID}");
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return null;
+            }
+            response.EnsureSuccessStatusCode();
+            var purchaseRequest = await response.Content.ReadAsAsync<GetPurchaseRequestDomainModel>();
+            return purchaseRequest;
+        }
+
+        public async Task DeletePurchaseRequest(int ID)
+        {
+            var response = await _client.DeleteAsync($"PurchaseRequest/{ID}");
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return;
+            }
+            response.EnsureSuccessStatusCode();
+            return;
+        }
     }
 }

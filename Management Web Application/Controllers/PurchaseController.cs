@@ -44,12 +44,12 @@ namespace Management_Web_Application.Controllers
             string baseURL = Environment.GetEnvironmentVariable("BASE_URL");
             try 
             {
-                var getAllPurcahse = await _getPurchaseService.GetAllPurchaseAsync();
-                var getPurchaseRequest = getAllPurcahse.FirstOrDefault(x => x.Id == ID);
+                var getPurchaseRequest = await _getPurchaseService.GetPurchaseRequestByIdAsync(purchaseReadViewModel.Id);
                 purchaseReadViewModel = _mapper.Map<PurchaseSendViewModel>(getPurchaseRequest);
                 var test = _mapper.Map<SendPurchaseRequestDomainModel>(purchaseReadViewModel);
                 await _sendPurchaseService.SendPurchaseRequest(test);
-                return Redirect($"{baseURL}staff/GetAllStaff");
+                await _getPurchaseService.DeletePurchaseRequest(purchaseReadViewModel.Id);
+                return Redirect($"{baseURL}purchase/Index?test");
             }
             catch 
             {
