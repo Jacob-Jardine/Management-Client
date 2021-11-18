@@ -43,7 +43,7 @@ namespace Management_Web_Application
             {
                 services.AddHttpClient<IStaffService, StaffService>();
                 services.AddHttpClient<ISendPurchaseRequestService, SendPurchaseRequestService>();
-                services.AddHttpClient<IGetPurchaseRequestService, FakeGetPurchaseRequestService>();
+                services.AddSingleton<IGetPurchaseRequestService, FakeGetPurchaseRequestService>();
             }     
         }
 
