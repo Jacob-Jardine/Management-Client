@@ -1,4 +1,8 @@
 ﻿<!DOCTYPE html>
+@{ 
+    var test = false;
+}
+
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -18,12 +22,19 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Staff" asp-action="GetAllStaff">Staff Actions</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Purchase" asp-action="Index">Purcahse Requests</a>
-                        </li>
+                        @if (test == true)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Staff" asp-action="GetAllStaff">Staff</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Purchase" asp-action="Index">Purcahse Requests</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">Log In</li>
+                        }
                     </ul>
                 </div>
             </div>
@@ -37,13 +48,16 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2021 - Management_Web_Application - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; @DateTime.Now.Year - ThAmCo Management Web Application - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

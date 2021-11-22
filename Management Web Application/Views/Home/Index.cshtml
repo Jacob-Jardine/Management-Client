@@ -3,24 +3,29 @@
 }
 
 <div class="text-center">
-    <h1>ThAmCo</h1>
-    <hr />
     <form method="post">
         <div class="container">
             <div class="row text-center">
                 <div class="col-sm-6">
                     <h5>Staff CRUD</h5>
-                    <a class="btn btn-success btn-lg" asp-controller="Staff" asp-action="GetAllStaff"><i class="fa fa-check"></i> Go</a>
+                    <a class="btn btn-success btn-lg" onclick="test()" asp-controller="Staff" asp-action="GetAllStaff"><i class="fa fa-check"></i>Go</a>
                 </div>
                 <div class="col-sm-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Staff Permissions</h5>
-                            <button asp-controller="Purchase" asp-action="Index" class="btn btn-success btn-lg">Go!</button>
-                        </div>
-                    </div>
+                    <h5 class="card-title">Staff Permissions</h5>
+                    <button asp-controller="Purchase" asp-action="Index" class="btn btn-success btn-lg"><i class="fa fa-check"></i>Go</button>
                 </div>
             </div>
         </div>
+        <div class="loading" style="display:none">
+            <img src="~/img/loading.gif" />
+            <h3>Staff Infomation Loading...</h3>
+        </div> 
     </form>
 </div>
+
+<script>
+    //submit search, display loading message
+    function test() {
+        $(".loading").show()
+    };
+</script>

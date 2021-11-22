@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Management_Web_Application.Controllers
@@ -70,6 +71,7 @@ namespace Management_Web_Application.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateStaff(StaffCreateViewModel staffCreateViewModel)
         {
             string baseURL = Environment.GetEnvironmentVariable("BASE_URL");
@@ -116,6 +118,7 @@ namespace Management_Web_Application.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> UpdateStaff(StaffUpdateViewModel staffUpdateViewModel)
         {
             string baseURL = Environment.GetEnvironmentVariable("BASE_URL");
