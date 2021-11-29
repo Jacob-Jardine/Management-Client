@@ -17,7 +17,8 @@ namespace Management_Web_Application.Controllers
     {
         private readonly IStaffService _staffService;
         private IMapper _mapper;
-        
+        private readonly string _baseURL = Environment.GetEnvironmentVariable("BASE_URL");
+
         public StaffController(IStaffService staffService, IMapper mapper)
         {
             _staffService = staffService;
@@ -31,7 +32,6 @@ namespace Management_Web_Application.Controllers
 
         public async Task<ActionResult<IEnumerable<StaffReadViewModel>>> GetAllStaff()
         {
-            string baseURL = Environment.GetEnvironmentVariable("BASE_URL");
             try
             {
                 var getAllStaff = await _staffService.GetAllStaffAsync();
@@ -39,13 +39,12 @@ namespace Management_Web_Application.Controllers
             }
             catch
             {
-                return Redirect($"{baseURL}home/noaction");
+                return Redirect($"{_baseURL}home/noaction");
             }
         }
 
         public async Task<ActionResult<StaffReadViewModel>> GetStaffByID(int ID)
         {
-            string baseURL = Environment.GetEnvironmentVariable("BASE_URL");
             try
             {
                 var getStaffByID = await _staffService.GetStaffByIDAsnyc(ID);
@@ -55,12 +54,12 @@ namespace Management_Web_Application.Controllers
                 }
                 else
                 {
-                    return Redirect($"{baseURL}home/noaction");
+                    return Redirect($"{_baseURL}home/noaction");
                 }
             }
             catch
             {
-                return Redirect($"{baseURL}home/noaction");
+                return Redirect($"{_baseURL}home/noaction");
             }
         }
 
@@ -74,7 +73,6 @@ namespace Management_Web_Application.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateStaff(StaffCreateViewModel staffCreateViewModel)
         {
-            string baseURL = Environment.GetEnvironmentVariable("BASE_URL");
             if (!ModelState.IsValid) 
             {
                 return View(staffCreateViewModel);
@@ -83,18 +81,17 @@ namespace Management_Web_Application.Controllers
             {
                 var staffModel = _mapper.Map<StaffDomainModel>(staffCreateViewModel);
                 StaffDomainModel newStaffDomainModel = await _staffService.CreateStaffAsync(staffModel);
-                return Redirect($"{baseURL}staff/GetStaffById/{newStaffDomainModel.StaffID}");
+                return Redirect($"{_baseURL}staff/GetStaffById/{newStaffDomainModel.StaffID}");
             }
             catch
             {
-                return Redirect($"{baseURL}home/noaction");
+                return Redirect($"{_baseURL}home/noaction");
             }
         }
 
         [HttpGet]
         public async Task<ActionResult> UpdateStaff(int? ID, StaffUpdateViewModel staffUpdateViewModel)
         {
-            string baseURL = Environment.GetEnvironmentVariable("BASE_URL");
             try
             {
                 if (!ModelState.IsValid) 
@@ -108,12 +105,12 @@ namespace Management_Web_Application.Controllers
                 }
                 else
                 {
-                    return Redirect($"{baseURL}home/noaction");
+                    return Redirect($"{_baseURL}home/noaction");
                 }
             }
             catch
             {
-                return Redirect($"{baseURL}home/noaction");
+                return Redirect($"{_baseURL}home/noaction");
             }
         }
 
@@ -121,7 +118,6 @@ namespace Management_Web_Application.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> UpdateStaff(StaffUpdateViewModel staffUpdateViewModel)
         {
-            string baseURL = Environment.GetEnvironmentVariable("BASE_URL");
             if (!ModelState.IsValid)
             {
                 return View(staffUpdateViewModel);
@@ -133,35 +129,34 @@ namespace Management_Web_Application.Controllers
                 newStaffDomainModel.StaffID = staffUpdateViewModel.StaffID;
                 if (newStaffDomainModel != null) 
                 {
-                    return Redirect($"{baseURL}staff/GetStaffById/{newStaffDomainModel.StaffID}");
+                    return Redirect($"{_baseURL}staff/GetStaffById/{newStaffDomainModel.StaffID}");
                 }
-                return Redirect($"{baseURL}home/noaction");
+                return Redirect($"{_baseURL}home/noaction");
             }
             catch
             {
-                return Redirect($"{baseURL}home/noaction");
+                return Redirect($"{_baseURL}home/noaction");
             }
         }
 
         public async Task<ActionResult> DeleteStaff(int? ID)
         {
-            string baseURL = Environment.GetEnvironmentVariable("BASE_URL");
             try
             {
                 var getStaffByID = await _staffService.GetStaffByIDAsnyc(ID);
                 if (getStaffByID != null)
                 {
                     await _staffService.DeleteStaff(getStaffByID.StaffID);
-                    return Redirect($"{baseURL}staff/GetAllStaff");
+                    return Redirect($"{_baseURL}staff/GetAllStaff");
                 }
                 else
                 {
-                    return Redirect($"{baseURL}home/noaction");
+                    return Redirect($"{_baseURL}home/noaction");
                 }
             }
             catch
             {
-                return Redirect($"{baseURL}home/noaction");
+                return Redirect($"{_baseURL}home/noaction");
             }
         }
     }
