@@ -1,8 +1,10 @@
+using Auth0.AspNetCore.Authentication;
 using Management_Web_Application.Services.GetPurchaseRequestService;
 using Management_Web_Application.Services.PurchaseService;
 using Management_Web_Application.Services.StaffService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,13 +31,24 @@ namespace Management_Web_Application
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services
+                .AddAuth0WebAppAuthentication(options => {
+                    options.Domain = Configuration["Auth0:Domain"];
+                    options.ClientId = Configuration["Auth0:ClientId"];
+                    options.ClientSecret = Configuration["Auth0:ClientSecret"];
+                }).WithAccessToken(options =>
+                {
+                    options.Audience = Configuration["Auth0:Audience"];
+                });
             services.AddControllersWithViews();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddRazorPages().AddRazorRuntimeCompilation();
 
             if (_env.IsDevelopment()) 
             {
-                services.AddSingleton<IStaffService, FakeStaffService>();
+                //services.AddSingleton<IStaffService, FakeStaffService>();
+                services.AddHttpClient<IStaffService, StaffService>();
+                services.AddHttpContextAccessor();
                 services.AddSingleton<IGetPurchaseRequestService, FakeGetPurchaseRequestService>();
                 services.AddSingleton<ISendPurchaseRequestService, FakeSendPurchaseRequestService>();
             }
@@ -65,6 +78,7 @@ namespace Management_Web_Application
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

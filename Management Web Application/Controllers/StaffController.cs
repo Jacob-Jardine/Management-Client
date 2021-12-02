@@ -3,7 +3,8 @@ using AutoMapper.Configuration;
 using Management_Web_Application.DomainModel;
 using Management_Web_Application.Models;
 using Management_Web_Application.Services.StaffService;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -30,15 +31,18 @@ namespace Management_Web_Application.Controllers
             return View();
         }
 
+        [Authorize]
         public async Task<ActionResult<IEnumerable<StaffReadViewModel>>> GetAllStaff()
         {
             try
             {
-                var getAllStaff = await _staffService.GetAllStaffAsync();
+                var accessToken = await HttpContext.GetTokenAsync("access_token");
+                var getAllStaff = await _staffService.GetAllStaffAsync(accessToken);
                 return View(_mapper.Map<IEnumerable<StaffReadViewModel>>(getAllStaff));
             }
-            catch
+            catch(Exception e)
             {
+                int x = 1;
                 return Redirect($"{_baseURL}home/noaction");
             }
         }

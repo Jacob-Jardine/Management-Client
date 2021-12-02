@@ -23,7 +23,7 @@ namespace Management_Web_Application.Services.StaffService
             };
         }
 
-        public Task<IEnumerable<StaffDomainModel>> GetAllStaffAsync() => Task.FromResult(_staffList.AsEnumerable());
+        public Task<IEnumerable<StaffDomainModel>> GetAllStaffAsync(string token) => Task.FromResult(_staffList.AsEnumerable());
 
         public Task<StaffDomainModel> GetStaffByIDAsnyc(int? ID) => Task.FromResult(_staffList.FirstOrDefault(x => x.StaffID == ID));
 

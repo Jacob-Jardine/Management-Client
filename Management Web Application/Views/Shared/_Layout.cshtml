@@ -22,19 +22,21 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
-                        @if (test == true)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Staff" asp-action="GetAllStaff">Staff</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Purchase" asp-action="Index">Purcahse Requests</a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item">Log In</li>
-                        }
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Staff" asp-action="GetAllStaff">Staff</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Purchase" asp-action="Index">Purcahse Requests</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Log In</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Claims">Claims</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                        </li>
                     </ul>
                 </div>
             </div>

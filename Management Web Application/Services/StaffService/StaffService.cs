@@ -10,6 +10,11 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text;
+using Microsoft.Net.Http.Headers;
+using Auth0.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Management_Web_Application.Services.StaffService
 {
@@ -27,8 +32,17 @@ namespace Management_Web_Application.Services.StaffService
             _client = client;
         }
 
-        public async Task<IEnumerable<StaffDomainModel>> GetAllStaffAsync()
+        public async Task<IEnumerable<StaffDomainModel>> GetAllStaffAsync(string token)
         {
+            //var accessToken = await Microsoft.AspNetCore.Mvc.HttpContext.GetTokenAsync("access_token");
+/*            var _bearer_token = "";
+            if (_context.HttpContext.Response.Headers.TryGetValue(HeaderNames.Authorization.ToString(), out Microsoft.Extensions.Primitives.StringValues s))
+            {
+                _bearer_token = s;
+            }
+            
+            //var accessToken = await HttpContext.GetTokenAsync("access_token");*/
+            _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
             var response = await _client.GetAsync("GetAllStaff");
             if (response.StatusCode == HttpStatusCode.NotFound) 
             {
