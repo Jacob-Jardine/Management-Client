@@ -1,4 +1,5 @@
 ﻿using Management_Web_Application.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -19,6 +20,12 @@ namespace Management_Web_Application.Controllers
         }
 
         public IActionResult Index()
+        {
+            return View();
+        }
+
+        [Authorize]
+        public IActionResult LoginView()
         {
             return View();
         }

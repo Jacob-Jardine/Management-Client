@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace Management_Web_Application.Controllers
 {
+
+    // admin@example.com
+    // Password123
     public class AccountController : Controller
     {
         public async Task Login(string returnUrl = "/")
