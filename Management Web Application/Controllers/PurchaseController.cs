@@ -3,6 +3,7 @@ using Management_Web_Application.DomainModel;
 using Management_Web_Application.Models.PurchaseModels;
 using Management_Web_Application.Services.GetPurchaseRequestService;
 using Management_Web_Application.Services.PurchaseService;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -27,10 +28,11 @@ namespace Management_Web_Application.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PurchaseReadViewModel>>> Index()
         {
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
             string baseURL = Environment.GetEnvironmentVariable("BASE_URL");
             try
             {
-                var getAllPurcahse = await _getPurchaseService.GetAllPurchaseAsync();
+                var getAllPurcahse = await _getPurchaseService.GetAllPurchaseAsync(accessToken);
                 return View(_mapper.Map<IEnumerable<PurchaseReadViewModel>>(getAllPurcahse));
             }
             catch
@@ -48,7 +50,6 @@ namespace Management_Web_Application.Controllers
                 purchaseReadViewModel = _mapper.Map<PurchaseSendViewModel>(getPurchaseRequest);
                 var test = _mapper.Map<SendPurchaseRequestDomainModel>(purchaseReadViewModel);
                 await _sendPurchaseService.SendPurchaseRequest(test);
-                await _getPurchaseService.DeletePurchaseRequest(purchaseReadViewModel.Id);
                 return Redirect($"{baseURL}purchase/Index?test");
             }
             catch 

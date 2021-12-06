@@ -22,15 +22,16 @@ namespace Management_Web_Application.Services.GetPurchaseRequestService
         public GetPurchaseRequestService(IConfiguration config, HttpClient client)
         {
             _config = config;
-            client.BaseAddress = _config.GetValue<Uri>("PURCHASE_BASE_URL");
+            client.BaseAddress = _config.GetValue<Uri>("GET_PURCHASE_URL");
             client.Timeout = TimeSpan.FromSeconds(5);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
             _client = client;
         }
 
-        public async Task<IEnumerable<GetPurchaseRequestDomainModel>> GetAllPurchaseAsync()
+        public async Task<IEnumerable<GetPurchaseRequestDomainModel>> GetAllPurchaseAsync(string token)
         {
-            var response = await _client.GetAsync("PurchaseRequest");
+            _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            var response = await _client.GetAsync("");
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
@@ -42,7 +43,7 @@ namespace Management_Web_Application.Services.GetPurchaseRequestService
 
         public async Task<GetPurchaseRequestDomainModel> GetPurchaseRequestByIdAsync(int? ID)
         {
-            var response = await _client.GetAsync($"PurchaseRequest/{ID}");
+            var response = await _client.GetAsync($"/{ID}");
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
@@ -50,17 +51,6 @@ namespace Management_Web_Application.Services.GetPurchaseRequestService
             response.EnsureSuccessStatusCode();
             var purchaseRequest = await response.Content.ReadAsAsync<GetPurchaseRequestDomainModel>();
             return purchaseRequest;
-        }
-
-        public async Task DeletePurchaseRequest(int ID)
-        {
-            var response = await _client.DeleteAsync($"PurchaseRequest/{ID}");
-            if (response.StatusCode == HttpStatusCode.NotFound)
-            {
-                return;
-            }
-            response.EnsureSuccessStatusCode();
-            return;
         }
     }
 }

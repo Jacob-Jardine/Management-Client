@@ -15,18 +15,18 @@ namespace Management_Web_Application.Services.GetPurchaseRequestService
         {
             _purchaseList = new List<GetPurchaseRequestDomainModel>()
             {
-                new GetPurchaseRequestDomainModel() {Id = 2, AccountName = "GROUP A Test", CardNumber = "GROUP A Test", ProductId = 1, Quantity = 1, When = DateTime.Now, ProductName = "sample string 3", ProductEan = "sample string 4", TotalPrice = 1.1M}
+                //new GetPurchaseRequestDomainModel() {Id = 2, AccountName = "GROUP A Test", CardNumber = "GROUP A Test", ProductId = 1, Quantity = 1, When = DateTime.Now, ProductName = "sample string 3", ProductEan = "sample string 4", TotalPrice = 1.1M}
             };
         }
 
         public Task DeletePurchaseRequest(int ID)
         {
-            _purchaseList.RemoveAll(x => x.Id == ID);
+            _purchaseList.RemoveAll(x => x.purchaseRequestID == ID);
             return Task.CompletedTask;
         }
 
-        public Task<IEnumerable<GetPurchaseRequestDomainModel>> GetAllPurchaseAsync() => Task.FromResult(_purchaseList.AsEnumerable());
+        public Task<IEnumerable<GetPurchaseRequestDomainModel>> GetAllPurchaseAsync(string token) => Task.FromResult(_purchaseList.AsEnumerable());
 
-        public Task<GetPurchaseRequestDomainModel> GetPurchaseRequestByIdAsync(int? ID) => Task.FromResult(_purchaseList.FirstOrDefault(x => x.Id == ID));
+        public Task<GetPurchaseRequestDomainModel> GetPurchaseRequestByIdAsync(int? ID) => Task.FromResult(_purchaseList.FirstOrDefault(x => x.purchaseRequestID == ID));
     }
 }

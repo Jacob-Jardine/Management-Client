@@ -40,9 +40,8 @@ namespace Management_Web_Application.Controllers
                 var getAllStaff = await _staffService.GetAllStaffAsync(accessToken);
                 return View(_mapper.Map<IEnumerable<StaffReadViewModel>>(getAllStaff));
             }
-            catch(Exception e)
+            catch
             {
-                int x = 1;
                 return Redirect($"{_baseURL}home/noaction");
             }
         }

@@ -8,9 +8,7 @@ namespace Management_Web_Application.Services.GetPurchaseRequestService
 {
     public interface IGetPurchaseRequestService
     {
-        public Task<IEnumerable<GetPurchaseRequestDomainModel>> GetAllPurchaseAsync();
+        public Task<IEnumerable<GetPurchaseRequestDomainModel>> GetAllPurchaseAsync(string token);
         public Task<GetPurchaseRequestDomainModel> GetPurchaseRequestByIdAsync(int? ID);
-
-        public Task DeletePurchaseRequest(int ID);
     }
 }

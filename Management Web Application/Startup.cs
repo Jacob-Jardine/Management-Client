@@ -46,10 +46,10 @@ namespace Management_Web_Application
 
             if (_env.IsDevelopment()) 
             {
-                //services.AddSingleton<IStaffService, FakeStaffService>();
-                services.AddHttpClient<IStaffService, StaffService>();
+                services.AddSingleton<IStaffService, FakeStaffService>();
+                //services.AddHttpClient<IStaffService, StaffService>();
                 services.AddHttpContextAccessor();
-                services.AddSingleton<IGetPurchaseRequestService, FakeGetPurchaseRequestService>();
+                services.AddHttpClient<IGetPurchaseRequestService, GetPurchaseRequestService>();
                 services.AddSingleton<ISendPurchaseRequestService, FakeSendPurchaseRequestService>();
             }
             else if(_env.IsStaging()|| _env.IsProduction())

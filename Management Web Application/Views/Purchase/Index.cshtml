@@ -8,35 +8,43 @@
         <table class="table">
             <thead class="thead-dark">
                 <tr>
-                    <th scope="col">Id</th>
                     <th scope="col">Account Name</th>
-                    <th scope="col">Card Number</th>
                     <th scope="col">Quantity</th>
-                    <th scope="col">Product Id</th>
                     <th scope="col">When</th>
-                    <th scope="col">Product Name</th>
-                    <th scope="col">Product Ean</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Brand Name</th>
+                    <th scope="col">Price</th>
                     <th scope="col">Total Price</th>
-                    <th scope="col">Accept</th>
-                    <th scope="col">Deny</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in @Model)
                 {
                 <tr>
-                    <td id="purchaseID">@item.Id</td>
-                    <td>@item.AccountName</td>
-                    <td>@item.CardNumber</td>
-                    <td>@item.Quantity</td>
-                    <td>@item.ProductId</td>
-                    <td>@item.When</td>
-                    <td>@item.ProductName</td>
-                    <td>@item.ProductEan</td>
-                    <td>£@item.TotalPrice</td>
-                    <td><a class="btn btn-success" asp-controller="Purchase" asp-action="SendPurchaseRequest" asp-route-id="@item.Id"><i class="fa fa-check"></i> Accept</a></td>
-                    <td><a class="btn btn-danger" asp-controller="Purchase" asp-action="SendPurchaseRequest" asp-route-id="@item.Id"><i class="fa fa-close"></i> Deny</a></td>
-
+                    <td>@item.accountName</td>
+                    <td>@item.quantity</td>
+                    <td>@item.when</td>
+                    <td>@item.description</td>
+                    <td>@item.brandName</td>
+                    <td>£@item.price</td>
+                    <td>£@item.totalPrice</td>
+                    @if (item.purchaseRequestStatus == 1)
+                    {
+                        <td><a class="btn btn-success" asp-controller="Purchase" asp-action="SendPurchaseRequest" asp-route-id="@item.purchaseRequestID"><i class="fa fa-check"></i> Accept</a></td>
+                        <td><a class="btn btn-danger" asp-controller="Purchase" asp-action="SendPurchaseRequest" asp-route-id="@item.purchaseRequestID"><i class="fa fa-close"></i> Deny</a></td>
+                    }
+                    @if (item.purchaseRequestStatus == 2)
+                    {
+                        <td>Purchase Approved</td>
+                        <td></td>
+                    }
+                    @if (item.purchaseRequestStatus == 3)
+                    {
+                        <td>Purchase Denied</td>
+                        <td></td>
+                    }
                 </tr>
                 }
             </tbody>

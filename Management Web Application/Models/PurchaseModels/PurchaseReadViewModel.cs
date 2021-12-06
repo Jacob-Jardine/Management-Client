@@ -7,14 +7,19 @@ namespace Management_Web_Application.Models.PurchaseModels
 {
     public class PurchaseReadViewModel
     {
-        public int Id { get; set; }
-        public string AccountName { get; set; }
-        public string CardNumber { get; set; }
-        public int ProductId { get; set; }
-        public int Quantity { get; set; }
-        public DateTime When { get; set; }
-        public string ProductName { get; set; }
-        public string ProductEan { get; set; }
-        public decimal TotalPrice { get; set; }
+        public int purchaseRequestID { get; set; }
+        public string accountName { get; set; }
+        public string cardNumber { get; set; }
+        public int productId { get; set; }
+        public int quantity { get; set; }
+        public DateTime when { get; set; }
+        public string name { get; set; }
+        public string description { get; set; }
+        public int productEan { get; set; }
+        public int brandId { get; set; }
+        public string brandName { get; set; }
+        public decimal price { get; set; }
+        public decimal totalPrice { get; set; }
+        public int purchaseRequestStatus { get; set; }
     }
 }

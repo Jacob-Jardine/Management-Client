@@ -9,22 +9,32 @@ namespace Management_Web_Application.DomainModel
     public class GetPurchaseRequestDomainModel
     {
         [Required]
-        public int Id { get; set; }
+        public int purchaseRequestID { get; set; }
         [Required]
-        public string AccountName { get; set; }
+        public string accountName { get; set; }
         [Required]
-        public string CardNumber { get; set; }
+        public string cardNumber { get; set; }
         [Required]
-        public int ProductId { get; set; }
+        public int productId { get; set; }
         [Required]
-        public int Quantity { get; set; }
+        public int quantity { get; set; }
         [Required]
-        public DateTime When { get; set; }
+        public DateTime when { get; set; }
         [Required]
-        public string ProductName { get; set; }
+        public string name { get; set; }
         [Required]
-        public string ProductEan { get; set; }
+        public string description { get; set; }
         [Required]
-        public decimal TotalPrice { get; set; }
+        public int productEan { get; set; }
+        [Required]
+        public int brandId { get; set; }
+        [Required]
+        public string brandName { get; set; }
+        [Required]
+        public decimal price { get; set; }
+        [Required]
+        public decimal totalPrice { get; set; }
+        [Required]
+        public int purchaseRequestStatus { get; set; }
     }
 }

@@ -15,8 +15,9 @@
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation",
         "BASE_URL": "https://localhost:44322/",
-        "STAFF_BASE_URL": "https://localhost:44315/api/staff/",
-        "PURCHASE_BASE_URL": "https://localhost:44326/api/third-party/"
+        "STAFF_BASE_URL": "https://localhost:5001/api/staff/",
+        "PURCHASE_BASE_URL": "https://localhost:44326/api/third-party/",
+        "GET_PURCHASE_URL": "https://thamco-staging-purchase-requests.azurewebsites.net/api/purchase-requests"
       }
     },
     "Management_Web_Application": {
