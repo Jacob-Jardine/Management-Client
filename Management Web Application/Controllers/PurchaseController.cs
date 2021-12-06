@@ -41,15 +41,16 @@ namespace Management_Web_Application.Controllers
             }
         }
 
-        public async Task<ActionResult> SendPurchaseRequest(int? ID, PurchaseSendViewModel purchaseReadViewModel)
+        public async Task<ActionResult> SendPurchaseRequest(int ID, PurchaseSendViewModel purchaseReadViewModel)
         {
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
             string baseURL = Environment.GetEnvironmentVariable("BASE_URL");
             try 
             {
-                var getPurchaseRequest = await _getPurchaseService.GetPurchaseRequestByIdAsync(purchaseReadViewModel.Id);
-                purchaseReadViewModel = _mapper.Map<PurchaseSendViewModel>(getPurchaseRequest);
-                var test = _mapper.Map<SendPurchaseRequestDomainModel>(purchaseReadViewModel);
-                await _sendPurchaseService.SendPurchaseRequest(test);
+                var getPurchaseRequest = await _getPurchaseService.GetPurchaseRequestByIdAsync(ID, accessToken);
+                var patch = getPurchaseRequest.purchaseRequestStatus = 3;
+                await _getPurchaseService.UpdatePurchaseRequestStatus(getPurchaseRequest, accessToken);
+                //await _sendPurchaseService.SendPurchaseRequest(purchaseRequest);
                 return Redirect($"{baseURL}purchase/Index?test");
             }
             catch 

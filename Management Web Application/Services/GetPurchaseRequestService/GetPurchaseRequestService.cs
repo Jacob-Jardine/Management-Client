@@ -25,7 +25,7 @@ namespace Management_Web_Application.Services.GetPurchaseRequestService
             client.BaseAddress = _config.GetValue<Uri>("GET_PURCHASE_URL");
             client.Timeout = TimeSpan.FromSeconds(5);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
-            _client = client;
+            _client = client;            
         }
 
         public async Task<IEnumerable<GetPurchaseRequestDomainModel>> GetAllPurchaseAsync(string token)
@@ -41,9 +41,10 @@ namespace Management_Web_Application.Services.GetPurchaseRequestService
             return purchaseRequests;
         }
 
-        public async Task<GetPurchaseRequestDomainModel> GetPurchaseRequestByIdAsync(int? ID)
+        public async Task<GetPurchaseRequestDomainModel> GetPurchaseRequestByIdAsync(int? ID, string token)
         {
-            var response = await _client.GetAsync($"/{ID}");
+            _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            var response = await _client.GetAsync($"{ID}");
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
@@ -51,6 +52,22 @@ namespace Management_Web_Application.Services.GetPurchaseRequestService
             response.EnsureSuccessStatusCode();
             var purchaseRequest = await response.Content.ReadAsAsync<GetPurchaseRequestDomainModel>();
             return purchaseRequest;
+        }
+
+        public async Task<GetPurchaseRequestDomainModel> UpdatePurchaseRequestStatus(GetPurchaseRequestDomainModel pruchaseRequestDomainModel, string token)
+        {
+            var test = @"{""op"": ""replace"", ""path"": ""/PurchaseRequestStatus"", ""value"": 3}";
+            //_client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            var json = JsonSerializer.Serialize(test);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _client.PatchAsync($"{pruchaseRequestDomainModel.purchaseRequestID}", data);
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return null;
+            }
+            response.EnsureSuccessStatusCode();
+            var emptyDomainModel = new GetPurchaseRequestDomainModel();
+            return emptyDomainModel;
         }
     }
 }

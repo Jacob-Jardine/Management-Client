@@ -9,12 +9,8 @@ namespace Management_Web_Application.DomainModel
     public class SendPurchaseRequestDomainModel
     {
         [Required]
-        public string AccountName { get; set; }
+        public int purchaseRequestID { get; set; }
         [Required]
-        public string CardNumber { get; set; }
-        [Required]
-        public int ProductId { get; set; }
-        [Required]
-        public int Quantity { get; set; }
+        public int purchaseRequestStatus { get; set; }
     }
 }

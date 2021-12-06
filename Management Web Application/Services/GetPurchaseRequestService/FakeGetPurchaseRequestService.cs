@@ -27,6 +27,11 @@ namespace Management_Web_Application.Services.GetPurchaseRequestService
 
         public Task<IEnumerable<GetPurchaseRequestDomainModel>> GetAllPurchaseAsync(string token) => Task.FromResult(_purchaseList.AsEnumerable());
 
-        public Task<GetPurchaseRequestDomainModel> GetPurchaseRequestByIdAsync(int? ID) => Task.FromResult(_purchaseList.FirstOrDefault(x => x.purchaseRequestID == ID));
+        public Task<GetPurchaseRequestDomainModel> GetPurchaseRequestByIdAsync(int? ID, string token) => Task.FromResult(_purchaseList.FirstOrDefault(x => x.purchaseRequestID == ID));
+
+        public Task<GetPurchaseRequestDomainModel> UpdatePurchaseRequestStatus(GetPurchaseRequestDomainModel purchaseRequestDomainModel, string token)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
