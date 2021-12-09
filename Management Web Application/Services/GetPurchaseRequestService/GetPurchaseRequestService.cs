@@ -11,6 +11,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text;
 using Management_Web_Application.Services.PurchaseService;
+using Management_Web_Application.Models.PurchaseModels;
 
 namespace Management_Web_Application.Services.GetPurchaseRequestService
 {
@@ -56,9 +57,18 @@ namespace Management_Web_Application.Services.GetPurchaseRequestService
 
         public async Task<GetPurchaseRequestDomainModel> UpdatePurchaseRequestStatus(GetPurchaseRequestDomainModel pruchaseRequestDomainModel, string token)
         {
-            var test = @"{""op"": ""replace"", ""path"": ""/PurchaseRequestStatus"", ""value"": 3}";
+            var patchModel = new PurchasePatchModel()
+            {
+                op = "replace",
+                path = "/PurchaseRequestStatus",
+                value =  2
+            };
+            List<PurchasePatchModel> purchasePatchModels = new List<PurchasePatchModel>
+            {
+                patchModel
+            };
             //_client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
-            var json = JsonSerializer.Serialize(test);
+            var json = JsonSerializer.Serialize(purchasePatchModels);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _client.PatchAsync($"{pruchaseRequestDomainModel.purchaseRequestID}", data);
             if (response.StatusCode == HttpStatusCode.NotFound)

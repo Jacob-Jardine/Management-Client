@@ -48,7 +48,6 @@ namespace Management_Web_Application.Controllers
             try 
             {
                 var getPurchaseRequest = await _getPurchaseService.GetPurchaseRequestByIdAsync(ID, accessToken);
-                var patch = getPurchaseRequest.purchaseRequestStatus = 3;
                 await _getPurchaseService.UpdatePurchaseRequestStatus(getPurchaseRequest, accessToken);
                 //await _sendPurchaseService.SendPurchaseRequest(purchaseRequest);
                 return Redirect($"{baseURL}purchase/Index?test");
