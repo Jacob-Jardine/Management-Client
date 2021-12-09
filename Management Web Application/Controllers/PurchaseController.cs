@@ -47,12 +47,30 @@ namespace Management_Web_Application.Controllers
             string baseURL = Environment.GetEnvironmentVariable("BASE_URL");
             try 
             {
+                var status = 2;
                 var getPurchaseRequest = await _getPurchaseService.GetPurchaseRequestByIdAsync(ID, accessToken);
-                await _getPurchaseService.UpdatePurchaseRequestStatus(getPurchaseRequest, accessToken);
+                await _getPurchaseService.UpdatePurchaseRequestStatus(getPurchaseRequest, accessToken, status);
                 //await _sendPurchaseService.SendPurchaseRequest(purchaseRequest);
                 return Redirect($"{baseURL}purchase/Index?test");
             }
             catch 
+            {
+                return Redirect($"{baseURL}purchase/Index");
+            }
+        }
+        public async Task<ActionResult> DenyPurchaseRequest(int ID, PurchaseSendViewModel purchaseReadViewModel)
+        {
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+            string baseURL = Environment.GetEnvironmentVariable("BASE_URL");
+            try
+            {
+                var status = 3;
+                var getPurchaseRequest = await _getPurchaseService.GetPurchaseRequestByIdAsync(ID, accessToken);
+                await _getPurchaseService.UpdatePurchaseRequestStatus(getPurchaseRequest, accessToken, status);
+                //await _sendPurchaseService.SendPurchaseRequest(purchaseRequest);
+                return Redirect($"{baseURL}purchase/Index?test");
+            }
+            catch
             {
                 return Redirect($"{baseURL}purchase/Index");
             }

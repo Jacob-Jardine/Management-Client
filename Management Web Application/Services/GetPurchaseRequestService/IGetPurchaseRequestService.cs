@@ -10,6 +10,6 @@ namespace Management_Web_Application.Services.GetPurchaseRequestService
     {
         public Task<IEnumerable<GetPurchaseRequestDomainModel>> GetAllPurchaseAsync(string token);
         public Task<GetPurchaseRequestDomainModel> GetPurchaseRequestByIdAsync(int? ID, string token);
-        public Task<GetPurchaseRequestDomainModel> UpdatePurchaseRequestStatus(GetPurchaseRequestDomainModel purchaseRequestDomainModel, string token);
+        public Task<GetPurchaseRequestDomainModel> UpdatePurchaseRequestStatus(GetPurchaseRequestDomainModel purchaseRequestDomainModel, string token, int status);
     }
 }

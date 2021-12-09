@@ -55,13 +55,13 @@ namespace Management_Web_Application.Services.GetPurchaseRequestService
             return purchaseRequest;
         }
 
-        public async Task<GetPurchaseRequestDomainModel> UpdatePurchaseRequestStatus(GetPurchaseRequestDomainModel pruchaseRequestDomainModel, string token)
+        public async Task<GetPurchaseRequestDomainModel> UpdatePurchaseRequestStatus(GetPurchaseRequestDomainModel pruchaseRequestDomainModel, string token, int status)
         {
             var patchModel = new PurchasePatchModel()
             {
                 op = "replace",
                 path = "/PurchaseRequestStatus",
-                value =  2
+                value = status
             };
             List<PurchasePatchModel> purchasePatchModels = new List<PurchasePatchModel>
             {
