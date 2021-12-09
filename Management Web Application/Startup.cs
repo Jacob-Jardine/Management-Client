@@ -1,4 +1,5 @@
 using Auth0.AspNetCore.Authentication;
+using Management_Web_Application.Services.Auth0Service;
 using Management_Web_Application.Services.GetPurchaseRequestService;
 using Management_Web_Application.Services.PurchaseService;
 using Management_Web_Application.Services.StaffService;
@@ -48,6 +49,7 @@ namespace Management_Web_Application
             {
                 services.AddSingleton<IStaffService, FakeStaffService>();
                 //services.AddHttpClient<IStaffService, StaffService>();
+                services.AddHttpClient<IAuth0Service, Auth0Service>();
                 services.AddHttpContextAccessor();
                 services.AddHttpClient<IGetPurchaseRequestService, GetPurchaseRequestService>();
                 services.AddSingleton<ISendPurchaseRequestService, FakeSendPurchaseRequestService>();

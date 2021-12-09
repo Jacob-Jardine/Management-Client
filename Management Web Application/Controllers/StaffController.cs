@@ -2,6 +2,7 @@
 using AutoMapper.Configuration;
 using Management_Web_Application.DomainModel;
 using Management_Web_Application.Models;
+using Management_Web_Application.Services.Auth0Service;
 using Management_Web_Application.Services.StaffService;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -17,13 +18,15 @@ namespace Management_Web_Application.Controllers
     public class StaffController : Controller
     {
         private readonly IStaffService _staffService;
+        private readonly IAuth0Service _auth0Service;
         private IMapper _mapper;
         private readonly string _baseURL = Environment.GetEnvironmentVariable("BASE_URL");
 
-        public StaffController(IStaffService staffService, IMapper mapper)
+        public StaffController(IStaffService staffService, IAuth0Service auth0Service, IMapper mapper)
         {
             _staffService = staffService;
             _mapper = mapper;
+            _auth0Service = auth0Service;
         }
 
         public IActionResult Index()
@@ -82,6 +85,14 @@ namespace Management_Web_Application.Controllers
             }
             try
             {
+                var accessToken = await HttpContext.GetTokenAsync("access_token");
+                var auth0DomainModel = new CreateAuth0UserDomainModel()
+                {
+                    given_name = staffCreateViewModel.StaffFirstName,
+                    family_name = staffCreateViewModel.StaffLastName,
+                    email = staffCreateViewModel.StaffEmailAddress
+                };
+                await _auth0Service.CreateAuth0User(auth0DomainModel);
                 var staffModel = _mapper.Map<StaffDomainModel>(staffCreateViewModel);
                 StaffDomainModel newStaffDomainModel = await _staffService.CreateStaffAsync(staffModel);
                 return Redirect($"{_baseURL}staff/GetStaffById/{newStaffDomainModel.StaffID}");
