@@ -7,6 +7,6 @@ namespace Management_Web_Application.DomainModel
 {
     public class AddAuth0PermissionsDomainModels
     {
-        public List<AddAuth0PermissionsDomainModel> addPermissionModel {get; set;}
+        public List<AddAuth0PermissionsDomainModel> permissions { get; set;}
     }
 }

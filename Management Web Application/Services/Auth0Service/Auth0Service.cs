@@ -53,6 +53,28 @@ namespace Management_Web_Application.Services.Auth0Service
             return staff;
         }
 
+        public async Task<IEnumerable<AddAuth0PermissionsDomainModel>> UpdateAuth0UserPermissions(AddAuth0PermissionsDomainModels auth0DomainModel, string id)
+        {
+
+            //var permissions = new List<AddAuth0PermissionsDomainModel>();
+            //foreach(var item in auth0DomainModel)
+            //{
+            //    permissions.Add(item);
+            //}
+            var token = authToken();
+            var json = JsonSerializer.Serialize(auth0DomainModel);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            //_client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            var responses = await _client.PostAsync($"users/{id}/permissions", data);
+            if (responses.StatusCode == HttpStatusCode.NotFound)
+            {
+                return null;
+            }
+            responses.EnsureSuccessStatusCode();
+            var staff = await responses.Content.ReadAsAsync<IEnumerable<AddAuth0PermissionsDomainModel>>();
+            return staff;
+        }
+
         //public async Task AddUserPermissions(AddAuth0PermissionsDomainModel auth0DomainModel)
         //{
 

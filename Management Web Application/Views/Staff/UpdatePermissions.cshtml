@@ -1,11 +1,171 @@
 ﻿@model Management_Web_Application.Models.StaffModels.StaffPermissionsViewModel;
 
-
+@Html.AntiForgeryToken()
 <form method="post">
-    @Html.DisplayNameFor(m => m.CustomerAccountDeleltionRequestBool)
-    @Html.CheckBoxFor(x => x.CustomerAccountDeleltionRequestBool)
-    <h1>Permissions page</h1>
+    <div class="table-responsive-xl">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Permisson Name</th>
+                    <th>Check Box</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Html.DisplayNameFor(m => m.CustomerAccountDeleltionRequestBool)</td>
+                    <td>@Html.CheckBoxFor(x => x.CustomerAccountDeleltionRequestBool)</td>
+                </tr>
+                <tr>
+
+                    <td>@Html.DisplayNameFor(m => m.OrderBool)</td>
+                    <td>@Html.CheckBoxFor(x => x.OrderBool)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(m => m.ProductBool)</td>
+                    <td>@Html.CheckBoxFor(x => x.ProductBool)</td>
+                </tr>
+                <tr>
+
+                    <td>@Html.DisplayNameFor(m => m.ProductReviewBool)</td>
+                    <td>@Html.CheckBoxFor(x => x.ProductReviewBool)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(m => m.PurchaseReqiestBool)</td>
+                    <td>@Html.CheckBoxFor(x => x.PurchaseReqiestBool)</td>
+                </tr>
+                <tr>
+
+                    <td>@Html.DisplayNameFor(m => m.StaffBool)</td>
+                    <td>@Html.CheckBoxFor(x => x.StaffBool)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(m => m.ThirdPartyStockRequestBool)</td>
+                    <td>@Html.CheckBoxFor(x => x.ThirdPartyStockRequestBool)</td>
+                </tr>
+                <tr>
+
+                    <td>@Html.DisplayNameFor(m => m.DeleteProductsBool)</td>
+                    <td>@Html.CheckBoxFor(x => x.DeleteProductsBool)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(m => m.DeleteStaffBool)</td>
+                    <td>@Html.CheckBoxFor(x => x.DeleteStaffBool)</td>
+                </tr>
+                <tr>
+
+                    <td>@Html.DisplayNameFor(m => m.ConfirmInvoiceBool)</td>
+                    <td>@Html.CheckBoxFor(x => x.ConfirmInvoiceBool)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(m => m.UpdateCustomerAccountDeleltionRequestBool)</td>
+                    <td>@Html.CheckBoxFor(x => x.UpdateCustomerAccountDeleltionRequestBool)</td>
+                </tr>
+                <tr>
+
+                    <td>@Html.DisplayNameFor(m => m.UpdateOrdersBool)</td>
+                    <td>@Html.CheckBoxFor(x => x.UpdateOrdersBool)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(m => m.UpdateProductsBool)</td>
+                    <td>@Html.CheckBoxFor(x => x.UpdateProductsBool)</td>
+                </tr>
+                <tr>
+
+                    <td>@Html.DisplayNameFor(m => m.UpdateProductReviewBool)</td>
+                    <td>@Html.CheckBoxFor(x => x.UpdateProductReviewBool)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(m => m.UpdatePurchaseRequestStatusBool)</td>
+                    <td>@Html.CheckBoxFor(x => x.UpdatePurchaseRequestStatusBool)</td>
+                </tr>
+                <tr>
+
+                    <td>@Html.DisplayNameFor(m => m.UpdateStaffBool)</td>
+                    <td>@Html.CheckBoxFor(x => x.UpdateStaffBool)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(m => m.ReadCustomerAccountDeleltionRequetBool)</td>
+                    <td>@Html.CheckBoxFor(x => x.ReadCustomerAccountDeleltionRequetBool)</td>
+                </tr>
+                <tr>
+
+                    <td>@Html.DisplayNameFor(m => m.ReadCustomerAccountDeleltionRequestsBool)</td>
+                    <td>@Html.CheckBoxFor(x => x.ReadCustomerAccountDeleltionRequestsBool)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(m => m.ReadCustomerOrdersBool)</td>
+                    <td>@Html.CheckBoxFor(x => x.ReadCustomerOrdersBool)</td>
+                </tr>
+                <tr>
+
+                    <td>@Html.DisplayNameFor(m => m.ReadInvoicedOrderBool)</td>
+                    <td>@Html.CheckBoxFor(x => x.ReadInvoicedOrderBool)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(m => m.ReadInvoicedOrdersBool)</td>
+                    <td>@Html.CheckBoxFor(x => x.ReadInvoicedOrdersBool)</td>
+                </tr>
+                <tr>
+
+                    <td>@Html.DisplayNameFor(m => m.ReadOrdersBool)</td>
+                    <td>@Html.CheckBoxFor(x => x.ReadOrdersBool)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(m => m.ReadPendingInvoicesBool)</td>
+                    <td>@Html.CheckBoxFor(x => x.ReadPendingInvoicesBool)</td>
+                </tr>
+                <tr>
+
+                    <td>@Html.DisplayNameFor(m => m.ReadPendingPurchaseRequests)</td>
+                    <td>@Html.CheckBoxFor(x => x.ReadPendingPurchaseRequests)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(m => m.ReadProductDetailsBool)</td>
+                    <td>@Html.CheckBoxFor(x => x.ReadProductDetailsBool)</td>
+                </tr>
+                <tr>
+
+                    <td>@Html.DisplayNameFor(m => m.ReadProductReviewBool)</td>
+                    <td>@Html.CheckBoxFor(x => x.ReadProductReviewBool)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(m => m.ReadProductReviewsBool)</td>
+                    <td>@Html.CheckBoxFor(x => x.ReadProductReviewsBool)</td>
+                </tr>
+                <tr>
+
+                    <td>@Html.DisplayNameFor(m => m.ReadProdcutsBool)</td>
+                    <td>@Html.CheckBoxFor(x => x.ReadProdcutsBool)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(m => m.ReadPurchaseRequestBool)</td>
+                    <td>@Html.CheckBoxFor(x => x.ReadPurchaseRequestBool)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(m => m.ReadPurchaseRequestsBool)</td>
+                    <td>@Html.CheckBoxFor(x => x.ReadPurchaseRequestsBool)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(m => m.ReadStaffMemberBool)</td>
+                    <td>@Html.CheckBoxFor(x => x.ReadStaffMemberBool)</td>
+                </tr>
+                <tr>
+
+                    <td>@Html.DisplayNameFor(m => m.ReadStaffMembersBool)</td>
+                    <td>@Html.CheckBoxFor(x => x.ReadStaffMembersBool)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(m => m.ReadThirdPartyStockBool)</td>
+                    <td>@Html.CheckBoxFor(x => x.ReadThirdPartyStockBool)</td>
+                </tr>
+                <tr>
+
+                    <td>@Html.DisplayNameFor(m => m.ReadVisibleProductReviewsBool)</td>
+                    <td>@Html.CheckBoxFor(x => x.ReadVisibleProductReviewsBool)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
     <br />
-    <button type="submit" class="btn btn-success btn-sm">Update Staff Permissions</button>
+    <button type="submit" class="btn btn-success btn-sm">Update Staff </button>
 </form>
-    

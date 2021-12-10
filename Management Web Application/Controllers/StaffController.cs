@@ -178,9 +178,10 @@ namespace Management_Web_Application.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> UpdatePermissions(int? ID, StaffPermissionsViewModel staffUpdateViewModel)
+        public async Task<ActionResult> UpdatePermissions(int ID, StaffPermissionsViewModel staffUpdateViewModel)
         {
-            return View();
+            staffUpdateViewModel.StaffID = ID;
+            return View(staffUpdateViewModel);
             //try
             //{
             //    if (!ModelState.IsValid) 
@@ -209,27 +210,45 @@ namespace Management_Web_Application.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> UpdatePermissions(StaffPermissionsViewModel staffUpdateViewModel)
         {
-            var test = staffUpdateViewModel.CustomerAccountDeleltionRequestBool;
-            return View();
-            //if (!ModelState.IsValid)
-            //{
-            //    return View(staffUpdateViewModel);
-            //}
-            //try
-            //{
-            //    var staffModel = _mapper.Map<StaffDomainModel>(staffUpdateViewModel);
-            //    StaffDomainModel newStaffDomainModel = await _staffService.UpdateStaff(staffModel);
-            //    //newStaffDomainModel.StaffID = staffUpdateViewModel;
-            //    if (newStaffDomainModel != null) 
-            //    {
-            //        return Redirect($"{_baseURL}staff/GetStaffById/{newStaffDomainModel.StaffID}");
-            //    }
-            //    return Redirect($"{_baseURL}home/noaction");
-            //}
-            //catch
-            //{
-            //    return Redirect($"{_baseURL}home/noaction");
-            //}
+            if (!ModelState.IsValid)
+            {
+                return View(staffUpdateViewModel);
+            }
+            try
+            {
+                var id = 6; 
+                var permissionList = new AddAuth0PermissionsDomainModels
+                {
+                    permissions = new List<AddAuth0PermissionsDomainModel>()
+
+                };
+                if (staffUpdateViewModel.CustomerAccountDeleltionRequestBool == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "add:customer_account_deletion_request" });
+                }
+                if (staffUpdateViewModel.OrderBool == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "add:order" });
+                }
+                if (staffUpdateViewModel.ProductBool == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "add:product" });
+                }
+                if (staffUpdateViewModel.ProductReviewBool == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "add:product_review" });
+                }
+
+                var getStaffByID = await _staffService.GetStaffByIDAsnyc(id);
+                var getAuth0User = await _auth0Service.SearchByEmail(getStaffByID.StaffEmailAddress);
+                var test = getAuth0User.First().user_id;
+                var send = await _auth0Service.UpdateAuth0UserPermissions(permissionList, test);
+                return View();
+            }
+            catch
+            {
+                return Redirect($"{_baseURL}home/noaction");
+            }
         }
     }
 }
