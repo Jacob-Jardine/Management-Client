@@ -16,7 +16,7 @@
                 <tr>
                     <td id="fullName">@item.StaffFullName</td>
                     <td><a asp-action="GetStaffById" asp-route-id="@item.StaffID" class="btn btn-secondary btn-sm">View Profile</a></td>
-                    <td><a asp-action="Index" class="btn btn-primary btn-sm">Update Staff Permissions</a></td>
+                    <td><a asp-action="UpdatePermissions" asp-route-id="@item.StaffID" class="btn btn-primary btn-sm">Update Staff Permissions</a></td>
                     <td><a asp-action="UpdateStaff" asp-route-id="@item.StaffID" class="btn btn-warning btn-sm">Update Staff Accounts</a></td>
                 </tr>
             }

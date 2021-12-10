@@ -20,6 +20,7 @@ namespace Management_Web_Application.Services.StaffService
                 new StaffDomainModel() {StaffID = 3, StaffFirstName = "Joseph", StaffLastName = "Stavers", StaffEmailAddress = "Joseph.Stavers@ThAmCo.co.uk"},
                 new StaffDomainModel() {StaffID = 4, StaffFirstName = "Teddy", StaffLastName = "Teasdale", StaffEmailAddress = "Teddy.Teasdale@ThAmCo.co.uk"},
                 new StaffDomainModel() {StaffID = 5, StaffFirstName = "Cristian", StaffLastName = "Tudor", StaffEmailAddress = "Cristian.Tudor@ThAmCo.co.uk"},
+                new StaffDomainModel() {StaffID = 6, StaffFirstName = "Auth0", StaffLastName = "Auth0", StaffEmailAddress = "jacob@thamco.com"}
             };
         }
 

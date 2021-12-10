@@ -27,7 +27,7 @@ namespace Management_Web_Application.Services.Auth0Service
             _client = client;
         }
 
-        public async Task<CreateAuth0UserDomainModel> CreateAuth0User(CreateAuth0UserDomainModel auth0DomainModel)
+        public async Task CreateAuth0User(CreateAuth0UserDomainModel auth0DomainModel)
         {
             var token = authToken();
 
@@ -35,14 +35,35 @@ namespace Management_Web_Application.Services.Auth0Service
             var json = JsonSerializer.Serialize(auth0DomainModel);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             var responses = await _client.PostAsync("users", data);
+            responses.EnsureSuccessStatusCode();
+        }
+
+        public async Task<IEnumerable<SearchAuth0UserDoimainModel>> SearchByEmail(string email)
+        {
+            var token = authToken();
+
+            _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            var responses = await _client.GetAsync($"users-by-email?email={email}");
             if (responses.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
             }
             responses.EnsureSuccessStatusCode();
-            var staff = await responses.Content.ReadAsAsync<CreateAuth0UserDomainModel>();
+            var staff = await responses.Content.ReadAsAsync<IEnumerable<SearchAuth0UserDoimainModel>>();
             return staff;
         }
+
+        //public async Task AddUserPermissions(AddAuth0PermissionsDomainModel auth0DomainModel)
+        //{
+
+        //    var token = authToken();
+
+        //    _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+        //    var json = JsonSerializer.Serialize(permissionModel);
+        //    var data = new StringContent(json, Encoding.UTF8, "application/json");
+        //    var responses = await _client.PostAsync("users", data);
+        //    responses.EnsureSuccessStatusCode();
+        //}
 
         private string authToken()
         {

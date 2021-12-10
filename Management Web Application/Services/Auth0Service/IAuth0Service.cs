@@ -8,6 +8,8 @@ namespace Management_Web_Application.Services.Auth0Service
 {
     public interface IAuth0Service
     {
-        public Task<CreateAuth0UserDomainModel> CreateAuth0User(CreateAuth0UserDomainModel auth0DomainModel);
+        public Task CreateAuth0User(CreateAuth0UserDomainModel auth0DomainModel);
+
+        public Task<IEnumerable<SearchAuth0UserDoimainModel>> SearchByEmail(string email);
     }
 }
