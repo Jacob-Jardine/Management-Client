@@ -209,25 +209,27 @@ namespace Management_Web_Application.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> UpdatePermissions(StaffPermissionsViewModel staffUpdateViewModel)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(staffUpdateViewModel);
-            }
-            try
-            {
-                var staffModel = _mapper.Map<StaffDomainModel>(staffUpdateViewModel);
-                StaffDomainModel newStaffDomainModel = await _staffService.UpdateStaff(staffModel);
-                //newStaffDomainModel.StaffID = staffUpdateViewModel;
-                if (newStaffDomainModel != null) 
-                {
-                    return Redirect($"{_baseURL}staff/GetStaffById/{newStaffDomainModel.StaffID}");
-                }
-                return Redirect($"{_baseURL}home/noaction");
-            }
-            catch
-            {
-                return Redirect($"{_baseURL}home/noaction");
-            }
+            var test = staffUpdateViewModel.CustomerAccountDeleltionRequestBool;
+            return View();
+            //if (!ModelState.IsValid)
+            //{
+            //    return View(staffUpdateViewModel);
+            //}
+            //try
+            //{
+            //    var staffModel = _mapper.Map<StaffDomainModel>(staffUpdateViewModel);
+            //    StaffDomainModel newStaffDomainModel = await _staffService.UpdateStaff(staffModel);
+            //    //newStaffDomainModel.StaffID = staffUpdateViewModel;
+            //    if (newStaffDomainModel != null) 
+            //    {
+            //        return Redirect($"{_baseURL}staff/GetStaffById/{newStaffDomainModel.StaffID}");
+            //    }
+            //    return Redirect($"{_baseURL}home/noaction");
+            //}
+            //catch
+            //{
+            //    return Redirect($"{_baseURL}home/noaction");
+            //}
         }
     }
 }
