@@ -180,8 +180,173 @@ namespace Management_Web_Application.Controllers
         [HttpGet]
         public async Task<ActionResult> UpdatePermissions(int ID, StaffPermissionsViewModel staffUpdateViewModel)
         {
-            staffUpdateViewModel.StaffID = ID;
+            try
+            {
+                staffUpdateViewModel.StaffID = ID;
+                if (!ModelState.IsValid)
+                {
+                    return View(staffUpdateViewModel);
+                }
+                var getStaffByID = await _staffService.GetStaffByIDAsnyc(ID);
+                var getAuth0User = await _auth0Service.SearchByEmail(getStaffByID.StaffEmailAddress);
+                var test = getAuth0User.First().user_id;
+                var send = await _auth0Service.ReadAuth0Permissions(test);
+                staffUpdateViewModel.existingPermissionList = send.ToList();
+                foreach(var item in staffUpdateViewModel.existingPermissionList)
+                {
+                    if(item.permission_name.Equals("add:customer_account_deletion_request"))
+                    {
+                        staffUpdateViewModel.CustomerAccountDeleltionRequestBool = true;
+                    }
+                    if (item.permission_name.Equals("add:order"))
+                    {
+                        staffUpdateViewModel.OrderBool = true;
+                    }
+                    if (item.permission_name.Equals("add:product"))
+                    {
+                        staffUpdateViewModel.ProductBool = true;
+                    }
+                    if (item.permission_name.Equals("add:purchase-request"))
+                    {
+                        staffUpdateViewModel.PurchaseReqiestBool = true;
+                    }
+                    if (item.permission_name.Equals("add:product_review"))
+                    {
+                        staffUpdateViewModel.ProductReviewBool = true;
+                    }
+                    if (item.permission_name.Equals("add:staff"))
+                    {
+                        staffUpdateViewModel.StaffBool = true;
+                    }
+                    if (item.permission_name.Equals("add:tps_request"))
+                    {
+                        staffUpdateViewModel.ThirdPartyStockRequestBool = true;
+                    }
+                    if (item.permission_name.Equals("delete:product"))
+                    {
+                        staffUpdateViewModel.DeleteProductsBool = true;
+                    }
+                    if (item.permission_name.Equals("delete:staff"))
+                    {
+                        staffUpdateViewModel.DeleteStaffBool = true;
+                    }
+                    if (item.permission_name.Equals("edit:confirm_invoice"))
+                    {
+                        staffUpdateViewModel.ConfirmInvoiceBool = true;
+                    }
+                    if (item.permission_name.Equals("edit:customer_account_deletion_requests"))
+                    {
+                        staffUpdateViewModel.UpdateCustomerAccountDeleltionRequestBool = true;
+                    }
+                    if (item.permission_name.Equals("edit:order"))
+                    {
+                        staffUpdateViewModel.UpdateOrdersBool = true;
+                    }
+                    if (item.permission_name.Equals("edit:product"))
+                    {
+                        staffUpdateViewModel.UpdateProductsBool = true;
+                    }
+                    if (item.permission_name.Equals("edit:product_review"))
+                    {
+                        staffUpdateViewModel.UpdateProductReviewBool = true;
+                    }
+                    if (item.permission_name.Equals("edit:purchase-request"))
+                    {
+                        staffUpdateViewModel.UpdatePurchaseRequestStatusBool = true;
+                    }
+                    if (item.permission_name.Equals("edit:staff"))
+                    {
+                        staffUpdateViewModel.UpdateStaffBool = true;
+                    }
+                    if (item.permission_name.Equals("read:customer_account_deletion_request"))
+                    {
+                        staffUpdateViewModel.ReadCustomerAccountDeleltionRequetBool = true;
+                    }
+                    if (item.permission_name.Equals("read:customer_account_deletion_requests"))
+                    {
+                        staffUpdateViewModel.ReadCustomerAccountDeleltionRequestsBool = true;
+                    }
+                    if (item.permission_name.Equals("read:customer_orders"))
+                    {
+                        staffUpdateViewModel.ReadCustomerOrdersBool = true;
+                    }
+                    if (item.permission_name.Equals("read:invoiced_order"))
+                    {
+                        staffUpdateViewModel.ReadInvoicedOrderBool = true;
+                    }
+                    if (item.permission_name.Equals("read:invoiced_orders"))
+                    {
+                        staffUpdateViewModel.ReadInvoicedOrdersBool = true;
+                    }
+                    if (item.permission_name.Equals("read:order"))
+                    {
+                        staffUpdateViewModel.ReadOrdersBool = true;
+                    }
+                    if (item.permission_name.Equals("read:pending_invoices"))
+                    {
+                        staffUpdateViewModel.ReadPendingInvoicesBool = true;
+                    }
+                    if (item.permission_name.Equals("read:pending-purchase-requests"))
+                    {
+                        staffUpdateViewModel.ReadPendingPurchaseRequests = true;
+                    }
+                    if (item.permission_name.Equals("read:product"))
+                    {
+                        staffUpdateViewModel.ReadProductDetailsBool = true;
+                    }
+                    if (item.permission_name.Equals("read:product_review"))
+                    {
+                        staffUpdateViewModel.ReadProductReviewBool = true;
+                    }
+                    if (item.permission_name.Equals("read:product_reviews"))
+                    {
+                        staffUpdateViewModel.ReadProductReviewsBool = true;
+                    }
+                    if (item.permission_name.Equals("read:purchase-requests"))
+                    {
+                        staffUpdateViewModel.ReadPurchaseRequestBool = true;
+                    }
+                    if (item.permission_name.Equals("read:products"))
+                    {
+                        staffUpdateViewModel.ReadProdcutsBool = true;
+                    }
+                    if (item.permission_name.Equals("read:purchase-request"))
+                    {
+                        staffUpdateViewModel.ReadPurchaseRequestBool = true;
+                    }
+                    if (item.permission_name.Equals("read:purchase-requests"))
+                    {
+                        staffUpdateViewModel.ReadPurchaseRequestsBool = true;
+                    }
+                    if (item.permission_name.Equals("read:purchase-requests"))
+                    {
+                        staffUpdateViewModel.ReadPurchaseRequestsBool = true;
+                    }
+                    if (item.permission_name.Equals("read:staff"))
+                    {
+                        staffUpdateViewModel.ReadStaffMemberBool = true;
+                    }
+                    if (item.permission_name.Equals("read:staffs"))
+                    {
+                        staffUpdateViewModel.ReadStaffMembersBool = true;
+                    }
+                    if (item.permission_name.Equals("read:tps_stock"))
+                    {
+                        staffUpdateViewModel.ReadThirdPartyStockBool = true;
+                    }
+                    if (item.permission_name.Equals("read:visible_product_reviews"))
+                    {
+                        staffUpdateViewModel.ReadVisibleProductReviewsBool = true;
+                    }
+                }
+            }
+            catch
+            {
+
+            }
             return View(staffUpdateViewModel);
+            
+            
             //try
             //{
             //    if (!ModelState.IsValid) 
@@ -216,7 +381,6 @@ namespace Management_Web_Application.Controllers
             }
             try
             {
-                var id = 6; 
                 var permissionList = new AddAuth0PermissionsDomainModels
                 {
                     permissions = new List<AddAuth0PermissionsDomainModel>()
@@ -234,12 +398,131 @@ namespace Management_Web_Application.Controllers
                 {
                     permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "add:product" });
                 }
+                if (staffUpdateViewModel.PurchaseReqiestBool == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "add:purchase-request" });
+                }
                 if (staffUpdateViewModel.ProductReviewBool == true)
                 {
                     permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "add:product_review" });
                 }
-
-                var getStaffByID = await _staffService.GetStaffByIDAsnyc(id);
+                if (staffUpdateViewModel.StaffBool == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "add:staff" });
+                }
+                if (staffUpdateViewModel.ThirdPartyStockRequestBool == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "add:tps_request" });
+                }
+                if (staffUpdateViewModel.DeleteProductsBool == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "delete:product" });
+                }
+                if (staffUpdateViewModel.DeleteStaffBool == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "delete:staff" });
+                }
+                if (staffUpdateViewModel.ConfirmInvoiceBool == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "edit:confirm_invoice" });
+                }
+                if (staffUpdateViewModel.UpdateCustomerAccountDeleltionRequestBool == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "edit:customer_account_deletion_requests" });
+                }
+                if (staffUpdateViewModel.UpdateOrdersBool == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "edit:order" });
+                }
+                if (staffUpdateViewModel.UpdateProductsBool == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "edit:product" });
+                }
+                if (staffUpdateViewModel.UpdateProductReviewBool == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "edit:product_review" });
+                }
+                if (staffUpdateViewModel.UpdatePurchaseRequestStatusBool == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "edit:purchase-request" });
+                }
+                if (staffUpdateViewModel.UpdateStaffBool == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "edit:staff" });
+                }
+                if (staffUpdateViewModel.ReadCustomerAccountDeleltionRequetBool == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:customer_account_deletion_request" });
+                }
+                if (staffUpdateViewModel.ReadCustomerAccountDeleltionRequestsBool == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:customer_account_deletion_requests" });
+                }
+                if (staffUpdateViewModel.ReadCustomerOrdersBool == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:customer_orders" });
+                }
+                if (staffUpdateViewModel.ReadInvoicedOrderBool == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:invoiced_order" });
+                }
+                if (staffUpdateViewModel.ReadInvoicedOrdersBool == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:invoiced_orders" });
+                }
+                if (staffUpdateViewModel.ReadOrdersBool == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:order" });
+                }
+                if (staffUpdateViewModel.ReadPendingInvoicesBool == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:pending_invoices" });
+                }
+                if (staffUpdateViewModel.ReadPendingPurchaseRequests == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:pending-purchase-requests" });
+                }
+                if (staffUpdateViewModel.ReadProductDetailsBool == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:product" });
+                }
+                if (staffUpdateViewModel.ReadProductReviewBool == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:product_review" });
+                }
+                if (staffUpdateViewModel.ReadProductReviewsBool == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:product_reviews" });
+                }
+                if (staffUpdateViewModel.ReadProdcutsBool == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:products" });
+                }
+                if (staffUpdateViewModel.ReadPurchaseRequestBool == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:purchase-request" });
+                }
+                if (staffUpdateViewModel.ReadPurchaseRequestsBool == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:purchase-requests" });
+                }
+                if (staffUpdateViewModel.ReadStaffMemberBool == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:staff" });
+                }
+                if (staffUpdateViewModel.ReadStaffMembersBool == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:staffs" });
+                }
+                if (staffUpdateViewModel.ReadThirdPartyStockBool == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:tps_stock" });
+                }
+                if (staffUpdateViewModel.ReadVisibleProductReviewsBool == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:visible_product_reviews" });
+                }
+                var getStaffByID = await _staffService.GetStaffByIDAsnyc(staffUpdateViewModel.StaffID);
                 var getAuth0User = await _auth0Service.SearchByEmail(getStaffByID.StaffEmailAddress);
                 var test = getAuth0User.First().user_id;
                 var send = await _auth0Service.UpdateAuth0UserPermissions(permissionList, test);

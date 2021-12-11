@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Management_Web_Application.DomainModel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,6 +9,7 @@ namespace Management_Web_Application.Models.StaffModels
 {
     public class StaffPermissionsViewModel
     {
+        public List<ReadAuth0PermissionsDomainModel> existingPermissionList { get; set; }
         public int StaffID { get; set; }
         [Display(Name = "Customer Account Deleltion Request")]
         public bool CustomerAccountDeleltionRequestBool { get; set; }
