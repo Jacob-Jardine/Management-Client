@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Management_Web_Application.Services.Auth0Service
 {
@@ -68,6 +69,36 @@ namespace Management_Web_Application.Services.Auth0Service
             responses.EnsureSuccessStatusCode();
             var staff = await responses.Content.ReadAsAsync<IEnumerable<AddAuth0PermissionsDomainModel>>();
             return staff;
+        }
+
+        public async Task<IEnumerable<AddAuth0PermissionsDomainModel>> RemoveAuth0Permissions(AddAuth0PermissionsDomainModels auth0DomainModel, string id)
+        {
+
+            var token = authToken();
+            var json = JsonSerializer.Serialize(auth0DomainModel);
+            //var data = new StringContent(json, Encoding.UTF8, "application/json");
+            //_client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            var request = new RestRequest(Method.DELETE);
+            request.AddHeader("content-type", "application/json");
+            request.AddHeader("Authorization", "Bearer " + token);
+            request.AddHeader("cache-control", "no-cache");
+            request.AddJsonBody(json);
+            IRestClient restClient = new RestClient($"https://thamco-group-a.eu.auth0.com/api/v2/users/{id}/permissions");
+            IRestResponse restResponse = restClient.Delete(request);
+
+            if(restResponse.StatusCode != HttpStatusCode.NoContent)
+            {
+
+            }
+            return null;
+            //var responses = await _client.PostAsync($"users/{id}/permissions", data);
+            //if (responses.StatusCode == HttpStatusCode.NotFound)
+            //{
+            //    return null;
+            //}
+            //responses.EnsureSuccessStatusCode();
+            //var staff = await responses.Content.ReadAsAsync<IEnumerable<AddAuth0PermissionsDomainModel>>();
+            //return staff;
         }
 
         public async Task<IEnumerable<ReadAuth0PermissionsDomainModel>> ReadAuth0Permissions(string id)
