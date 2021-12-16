@@ -3,6 +3,7 @@
 @Html.AntiForgeryToken()
 
 <div class="body-container">
+    @Html.HiddenFor(x => x.ID)
     <h2 class="text-center">ThAmCo Payment Needed</h2>
     <div class="row">
         <div class="col-75">
@@ -34,8 +35,10 @@
                         </div>
 
                     </div>
-                    <input type="submit" value="Proceed With Payment" class="btn-submit">
-                    <input type="submit" value="Cancel" class="btn-cancel" asp-action="Cancel">
+                    <input type="submit" value="Proceed With Payment" asp-action="SendPurchaseRequest" asp-route-id="@Model.ID" class="btn-submit">
+                </form>
+                <form>
+                    <input type="submit" value="Cancel" class="btn-cancel" asp-action="Index"/>
                 </form>
             </div>
         </div>

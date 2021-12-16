@@ -8,6 +8,7 @@ namespace Management_Web_Application.Models.PaymentModels
 {
     public class SendPaymentModel
     {
+        public int ID { get; set; }
         public string ProductName { get; set; }
 
         public int ProductQty { get; set; }
@@ -16,9 +17,15 @@ namespace Management_Web_Application.Models.PaymentModels
 
         public decimal ProductPrice { get; set; }
 
+        [Display(Name = "Payment Account Name")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Enter A Name")]
+        [StringLength(24, ErrorMessage = "Name can't be empty")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
+        public string PaymentAccountName { get; set; }
+
         [Display(Name = "Card Number")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Enter Card Number")]
-        [StringLength(2, ErrorMessage = "Card Number can't be empty")]
+        [StringLength(16, ErrorMessage = "Card Number can't be empty")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Numbers only")]
         public string PaymentCardNumber { get; set; }
 

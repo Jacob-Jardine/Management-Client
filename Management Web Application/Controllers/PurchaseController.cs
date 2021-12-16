@@ -48,12 +48,14 @@ namespace Management_Web_Application.Controllers
         {
             try
             {
+                paymentModel.ID = ID;
                 var accessToken = await HttpContext.GetTokenAsync("access_token");
                 var getPurchaseRequest = await _getPurchaseService.GetPurchaseRequestByIdAsync(ID, accessToken);
                 paymentModel.ProductName = getPurchaseRequest.name;
                 paymentModel.ProductQty = getPurchaseRequest.quantity;
                 paymentModel.ProductPrice = getPurchaseRequest.totalPrice;
                 paymentModel.ProductDesc = getPurchaseRequest.description;
+                ModelState.Clear();
                 return View(paymentModel);
             }
             catch
