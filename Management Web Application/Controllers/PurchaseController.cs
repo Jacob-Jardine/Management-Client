@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Management_Web_Application.DomainModel;
+using Management_Web_Application.Models.PaymentModels;
 using Management_Web_Application.Models.PurchaseModels;
 using Management_Web_Application.Services.GetPurchaseRequestService;
 using Management_Web_Application.Services.PurchaseService;
@@ -17,6 +18,7 @@ namespace Management_Web_Application.Controllers
         private readonly ISendPurchaseRequestService _sendPurchaseService;
         private readonly IGetPurchaseRequestService _getPurchaseService;
         private IMapper _mapper;
+        private readonly string _baseURL = Environment.GetEnvironmentVariable("BASE_URL");
 
         public PurchaseController(ISendPurchaseRequestService sendPurchaseService, IGetPurchaseRequestService getPurchaseRequestService, IMapper mapper)
         {
@@ -38,6 +40,25 @@ namespace Management_Web_Application.Controllers
             catch
             {
                 return Redirect($"{baseURL}home/noaction");
+            }
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<SendPaymentModel>> Payment(int ID, SendPaymentModel paymentModel)
+        {
+            try
+            {
+                var accessToken = await HttpContext.GetTokenAsync("access_token");
+                var getPurchaseRequest = await _getPurchaseService.GetPurchaseRequestByIdAsync(ID, accessToken);
+                paymentModel.ProductName = getPurchaseRequest.name;
+                paymentModel.ProductQty = getPurchaseRequest.quantity;
+                paymentModel.ProductPrice = getPurchaseRequest.totalPrice;
+                paymentModel.ProductDesc = getPurchaseRequest.description;
+                return View(paymentModel);
+            }
+            catch
+            {
+                return Redirect($"{_baseURL}home/noaction");
             }
         }
 

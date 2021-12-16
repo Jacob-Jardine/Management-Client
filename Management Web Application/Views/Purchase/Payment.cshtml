@@ -1,0 +1,58 @@
+﻿@model Management_Web_Application.Models.PaymentModels.SendPaymentModel;
+
+@Html.AntiForgeryToken()
+
+<div class="body-container">
+    <h2 class="text-center">ThAmCo Payment Needed</h2>
+    <div class="row">
+        <div class="col-75">
+            <div class="payment-container">
+                <form method="post">
+                    <div class="row">
+                        <div class="col-50">
+                            <h3>Payment</h3>
+                            <span asp-validation-for="PaymentCardNumber" class="text-danger"></span>
+                            @Html.LabelFor(m => m.PaymentCardNumber)
+                            @Html.TextBoxFor(m => m.PaymentCardNumber, new { @class = "form-control", @placeholder = "0000-0000-0000-0000" })
+                            <div class="row">
+                                <div class="col-25">
+                                    <span asp-validation-for="PaymentCardExpMonth" class="text-danger"></span>
+                                    @Html.LabelFor(m => m.PaymentCardNumber)
+                                    @Html.TextBoxFor(m => m.PaymentCardExpMonth, new { @class = "form-control", @placeholder = "12" })
+                                </div>
+                                <div class="col-25">
+                                    <span asp-validation-for="PaymentCardExpYear" class="text-danger"></span>
+                                    @Html.LabelFor(m => m.PaymentCardExpYear)
+                                    @Html.TextBoxFor(m => m.PaymentCardExpYear, new { @class = "form-control", @placeholder = "21" })
+                                </div>
+                                <div class="col-25">
+                                    <span asp-validation-for="PaymentCardCVV" class="text-danger"></span>
+                                    @Html.LabelFor(m => m.PaymentCardCVV)
+                                    @Html.TextBoxFor(m => m.PaymentCardCVV, new { @class = "form-control", @placeholder = "021" })
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <input type="submit" value="Proceed With Payment" class="btn-submit">
+                    <input type="submit" value="Cancel" class="btn-cancel" asp-action="Cancel">
+                </form>
+            </div>
+        </div>
+        <div class="col-25">
+            <div class="payment-container">
+                <h4>
+                    Items
+                    <span class="price" style="color:black">
+                        <i class="fa fa-shopping-cart"></i>
+                    </span>
+                </h4>
+                <p>@Model.ProductName, @Model.ProductDesc <span class="price">@Model.ProductQty</span></p>
+                <hr>
+                <p>Total <span class="price" style="color:black"><b>£ @Model.ProductPrice</b></span></p>
+            </div>
+        </div>
+    </div>
+</div>
+<link rel="stylesheet" href="~/css/payment.css" />
+
