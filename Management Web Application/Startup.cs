@@ -10,9 +10,12 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Polly;
+using Polly.Extensions.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Management_Web_Application
@@ -28,6 +31,22 @@ namespace Management_Web_Application
         }
 
         public IConfiguration Configuration { get; }
+
+        private static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
+        {
+            return HttpPolicyExtensions
+                .HandleTransientHttpError()
+                .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
+                .WaitAndRetryAsync(5, retryAttempt =>
+                    TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+        }
+
+        private static IAsyncPolicy<HttpResponseMessage> GetCircuitBreakerPolicy()
+        {
+            return HttpPolicyExtensions
+                .HandleTransientHttpError()
+                .CircuitBreakerAsync(5, TimeSpan.FromSeconds(30));
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -56,9 +75,17 @@ namespace Management_Web_Application
             }
             else if(_env.IsStaging()|| _env.IsProduction())
             {
-                services.AddHttpClient<IStaffService, StaffService>();
-                services.AddHttpClient<ISendPurchaseRequestService, SendPurchaseRequestService>();
-                services.AddSingleton<IGetPurchaseRequestService, FakeGetPurchaseRequestService>();
+                services.AddHttpClient<IStaffService, StaffService>()
+                    .AddPolicyHandler(GetRetryPolicy())
+                    .AddPolicyHandler(GetCircuitBreakerPolicy());
+
+                services.AddHttpClient<ISendPurchaseRequestService, SendPurchaseRequestService>()
+                    .AddPolicyHandler(GetRetryPolicy())
+                    .AddPolicyHandler(GetCircuitBreakerPolicy());
+
+                services.AddHttpClient<IGetPurchaseRequestService, GetPurchaseRequestService>()
+                    .AddPolicyHandler(GetRetryPolicy())
+                    .AddPolicyHandler(GetCircuitBreakerPolicy());
             }     
         }
 
