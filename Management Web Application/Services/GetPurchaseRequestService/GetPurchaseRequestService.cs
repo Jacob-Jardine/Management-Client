@@ -55,7 +55,7 @@ namespace Management_Web_Application.Services.GetPurchaseRequestService
             return purchaseRequest;
         }
 
-        public async Task<GetPurchaseRequestDomainModel> UpdatePurchaseRequestStatus(GetPurchaseRequestDomainModel pruchaseRequestDomainModel, string token, int status)
+        public async Task UpdatePurchaseRequestStatus(GetPurchaseRequestDomainModel pruchaseRequestDomainModel, string token, int status)
         {
             var patchModel = new PurchasePatchModel()
             {
@@ -71,13 +71,7 @@ namespace Management_Web_Application.Services.GetPurchaseRequestService
             var json = JsonSerializer.Serialize(purchasePatchModels);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _client.PatchAsync($"{pruchaseRequestDomainModel.purchaseRequestID}", data);
-            if (response.StatusCode == HttpStatusCode.NotFound)
-            {
-                return null;
-            }
             response.EnsureSuccessStatusCode();
-            var emptyDomainModel = new GetPurchaseRequestDomainModel();
-            return emptyDomainModel;
         }
     }
 }
