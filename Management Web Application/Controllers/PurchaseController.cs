@@ -87,11 +87,12 @@ namespace Management_Web_Application.Controllers
             string baseURL = Environment.GetEnvironmentVariable("BASE_URL");
             try
             {
-                var status = 3;
+                var status = 3; 
                 var getPurchaseRequest = await _getPurchaseService.GetPurchaseRequestByIdAsync(ID, accessToken);
                 await _getPurchaseService.UpdatePurchaseRequestStatus(getPurchaseRequest, accessToken, status);
                 //await _sendPurchaseService.SendPurchaseRequest(purchaseRequest);
                 return Redirect($"{baseURL}purchase/Index?test");
+
             }
             catch
             {
