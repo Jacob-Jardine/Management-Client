@@ -3,6 +3,7 @@ using Management_Web_Application.DomainModel;
 using Management_Web_Application.Models.PaymentModels;
 using Management_Web_Application.Models.PurchaseModels;
 using Management_Web_Application.Services.GetPurchaseRequestService;
+using Management_Web_Application.Services.ProductService;
 using Management_Web_Application.Services.PurchaseService;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
@@ -17,13 +18,15 @@ namespace Management_Web_Application.Controllers
     {
         private readonly ISendPurchaseRequestService _sendPurchaseService;
         private readonly IGetPurchaseRequestService _getPurchaseService;
+        private readonly IProductService _productService;
         private IMapper _mapper;
         private readonly string _baseURL = Environment.GetEnvironmentVariable("BASE_URL");
 
-        public PurchaseController(ISendPurchaseRequestService sendPurchaseService, IGetPurchaseRequestService getPurchaseRequestService, IMapper mapper)
+        public PurchaseController(ISendPurchaseRequestService sendPurchaseService, IGetPurchaseRequestService getPurchaseRequestService, IProductService productService,IMapper mapper)
         {
             _sendPurchaseService = sendPurchaseService;
             _getPurchaseService = getPurchaseRequestService;
+            _productService = productService;
             _mapper = mapper;
         }
 
@@ -70,13 +73,26 @@ namespace Management_Web_Application.Controllers
             string baseURL = Environment.GetEnvironmentVariable("BASE_URL");
             try 
             {
+                // Status 2 = Approved
                 var status = 2;
+                
+                // Getting the purchase request information from the model
                 var getPurchaseRequest = await _getPurchaseService.GetPurchaseRequestByIdAsync(ID, accessToken);
-                await _getPurchaseService.UpdatePurchaseRequestStatus(getPurchaseRequest, accessToken, status);
+                
+                // Sending the purchase request to the Third Party Stock Service
                 //await _sendPurchaseService.SendPurchaseRequest(purchaseRequest);
+                
+                // Sending the updated status of the purchase request to the Purchase Service
+                //await _getPurchaseService.UpdatePurchaseRequestStatus(getPurchaseRequest, accessToken, status);
+
+                // Sending the new amount of stock to the Product Service
+                var updateProductQtyDomainModel = new UpdateProductQtyDomainModel();
+                updateProductQtyDomainModel.productQuantityToAdd = getPurchaseRequest.quantity;
+                await _productService.UpdateProductQty(updateProductQtyDomainModel, ID, accessToken);
+
                 return Redirect($"{baseURL}purchase/Index?test");
             }
-            catch 
+            catch (Exception e)
             {
                 return Redirect($"{baseURL}purchase/Index");
             }
@@ -87,8 +103,12 @@ namespace Management_Web_Application.Controllers
             string baseURL = Environment.GetEnvironmentVariable("BASE_URL");
             try
             {
-                var status = 3; 
+                // Status 3 = Denied
+                var status = 3;
+
+                // Getting the purchase request information from the model
                 var getPurchaseRequest = await _getPurchaseService.GetPurchaseRequestByIdAsync(ID, accessToken);
+
                 await _getPurchaseService.UpdatePurchaseRequestStatus(getPurchaseRequest, accessToken, status);
                 //await _sendPurchaseService.SendPurchaseRequest(purchaseRequest);
                 return Redirect($"{baseURL}purchase/Index?test");

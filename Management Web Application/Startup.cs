@@ -1,6 +1,7 @@
 using Auth0.AspNetCore.Authentication;
 using Management_Web_Application.Services.Auth0Service;
 using Management_Web_Application.Services.GetPurchaseRequestService;
+using Management_Web_Application.Services.ProductService;
 using Management_Web_Application.Services.PurchaseService;
 using Management_Web_Application.Services.StaffService;
 using Microsoft.AspNetCore.Builder;
@@ -72,6 +73,7 @@ namespace Management_Web_Application
                 services.AddHttpContextAccessor();
                 services.AddHttpClient<IGetPurchaseRequestService, GetPurchaseRequestService>();
                 services.AddSingleton<ISendPurchaseRequestService, FakeSendPurchaseRequestService>();
+                services.AddSingleton<IProductService, ProductService>();
             }
             else if(_env.IsStaging()|| _env.IsProduction())
             {
