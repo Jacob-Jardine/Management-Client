@@ -93,9 +93,9 @@ namespace Management_Web_Application.Controllers
                     family_name = staffCreateViewModel.StaffLastName,
                     email = staffCreateViewModel.StaffEmailAddress
                 };
-                await _auth0Service.CreateAuth0User(auth0DomainModel);
                 var staffModel = _mapper.Map<StaffDomainModel>(staffCreateViewModel);
                 StaffDomainModel newStaffDomainModel = await _staffService.CreateStaffAsync(staffModel);
+                //await _auth0Service.CreateAuth0User(auth0DomainModel);
                 return Redirect($"{_baseURL}staff/GetStaffById/{newStaffDomainModel.StaffID}");
             }
             catch

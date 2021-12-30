@@ -30,10 +30,16 @@ namespace Management_Web_Application.Services.StaffService
 
         public Task<StaffDomainModel> CreateStaffAsync(StaffDomainModel staffDomainModel)
         {
-            int newStaffID = GetStaffID();
-            staffDomainModel.StaffID = newStaffID;
-            _staffList.Add(staffDomainModel);
-            return Task.FromResult(staffDomainModel);
+            var emailCheck = _staffList.Any(x => x.StaffEmailAddress == staffDomainModel.StaffEmailAddress);
+            if(emailCheck == false) 
+            {
+                int newStaffID = GetStaffID();
+                staffDomainModel.StaffID = newStaffID;
+                staffDomainModel.StaffEmailAddress.ToLower();
+                _staffList.Add(staffDomainModel);
+                return Task.FromResult(staffDomainModel);
+            }
+            return null;
         }
 
         public Task<StaffDomainModel> UpdateStaff(StaffDomainModel staffDomainModel)
