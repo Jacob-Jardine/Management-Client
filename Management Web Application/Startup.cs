@@ -67,8 +67,8 @@ namespace Management_Web_Application
 
             if (_env.IsDevelopment()) 
             {
-                services.AddSingleton<IStaffService, FakeStaffService>();
-                //services.AddHttpClient<IStaffService, StaffService>();
+                //services.AddSingleton<IStaffService, FakeStaffService>();
+                services.AddHttpClient<IStaffService, StaffService>();
                 services.AddHttpClient<IAuth0Service, Auth0Service>();
                 services.AddHttpContextAccessor();
                 services.AddHttpClient<IGetPurchaseRequestService, GetPurchaseRequestService>();

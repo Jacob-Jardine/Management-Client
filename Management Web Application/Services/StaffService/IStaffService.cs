@@ -9,9 +9,9 @@ namespace Management_Web_Application.Services.StaffService
     public interface IStaffService
     {
         public Task<IEnumerable<StaffDomainModel>> GetAllStaffAsync(string token);
-        public Task<StaffDomainModel> GetStaffByIDAsnyc(int? ID);
-        public Task<StaffDomainModel> CreateStaffAsync(StaffDomainModel staffDomainModel);
+        public Task<StaffDomainModel> GetStaffByIDAsnyc(int ID, string token);
+        public Task<StaffDomainModel> CreateStaffAsync(StaffDomainModel staffDomainModel, string token);
         public Task<StaffDomainModel> UpdateStaff(StaffDomainModel staffDomainModel);
-        public Task DeleteStaff(int? ID);
+        public Task DeleteStaff(int ID);
     }
 }

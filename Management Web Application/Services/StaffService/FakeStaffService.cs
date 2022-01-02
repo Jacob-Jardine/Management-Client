@@ -26,9 +26,9 @@ namespace Management_Web_Application.Services.StaffService
 
         public Task<IEnumerable<StaffDomainModel>> GetAllStaffAsync(string token) => Task.FromResult(_staffList.AsEnumerable());
 
-        public Task<StaffDomainModel> GetStaffByIDAsnyc(int? ID) => Task.FromResult(_staffList.FirstOrDefault(x => x.StaffID == ID));
+        public Task<StaffDomainModel> GetStaffByIDAsnyc(int ID, string token) => Task.FromResult(_staffList.FirstOrDefault(x => x.StaffID == ID));
 
-        public Task<StaffDomainModel> CreateStaffAsync(StaffDomainModel staffDomainModel)
+        public Task<StaffDomainModel> CreateStaffAsync(StaffDomainModel staffDomainModel, string token)
         {
             var emailCheck = _staffList.Any(x => x.StaffEmailAddress == staffDomainModel.StaffEmailAddress);
             if(emailCheck == false) 
@@ -44,15 +44,15 @@ namespace Management_Web_Application.Services.StaffService
 
         public Task<StaffDomainModel> UpdateStaff(StaffDomainModel staffDomainModel)
         {
-            var oldStaffDomainModel = GetStaffByIDAsnyc(staffDomainModel.StaffID);
+            var oldStaffDomainModel = GetStaffByIDAsnyc(staffDomainModel.StaffID, "");
             _staffList.RemoveAll(x => x.StaffID == oldStaffDomainModel.Result.StaffID);
             _staffList.Add(staffDomainModel);
             return Task.FromResult(staffDomainModel);
         }
 
-        public Task DeleteStaff(int? ID)
+        public Task DeleteStaff(int ID)
         {
-            var deleteStaffDomainModel = GetStaffByIDAsnyc(ID);
+            var deleteStaffDomainModel = GetStaffByIDAsnyc(ID, "");
             _staffList.RemoveAll(x => x.StaffID == deleteStaffDomainModel.Result.StaffID);
             return Task.CompletedTask;
         }

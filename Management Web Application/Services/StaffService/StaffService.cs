@@ -53,8 +53,9 @@ namespace Management_Web_Application.Services.StaffService
             return staff;
         }
 
-        public async Task<StaffDomainModel> GetStaffByIDAsnyc(int? ID)
+        public async Task<StaffDomainModel> GetStaffByIDAsnyc(int ID, string token)
         {
+            _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
             var response = await _client.GetAsync($"{ID}");
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
@@ -65,8 +66,9 @@ namespace Management_Web_Application.Services.StaffService
             return staff;
         }
 
-        public async Task<StaffDomainModel> CreateStaffAsync(StaffDomainModel staffDomainModel)
+        public async Task<StaffDomainModel> CreateStaffAsync(StaffDomainModel staffDomainModel, string token)
         {
+            _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
             var json = JsonSerializer.Serialize(staffDomainModel);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _client.PostAsync("CreateStaff", data);
@@ -93,7 +95,7 @@ namespace Management_Web_Application.Services.StaffService
             return emptyDomainModel;
         }
 
-        public async Task DeleteStaff(int? ID)
+        public async Task DeleteStaff(int ID)
         {
             var response = await _client.DeleteAsync($"delete/{ID}");
             if (response.StatusCode == HttpStatusCode.NotFound)

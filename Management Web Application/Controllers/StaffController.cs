@@ -54,7 +54,8 @@ namespace Management_Web_Application.Controllers
         {
             try
             {
-                var getStaffByID = await _staffService.GetStaffByIDAsnyc(ID);
+                var accessToken = await HttpContext.GetTokenAsync("access_token");
+                var getStaffByID = await _staffService.GetStaffByIDAsnyc(ID, accessToken);
                 if (getStaffByID != null)
                 {
                     return View(_mapper.Map<StaffReadViewModel>(getStaffByID));
@@ -64,7 +65,7 @@ namespace Management_Web_Application.Controllers
                     return Redirect($"{_baseURL}home/noaction");
                 }
             }
-            catch
+            catch (Exception e)
             {
                 return Redirect($"{_baseURL}home/noaction");
             }
@@ -94,18 +95,18 @@ namespace Management_Web_Application.Controllers
                     email = staffCreateViewModel.StaffEmailAddress
                 };
                 var staffModel = _mapper.Map<StaffDomainModel>(staffCreateViewModel);
-                StaffDomainModel newStaffDomainModel = await _staffService.CreateStaffAsync(staffModel);
+                StaffDomainModel newStaffDomainModel = await _staffService.CreateStaffAsync(staffModel, accessToken);
                 //await _auth0Service.CreateAuth0User(auth0DomainModel);
                 return Redirect($"{_baseURL}staff/GetStaffById/{newStaffDomainModel.StaffID}");
             }
-            catch
+            catch (Exception e)
             {
                 return Redirect($"{_baseURL}home/noaction");
             }
         }
 
         [HttpGet]
-        public async Task<ActionResult> UpdateStaff(int? ID, StaffUpdateViewModel staffUpdateViewModel)
+        public async Task<ActionResult> UpdateStaff(int ID, StaffUpdateViewModel staffUpdateViewModel)
         {
             try
             {
@@ -113,7 +114,8 @@ namespace Management_Web_Application.Controllers
                 {
                     return View(staffUpdateViewModel);
                 }
-                var getStaffByID = await _staffService.GetStaffByIDAsnyc(ID);
+                var accessToken = await HttpContext.GetTokenAsync("access_token");
+                var getStaffByID = await _staffService.GetStaffByIDAsnyc(ID, accessToken);
                 var getAuth0User = await _auth0Service.SearchByEmail(getStaffByID.StaffEmailAddress);
                 if (getStaffByID != null)
                 {
@@ -156,11 +158,12 @@ namespace Management_Web_Application.Controllers
             }
         }
 
-        public async Task<ActionResult> DeleteStaff(int? ID)
+        public async Task<ActionResult> DeleteStaff(int ID)
         {
             try
             {
-                var getStaffByID = await _staffService.GetStaffByIDAsnyc(ID);
+                var accessToken = await HttpContext.GetTokenAsync("access_token");
+                var getStaffByID = await _staffService.GetStaffByIDAsnyc(ID, accessToken);
                 if (getStaffByID != null)
                 {
                     await _staffService.DeleteStaff(getStaffByID.StaffID);
@@ -187,7 +190,8 @@ namespace Management_Web_Application.Controllers
                 {
                     return View(staffUpdateViewModel);
                 }
-                var getStaffByID = await _staffService.GetStaffByIDAsnyc(ID);
+                var accessToken = await HttpContext.GetTokenAsync("access_token");
+                var getStaffByID = await _staffService.GetStaffByIDAsnyc(ID, accessToken);
                 var getAuth0User = await _auth0Service.SearchByEmail(getStaffByID.StaffEmailAddress);
                 var test = getAuth0User.First().user_id;
                 var send = await _auth0Service.ReadAuth0Permissions(test);
@@ -522,7 +526,8 @@ namespace Management_Web_Application.Controllers
                 {
                     permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:visible_product_reviews" });
                 }
-                var getStaffByID = await _staffService.GetStaffByIDAsnyc(staffUpdateViewModel.StaffID);
+                var accessToken = await HttpContext.GetTokenAsync("access_token");
+                var getStaffByID = await _staffService.GetStaffByIDAsnyc(staffUpdateViewModel.StaffID, accessToken);
                 var getAuth0User = await _auth0Service.SearchByEmail(getStaffByID.StaffEmailAddress);
                 var test = getAuth0User.First().user_id;
                 var send = await _auth0Service.UpdateAuth0UserPermissions(permissionList, test);
@@ -544,7 +549,8 @@ namespace Management_Web_Application.Controllers
                 {
                     return View(staffUpdateViewModel);
                 }
-                var getStaffByID = await _staffService.GetStaffByIDAsnyc(ID);
+                var accessToken = await HttpContext.GetTokenAsync("access_token");
+                var getStaffByID = await _staffService.GetStaffByIDAsnyc(ID, accessToken);
                 var getAuth0User = await _auth0Service.SearchByEmail(getStaffByID.StaffEmailAddress);
                 var test = getAuth0User.First().user_id;
                 var send = await _auth0Service.ReadAuth0Permissions(test);
@@ -855,7 +861,8 @@ namespace Management_Web_Application.Controllers
                 {
                     permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:visible_product_reviews" });
                 }
-                var getStaffByID = await _staffService.GetStaffByIDAsnyc(staffUpdateViewModel.StaffID);
+                var accessToken = await HttpContext.GetTokenAsync("access_token");
+                var getStaffByID = await _staffService.GetStaffByIDAsnyc(staffUpdateViewModel.StaffID, accessToken);
                 var getAuth0User = await _auth0Service.SearchByEmail(getStaffByID.StaffEmailAddress);
                 var test = getAuth0User.First().user_id;
                 var send = await _auth0Service.RemoveAuth0Permissions(permissionList, test);
