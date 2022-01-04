@@ -72,7 +72,8 @@ namespace Management_Web_Application
                 services.AddHttpClient<IAuth0Service, Auth0Service>();
                 services.AddHttpContextAccessor();
                 services.AddHttpClient<IGetPurchaseRequestService, GetPurchaseRequestService>();
-                services.AddSingleton<ISendPurchaseRequestService, FakeSendPurchaseRequestService>();
+                //services.AddSingleton<ISendPurchaseRequestService, FakeSendPurchaseRequestService>();
+                services.AddHttpClient<ISendPurchaseRequestService, SendPurchaseRequestService>();
                 services.AddSingleton<IProductService, ProductService>();
             }
             else if(_env.IsStaging()|| _env.IsProduction())

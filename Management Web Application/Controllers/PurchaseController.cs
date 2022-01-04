@@ -67,6 +67,34 @@ namespace Management_Web_Application.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<ActionResult<SendPaymentModel>> Payment(SendPaymentModel paymentModel)
+        {
+            try
+            {
+                var status = 2;
+                var accessToken = await HttpContext.GetTokenAsync("access_token");
+                var getPurchaseRequest = await _getPurchaseService.GetPurchaseRequestByIdAsync(paymentModel.ID, accessToken);
+                ModelState.Clear();
+                SendPurchaseRequestDomainModel sendPurchaseRequestDomainModel = new SendPurchaseRequestDomainModel();
+                sendPurchaseRequestDomainModel.AccountName = paymentModel.PaymentAccountName;
+                sendPurchaseRequestDomainModel.CardNumber = paymentModel.PaymentCardNumber;
+                sendPurchaseRequestDomainModel.ProductId = getPurchaseRequest.productId;
+                sendPurchaseRequestDomainModel.Quantity = getPurchaseRequest.quantity;
+                await _sendPurchaseService.SendPurchaseRequest(sendPurchaseRequestDomainModel);
+                await _getPurchaseService.UpdatePurchaseRequestStatus(getPurchaseRequest, accessToken, status);
+                return View();
+            }
+            catch (Exception e)
+            {
+                if(e.InnerException.Message.Contains("No connection could be made because the target machine actively refused it."))
+                {
+                    return Redirect($"{_baseURL}Purchase/NoConnection");
+                }
+                return Redirect($"{_baseURL}Purchase");
+            }
+        }
+
         public async Task<ActionResult> SendPurchaseRequest(int ID, PurchaseSendViewModel purchaseReadViewModel)
         {
             var accessToken = await HttpContext.GetTokenAsync("access_token");
@@ -118,6 +146,11 @@ namespace Management_Web_Application.Controllers
             {
                 return Redirect($"{baseURL}purchase/Index");
             }
+        }
+
+        public IActionResult NoConnection()
+        {
+            return View();
         }
     }
 }

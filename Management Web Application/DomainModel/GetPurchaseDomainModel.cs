@@ -25,7 +25,7 @@ namespace Management_Web_Application.DomainModel
         [Required]
         public string description { get; set; }
         [Required]
-        public int productEan { get; set; }
+        public string productEan { get; set; }
         [Required]
         public int brandId { get; set; }
         [Required]

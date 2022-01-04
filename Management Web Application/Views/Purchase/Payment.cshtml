@@ -4,6 +4,10 @@
 
 <div class="body-container">
     @Html.HiddenFor(x => x.ID)
+    @Html.HiddenFor(x => x.ProductName)
+    @Html.HiddenFor(x => x.ProductPrice)
+    @Html.HiddenFor(x => x.ProductDesc)
+    @Html.HiddenFor(x => x.ProductQty)
     <h2 class="text-center">ThAmCo Payment Needed</h2>
     <div class="row">
         <div class="col-75">
@@ -12,6 +16,9 @@
                     <div class="row">
                         <div class="col-50">
                             <h3>Payment</h3>
+                            <span asp-validation-for="PaymentAccountName" class="text-danger"></span>
+                            @Html.LabelFor(m => m.PaymentAccountName)
+                            @Html.TextBoxFor(m => m.PaymentAccountName, new { @class = "form-control", @placeholder = "John Doe" })
                             <span asp-validation-for="PaymentCardNumber" class="text-danger"></span>
                             @Html.LabelFor(m => m.PaymentCardNumber)
                             @Html.TextBoxFor(m => m.PaymentCardNumber, new { @class = "form-control", @placeholder = "0000-0000-0000-0000" })
@@ -35,7 +42,8 @@
                         </div>
 
                     </div>
-                    <input type="submit" value="Proceed With Payment" asp-action="SendPurchaseRequest" asp-route-id="@Model.ID" class="btn-submit">
+                    @*<input type="submit" value="Proceed With Payment" asp-action="SendPurchaseRequest" asp-route-id="@Model.ID" class="btn-submit">*@
+                    <input type="submit" value="Proceed With Payment" class="btn-submit"/>
                 </form>
                 <form>
                     <input type="submit" value="Cancel" class="btn-cancel" asp-action="Index"/>

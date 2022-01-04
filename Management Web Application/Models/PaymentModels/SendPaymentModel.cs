@@ -20,7 +20,7 @@ namespace Management_Web_Application.Models.PaymentModels
         [Display(Name = "Payment Account Name")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Enter A Name")]
         [StringLength(24, ErrorMessage = "Name can't be empty")]
-        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
+        [RegularExpression("[aA-zZ aA-zZ]+$", ErrorMessage = "Use letters only please")]
         public string PaymentAccountName { get; set; }
 
         [Display(Name = "Card Number")]
