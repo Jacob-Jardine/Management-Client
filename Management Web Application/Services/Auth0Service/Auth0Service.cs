@@ -25,14 +25,13 @@ namespace Management_Web_Application.Services.Auth0Service
             client.BaseAddress = _config.GetValue<Uri>("AUTH0_URL");
             client.Timeout = TimeSpan.FromSeconds(5);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
+            var token = authToken();
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
             _client = client;
         }
 
         public async Task CreateAuth0User(CreateAuth0UserDomainModel auth0DomainModel)
         {
-            var token = authToken();
-
-            _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
             var json = JsonSerializer.Serialize(auth0DomainModel);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             var responses = await _client.PostAsync("users", data);
@@ -41,9 +40,6 @@ namespace Management_Web_Application.Services.Auth0Service
 
         public async Task<IEnumerable<SearchAuth0UserDoimainModel>> SearchByEmail(string email)
         {
-            var token = authToken();
-
-            _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
             var responses = await _client.GetAsync($"users-by-email?email={email}");
             if (responses.StatusCode == HttpStatusCode.NotFound)
             {
@@ -54,56 +50,40 @@ namespace Management_Web_Application.Services.Auth0Service
             return staff;
         }
 
-        public async Task<IEnumerable<AddAuth0PermissionsDomainModel>> UpdateAuth0UserPermissions(AddAuth0PermissionsDomainModels auth0DomainModel, string id)
+        public async Task<bool> UpdateAuth0UserPermissions(AddAuth0PermissionsDomainModels auth0DomainModel, string id)
         {
-
-            var token = authToken();
             var json = JsonSerializer.Serialize(auth0DomainModel);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
-            //_client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
             var responses = await _client.PostAsync($"users/{id}/permissions", data);
             if (responses.StatusCode == HttpStatusCode.NotFound)
             {
-                return null;
+                return false;
             }
             responses.EnsureSuccessStatusCode();
-            var staff = await responses.Content.ReadAsAsync<IEnumerable<AddAuth0PermissionsDomainModel>>();
-            return staff;
+            return true;
         }
 
-        public async Task<IEnumerable<AddAuth0PermissionsDomainModel>> RemoveAuth0Permissions(AddAuth0PermissionsDomainModels auth0DomainModel, string id)
+        public async Task<bool> RemoveAuth0Permissions(AddAuth0PermissionsDomainModels auth0DomainModel, string id)
         {
-
             var token = authToken();
             var json = JsonSerializer.Serialize(auth0DomainModel);
-            //var data = new StringContent(json, Encoding.UTF8, "application/json");
-            //_client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
             var request = new RestRequest(Method.DELETE);
             request.AddHeader("content-type", "application/json");
-            request.AddHeader("Authorization", "Bearer " + token);
             request.AddHeader("cache-control", "no-cache");
+            request.AddHeader("Authorization", "Bearer " + token);
             request.AddJsonBody(json);
             IRestClient restClient = new RestClient($"https://thamco-group-a.eu.auth0.com/api/v2/users/{id}/permissions");
             IRestResponse restResponse = restClient.Delete(request);
 
             if(restResponse.StatusCode != HttpStatusCode.NoContent)
             {
-
+                return true;
             }
-            return null;
-            //var responses = await _client.PostAsync($"users/{id}/permissions", data);
-            //if (responses.StatusCode == HttpStatusCode.NotFound)
-            //{
-            //    return null;
-            //}
-            //responses.EnsureSuccessStatusCode();
-            //var staff = await responses.Content.ReadAsAsync<IEnumerable<AddAuth0PermissionsDomainModel>>();
-            //return staff;
+            return false;
         }
 
         public async Task<IEnumerable<ReadAuth0PermissionsDomainModel>> ReadAuth0Permissions(string id)
         {
-            //_client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
             var response = await _client.GetAsync($"users/{id}/permissions");
             if (response.StatusCode == HttpStatusCode.NotFound)
             {

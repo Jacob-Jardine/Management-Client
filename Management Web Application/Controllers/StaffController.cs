@@ -591,7 +591,20 @@ namespace Management_Web_Application.Controllers
                 var getStaffByID = await _staffService.GetStaffByIDAsnyc(staffUpdateViewModel.StaffID, accessToken);
                 var getAuth0User = await _auth0Service.SearchByEmail(getStaffByID.StaffEmailAddress);
                 var test = getAuth0User.First().user_id;
-                var send = await _auth0Service.UpdateAuth0UserPermissions(permissionList, test);
+                var send = await _auth0Service.ReadAuth0Permissions(test);
+                staffUpdateViewModel.existingPermissionList = send.ToList();
+
+                foreach(var item in permissionList.permissions)
+                {
+                    var x = new ReadAuth0PermissionsDomainModel();
+                    var q = item.permission_name.ToString();
+                    x.permission_name = q;
+                    staffUpdateViewModel.existingPermissionList.Add(x);
+                }
+
+
+                var update = await _auth0Service.UpdateAuth0UserPermissions(permissionList, test);
+
                 return Redirect($"{_baseURL}staff/GetStaffById/{staffUpdateViewModel.StaffID}");
             }
             catch
@@ -620,147 +633,147 @@ namespace Management_Web_Application.Controllers
                 {
                     if (item.permission_name.Equals("add:customer_account_deletion_request"))
                     {
-                        staffUpdateViewModel.CustomerAccountDeleltionRequestBool = false;
+                        staffUpdateViewModel.CustomerAccountDeleltionRequestBool = true;
                     }
                     if (item.permission_name.Equals("add:order"))
                     {
-                        staffUpdateViewModel.OrderBool = false;
+                        staffUpdateViewModel.OrderBool = true;
                     }
                     if (item.permission_name.Equals("add:product"))
                     {
-                        staffUpdateViewModel.ProductBool = false;
+                        staffUpdateViewModel.ProductBool = true;
                     }
                     if (item.permission_name.Equals("add:purchase-request"))
                     {
-                        staffUpdateViewModel.PurchaseReqiestBool = false;
+                        staffUpdateViewModel.PurchaseReqiestBool = true;
                     }
                     if (item.permission_name.Equals("add:product_review"))
                     {
-                        staffUpdateViewModel.ProductReviewBool = false;
+                        staffUpdateViewModel.ProductReviewBool = true;
                     }
                     if (item.permission_name.Equals("add:staff"))
                     {
-                        staffUpdateViewModel.StaffBool = false;
+                        staffUpdateViewModel.StaffBool = true;
                     }
                     if (item.permission_name.Equals("add:tps_request"))
                     {
-                        staffUpdateViewModel.ThirdPartyStockRequestBool = false;
+                        staffUpdateViewModel.ThirdPartyStockRequestBool = true;
                     }
                     if (item.permission_name.Equals("delete:product"))
                     {
-                        staffUpdateViewModel.DeleteProductsBool = false;
+                        staffUpdateViewModel.DeleteProductsBool = true;
                     }
                     if (item.permission_name.Equals("delete:staff"))
                     {
-                        staffUpdateViewModel.DeleteStaffBool = false;
+                        staffUpdateViewModel.DeleteStaffBool = true;
                     }
                     if (item.permission_name.Equals("edit:confirm_invoice"))
                     {
-                        staffUpdateViewModel.ConfirmInvoiceBool = false;
+                        staffUpdateViewModel.ConfirmInvoiceBool = true;
                     }
                     if (item.permission_name.Equals("edit:customer_account_deletion_requests"))
                     {
-                        staffUpdateViewModel.UpdateCustomerAccountDeleltionRequestBool = false;
+                        staffUpdateViewModel.UpdateCustomerAccountDeleltionRequestBool = true;
                     }
                     if (item.permission_name.Equals("edit:order"))
                     {
-                        staffUpdateViewModel.UpdateOrdersBool = false;
+                        staffUpdateViewModel.UpdateOrdersBool = true;
                     }
                     if (item.permission_name.Equals("edit:product"))
                     {
-                        staffUpdateViewModel.UpdateProductsBool = false;
+                        staffUpdateViewModel.UpdateProductsBool = true;
                     }
                     if (item.permission_name.Equals("edit:product_review"))
                     {
-                        staffUpdateViewModel.UpdateProductReviewBool = false;
+                        staffUpdateViewModel.UpdateProductReviewBool = true;
                     }
                     if (item.permission_name.Equals("edit:purchase-request"))
                     {
-                        staffUpdateViewModel.UpdatePurchaseRequestStatusBool = false;
+                        staffUpdateViewModel.UpdatePurchaseRequestStatusBool = true;
                     }
                     if (item.permission_name.Equals("edit:staff"))
                     {
-                        staffUpdateViewModel.UpdateStaffBool = false;
+                        staffUpdateViewModel.UpdateStaffBool = true;
                     }
                     if (item.permission_name.Equals("read:customer_account_deletion_request"))
                     {
-                        staffUpdateViewModel.ReadCustomerAccountDeleltionRequetBool = false;
+                        staffUpdateViewModel.ReadCustomerAccountDeleltionRequetBool = true;
                     }
                     if (item.permission_name.Equals("read:customer_account_deletion_requests"))
                     {
-                        staffUpdateViewModel.ReadCustomerAccountDeleltionRequestsBool = false;
+                        staffUpdateViewModel.ReadCustomerAccountDeleltionRequestsBool = true;
                     }
                     if (item.permission_name.Equals("read:customer_orders"))
                     {
-                        staffUpdateViewModel.ReadCustomerOrdersBool = false;
+                        staffUpdateViewModel.ReadCustomerOrdersBool = true;
                     }
                     if (item.permission_name.Equals("read:invoiced_order"))
                     {
-                        staffUpdateViewModel.ReadInvoicedOrderBool = false;
+                        staffUpdateViewModel.ReadInvoicedOrderBool = true;
                     }
                     if (item.permission_name.Equals("read:invoiced_orders"))
                     {
-                        staffUpdateViewModel.ReadInvoicedOrdersBool = false;
+                        staffUpdateViewModel.ReadInvoicedOrdersBool = true;
                     }
                     if (item.permission_name.Equals("read:order"))
                     {
-                        staffUpdateViewModel.ReadOrdersBool = false;
+                        staffUpdateViewModel.ReadOrdersBool = true;
                     }
                     if (item.permission_name.Equals("read:pending_invoices"))
                     {
-                        staffUpdateViewModel.ReadPendingInvoicesBool = false;
+                        staffUpdateViewModel.ReadPendingInvoicesBool = true;
                     }
                     if (item.permission_name.Equals("read:pending-purchase-requests"))
                     {
-                        staffUpdateViewModel.ReadPendingPurchaseRequests = false;
+                        staffUpdateViewModel.ReadPendingPurchaseRequests = true;
                     }
                     if (item.permission_name.Equals("read:product"))
                     {
-                        staffUpdateViewModel.ReadProductDetailsBool = false;
+                        staffUpdateViewModel.ReadProductDetailsBool = true;
                     }
                     if (item.permission_name.Equals("read:product_review"))
                     {
-                        staffUpdateViewModel.ReadProductReviewBool = false;
+                        staffUpdateViewModel.ReadProductReviewBool = true;
                     }
                     if (item.permission_name.Equals("read:product_reviews"))
                     {
-                        staffUpdateViewModel.ReadProductReviewsBool = false;
+                        staffUpdateViewModel.ReadProductReviewsBool = true;
                     }
                     if (item.permission_name.Equals("read:purchase-requests"))
                     {
-                        staffUpdateViewModel.ReadPurchaseRequestBool = false;
+                        staffUpdateViewModel.ReadPurchaseRequestBool = true;
                     }
                     if (item.permission_name.Equals("read:products"))
                     {
-                        staffUpdateViewModel.ReadProdcutsBool = false;
+                        staffUpdateViewModel.ReadProdcutsBool = true;
                     }
                     if (item.permission_name.Equals("read:purchase-request"))
                     {
-                        staffUpdateViewModel.ReadPurchaseRequestBool = false;
+                        staffUpdateViewModel.ReadPurchaseRequestBool = true;
                     }
                     if (item.permission_name.Equals("read:purchase-requests"))
                     {
-                        staffUpdateViewModel.ReadPurchaseRequestsBool = false;
+                        staffUpdateViewModel.ReadPurchaseRequestsBool = true;
                     }
                     if (item.permission_name.Equals("read:purchase-requests"))
                     {
-                        staffUpdateViewModel.ReadPurchaseRequestsBool = false;
+                        staffUpdateViewModel.ReadPurchaseRequestsBool = true;
                     }
                     if (item.permission_name.Equals("read:staff"))
                     {
-                        staffUpdateViewModel.ReadStaffMemberBool = false;
+                        staffUpdateViewModel.ReadStaffMemberBool = true;
                     }
                     if (item.permission_name.Equals("read:staffs"))
                     {
-                        staffUpdateViewModel.ReadStaffMembersBool = false;
+                        staffUpdateViewModel.ReadStaffMembersBool = true;
                     }
                     if (item.permission_name.Equals("read:tps_stock"))
                     {
-                        staffUpdateViewModel.ReadThirdPartyStockBool = false;
+                        staffUpdateViewModel.ReadThirdPartyStockBool = true;
                     }
                     if (item.permission_name.Equals("read:visible_product_reviews"))
                     {
-                        staffUpdateViewModel.ReadVisibleProductReviewsBool = false;
+                        staffUpdateViewModel.ReadVisibleProductReviewsBool = true;
                     }
                 }
             }
