@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Management_Web_Application.DomainModel;
 using Management_Web_Application.Models.PaymentModels;
+using Management_Web_Application.Models.ProductModels;
 using Management_Web_Application.Models.PurchaseModels;
 using Management_Web_Application.Services.GetPurchaseRequestService;
 using Management_Web_Application.Services.ProductService;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Management_Web_Application.Controllers
@@ -81,9 +83,30 @@ namespace Management_Web_Application.Controllers
                 sendPurchaseRequestDomainModel.CardNumber = paymentModel.PaymentCardNumber;
                 sendPurchaseRequestDomainModel.ProductId = getPurchaseRequest.productId;
                 sendPurchaseRequestDomainModel.Quantity = getPurchaseRequest.quantity;
-                await _sendPurchaseService.SendPurchaseRequest(sendPurchaseRequestDomainModel);
+                
+                //await _sendPurchaseService.SendPurchaseRequest(sendPurchaseRequestDomainModel);
+                
                 await _getPurchaseService.UpdatePurchaseRequestStatus(getPurchaseRequest, accessToken, status);
-                return View();
+
+                var updateProductQtyDomainModel = new UpdateProductQtyDomainModel();
+                updateProductQtyDomainModel.productQuantityToAdd = getPurchaseRequest.quantity;
+                var prod = await _productService.GetProductById(getPurchaseRequest.productId, accessToken);
+                Thread.Sleep(500);
+                if(prod == null)
+                {
+                    var postProd = new PostToProductServiceDomainModel();
+                    postProd.productQuantity = sendPurchaseRequestDomainModel.Quantity;
+                    postProd.productPrice = getPurchaseRequest.price;
+                    postProd.productName = getPurchaseRequest.name;
+                    postProd.productDescription = getPurchaseRequest.description;
+                    await _productService.PostProduct(postProd, accessToken);
+                }
+                else
+                {
+                   await _productService.UpdateProductQty(updateProductQtyDomainModel, getPurchaseRequest.productId, accessToken);
+                }
+                
+                return Redirect($"{_baseURL}Purchase");
             }
             catch (Exception e)
             {

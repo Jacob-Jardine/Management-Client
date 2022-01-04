@@ -22,16 +22,44 @@ namespace Management_Web_Application.Services.PurchaseService
         public ProductService(IConfiguration config, HttpClient client)
         {
             _config = config;
-            client.BaseAddress = _config.GetValue<Uri>("PRODUCT_BASE_URLL");
+            client.BaseAddress = _config.GetValue<Uri>("PRODUCT_BASE_URL");
             client.Timeout = TimeSpan.FromSeconds(5);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
             _client = client;
         }
 
-        public async Task UpdateProductQty(UpdateProductQtyDomainModel updateProductQtyDomainModel,int id, string token)
+        public async Task<PostToProductServiceDomainModel> GetProductById(int ID, string token)
         {
             _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
-            var response = await _client.GetAsync($"/api/product/{id}/stock");
+            var response = await _client.GetAsync($"/api/products/{ID}");
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return null;
+            }
+            var staff = await response.Content.ReadAsAsync<PostToProductServiceDomainModel>();
+            return staff;
+        }
+
+        public async Task<bool> PostProduct(PostToProductServiceDomainModel postToProductServiceDomainModel, string token)
+        {
+            //_client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            var json = JsonSerializer.Serialize(postToProductServiceDomainModel);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _client.GetAsync($"/api/products/");
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return false;
+            }
+            response.EnsureSuccessStatusCode();
+            return true;
+        }
+
+        public async Task UpdateProductQty(UpdateProductQtyDomainModel updateProductQtyDomainModel,int id, string token)
+        {
+            //_client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            var json = JsonSerializer.Serialize(updateProductQtyDomainModel);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _client.PostAsync($"/api/products/{id}/stock", data);
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return;
