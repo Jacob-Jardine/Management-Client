@@ -40,12 +40,24 @@ namespace Management_Web_Application.Services.PurchaseService
             return staff;
         }
 
-        public async Task<bool> PostProduct(PostToProductServiceDomainModel postToProductServiceDomainModel, string token)
+        public async Task<IEnumerable<PostToProductServiceDomainModel>> GetProducts(string token)
         {
             //_client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            var response = await _client.GetAsync($"/api/products/");
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return null;
+            }
+            var staff = await response.Content.ReadAsAsync<IEnumerable<PostToProductServiceDomainModel>>();
+            return staff;
+        }
+
+        public async Task<bool> PostProduct(PostToProductServiceDomainModel postToProductServiceDomainModel, string token)
+        {
+            _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
             var json = JsonSerializer.Serialize(postToProductServiceDomainModel);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _client.GetAsync($"/api/products/");
+            var response = await _client.PostAsync($"/api/products/", data);
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return false;

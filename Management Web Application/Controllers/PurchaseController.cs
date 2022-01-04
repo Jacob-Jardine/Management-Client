@@ -90,9 +90,18 @@ namespace Management_Web_Application.Controllers
 
                 var updateProductQtyDomainModel = new UpdateProductQtyDomainModel();
                 updateProductQtyDomainModel.productQuantityToAdd = getPurchaseRequest.quantity;
-                var prod = await _productService.GetProductById(getPurchaseRequest.productId, accessToken);
+                var id = _productService.GetProducts(accessToken);
+                bool flag = true;
+                foreach (var item in id.Result)
+                {
+                    if (item.productName == getPurchaseRequest.name)
+                    {
+                        await _productService.UpdateProductQty(updateProductQtyDomainModel, item.productID, accessToken);
+                        flag = false;
+                    }
+                }
                 Thread.Sleep(500);
-                if(prod == null)
+                if(flag == true)
                 {
                     var postProd = new PostToProductServiceDomainModel();
                     postProd.productQuantity = sendPurchaseRequestDomainModel.Quantity;
@@ -101,18 +110,20 @@ namespace Management_Web_Application.Controllers
                     postProd.productDescription = getPurchaseRequest.description;
                     await _productService.PostProduct(postProd, accessToken);
                 }
-                else
-                {
-                   await _productService.UpdateProductQty(updateProductQtyDomainModel, getPurchaseRequest.productId, accessToken);
-                }
-                
                 return Redirect($"{_baseURL}Purchase");
             }
             catch (Exception e)
             {
-                if(e.InnerException.Message.Contains("No connection could be made because the target machine actively refused it."))
+                try
                 {
-                    return Redirect($"{_baseURL}Purchase/NoConnection");
+                    if (e.InnerException.Message.Contains("No connection could be made because the target machine actively refused it."))
+                    {
+                        return Redirect($"{_baseURL}Purchase/NoConnection");
+                    }
+                }
+                catch
+                {
+                    return Redirect($"{_baseURL}Purchase");
                 }
                 return Redirect($"{_baseURL}Purchase");
             }

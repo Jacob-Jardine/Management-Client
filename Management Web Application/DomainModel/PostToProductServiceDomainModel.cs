@@ -16,5 +16,6 @@ namespace Management_Web_Application.DomainModel
         public string productName { get; set; }
         [Required]
         public string productDescription { get; set; }
+        public int productID { get; set; }
     }
 }
