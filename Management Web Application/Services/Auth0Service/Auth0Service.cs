@@ -123,6 +123,12 @@ namespace Management_Web_Application.Services.Auth0Service
             IRestResponse response = client.Execute(request);
             return JsonSerializer.Deserialize<Auth0DesirializeResponseModel>(response.Content).access_token;
         }
+
+        public async Task DeleteAuth0User(string Auth0Id)
+        {
+            var responses = await _client.DeleteAsync($"users/{Auth0Id}");
+            responses.EnsureSuccessStatusCode();
+        }
     }
 }
 

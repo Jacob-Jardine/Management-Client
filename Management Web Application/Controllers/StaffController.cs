@@ -87,6 +87,7 @@ namespace Management_Web_Application.Controllers
             }
             try
             {
+                staffCreateViewModel.StaffEmailAddress = staffCreateViewModel.StaffEmailAddress.ToLower();
                 var accessToken = await HttpContext.GetTokenAsync("access_token");
                 var auth0DomainModel = new CreateAuth0UserDomainModel()
                 {
@@ -96,12 +97,69 @@ namespace Management_Web_Application.Controllers
                 };
                 var staffModel = _mapper.Map<StaffDomainModel>(staffCreateViewModel);
                 StaffDomainModel newStaffDomainModel = await _staffService.CreateStaffAsync(staffModel, accessToken);
-                //await _auth0Service.CreateAuth0User(auth0DomainModel);
+                await _auth0Service.CreateAuth0User(auth0DomainModel);
+                Thread.Sleep(500);
+                addBasicRolesToUser(staffCreateViewModel.StaffEmailAddress);
                 return Redirect($"{_baseURL}staff/GetStaffById/{newStaffDomainModel.StaffID}");
             }
             catch (Exception e)
             {
                 return Redirect($"{_baseURL}home/noaction");
+            }
+        }
+
+        private async void addBasicRolesToUser(string staffEmailAddress)
+        {
+            try
+            {
+                var permissionList = new AddAuth0PermissionsDomainModels
+                {
+                    permissions = new List<AddAuth0PermissionsDomainModel>()
+
+                };
+                var getAuth0User = await _auth0Service.SearchByEmail(staffEmailAddress);
+                var test = getAuth0User.First().user_id;
+
+                //permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "add:customer_account_deletion_request" });
+                //permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "add:order" });
+                //permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "add:product" });
+                //permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "add:purchase-request" });
+                //permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "add:product_review" });
+                //permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "add:staff" });
+                //permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "add:tps_request" });
+                //permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "delete:product" });
+                //permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "delete:staff" });
+                //permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "edit:confirm_invoice" });
+                //permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "edit:customer_account_deletion_requests" });
+                //permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "edit:order" });
+                //permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "edit:product" });
+                //permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "edit:product_review" });
+                //permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "edit:purchase-request" });
+                //permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "edit:staff" });
+                permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:customer_account_deletion_request" });
+                permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:customer_account_deletion_requests" });
+                permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:customer_orders" });
+                permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:invoiced_order" });
+                permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:invoiced_orders" });
+                permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:order" });
+                permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:pending_invoices" });
+                permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:pending-purchase-requests" });
+                permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:product" });
+                permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:product_review" });
+                permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:product_reviews" });
+                permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:products" });
+                permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:purchase-request" });
+                permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:purchase-requests" });
+                permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:staff" });
+                permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:staffs" });
+                permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:tps_stock" });
+                permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:visible_product_reviews" });
+
+                var send = await _auth0Service.UpdateAuth0UserPermissions(permissionList, test);
+            }
+            catch (Exception e)
+            {
+
             }
         }
 
@@ -167,6 +225,9 @@ namespace Management_Web_Application.Controllers
                 if (getStaffByID != null)
                 {
                     await _staffService.DeleteStaff(getStaffByID.StaffID);
+                    var getAuth0User = await _auth0Service.SearchByEmail(getStaffByID.StaffEmailAddress);
+                    var test = getAuth0User.First().user_id;
+                    await _auth0Service.DeleteAuth0User(test);
                     return Redirect($"{_baseURL}staff/GetAllStaff");
                 }
                 else
@@ -174,7 +235,7 @@ namespace Management_Web_Application.Controllers
                     return Redirect($"{_baseURL}home/noaction");
                 }
             }
-            catch
+            catch (Exception e)
             {
                 return Redirect($"{_baseURL}home/noaction");
             }
