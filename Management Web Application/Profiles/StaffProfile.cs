@@ -17,6 +17,10 @@ namespace Management_Web_Application.Profiles
             CreateMap<StaffDomainModel, StaffUpdateViewModel>();
             CreateMap<StaffUpdateViewModel, StaffDomainModel>();
             CreateMap<StaffDomainModel, StaffUpdateViewModel>();
+            CreateMap<StaffUpdateDomainModel, StaffDomainModel>();
+            CreateMap<StaffDomainModel, StaffUpdateDomainModel>();
+            CreateMap<StaffUpdateDomainModel, StaffUpdateViewModel>();
+            CreateMap<StaffUpdateViewModel, StaffUpdateDomainModel>();
         }
     }
 }

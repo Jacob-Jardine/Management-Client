@@ -201,16 +201,18 @@ namespace Management_Web_Application.Controllers
             }
             try
             {
-                var staffModel = _mapper.Map<StaffDomainModel>(staffUpdateViewModel);
-                StaffDomainModel newStaffDomainModel = await _staffService.UpdateStaff(staffModel);
-                newStaffDomainModel.StaffID = staffUpdateViewModel.StaffID;
-                if (newStaffDomainModel != null)
+                var accessToken = await HttpContext.GetTokenAsync("access_token");
+                var staffModel = _mapper.Map<StaffUpdateDomainModel>(staffUpdateViewModel);
+                if(await _staffService.UpdateStaff(staffModel, accessToken) == true)
                 {
-                    return Redirect($"{_baseURL}staff/GetStaffById/{newStaffDomainModel.StaffID}");
+                    return Redirect($"{_baseURL}staff/GetStaffById/{staffUpdateViewModel.StaffID}");
                 }
-                return Redirect($"{_baseURL}home/noaction");
+                else
+                {
+                    return Redirect($"{_baseURL}home/noaction");
+                }
             }
-            catch
+            catch (Exception e)
             {
                 return Redirect($"{_baseURL}home/noaction");
             }

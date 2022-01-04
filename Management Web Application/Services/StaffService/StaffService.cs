@@ -83,18 +83,20 @@ namespace Management_Web_Application.Services.StaffService
             return staff;
         }
 
-        public async Task<StaffDomainModel> UpdateStaff(StaffDomainModel staffDomainModel)
+        public async Task<bool> UpdateStaff(StaffUpdateDomainModel staffDomainModel, string token)
         {
+            if (!_client.DefaultRequestHeaders.Contains("Athorization"))
+            {
+                _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            }
             var json = JsonSerializer.Serialize(staffDomainModel);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _client.PutAsync($"update/{staffDomainModel.StaffID}", data);
-            if (response.StatusCode == HttpStatusCode.NotFound)
+            if (response.StatusCode == HttpStatusCode.NotFound || response.StatusCode == HttpStatusCode.BadRequest)
             {
-                return null;
+                return false;
             }
-            response.EnsureSuccessStatusCode();
-            var emptyDomainModel = new StaffDomainModel();
-            return emptyDomainModel;
+            return true;
         }
 
         public async Task DeleteStaff(int ID)

@@ -42,12 +42,16 @@ namespace Management_Web_Application.Services.StaffService
             return null;
         }
 
-        public Task<StaffDomainModel> UpdateStaff(StaffDomainModel staffDomainModel)
+        public async Task<bool> UpdateStaff(StaffUpdateDomainModel staffDomainModel, string token)
         {
             var oldStaffDomainModel = GetStaffByIDAsnyc(staffDomainModel.StaffID, "");
             _staffList.RemoveAll(x => x.StaffID == oldStaffDomainModel.Result.StaffID);
-            _staffList.Add(staffDomainModel);
-            return Task.FromResult(staffDomainModel);
+            var toList = new StaffDomainModel();
+            toList.StaffID = staffDomainModel.StaffID;
+            toList.StaffFirstName = staffDomainModel.StaffFirstName;
+            toList.StaffLastName = staffDomainModel.StaffLastName;
+            _staffList.Add(toList);
+            return true;
         }
 
         public Task DeleteStaff(int ID)

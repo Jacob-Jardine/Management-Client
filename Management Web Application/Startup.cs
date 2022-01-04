@@ -74,7 +74,7 @@ namespace Management_Web_Application
                 services.AddHttpClient<IGetPurchaseRequestService, GetPurchaseRequestService>();
                 //services.AddSingleton<ISendPurchaseRequestService, FakeSendPurchaseRequestService>();
                 services.AddHttpClient<ISendPurchaseRequestService, SendPurchaseRequestService>();
-                services.AddSingleton<IProductService, ProductService>();
+                services.AddHttpClient<IProductService, ProductService>();
             }
             else if(_env.IsStaging()|| _env.IsProduction())
             {

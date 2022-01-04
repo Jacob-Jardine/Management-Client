@@ -17,8 +17,5 @@ namespace Management_Web_Application.Models
         [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
         [StringLength(20, ErrorMessage = "Last name can't be empty")]
         public string StaffLastName { get; set; }
-
-        [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$")]
-        public string StaffEmailAddress { get; set; }
     }
 }
