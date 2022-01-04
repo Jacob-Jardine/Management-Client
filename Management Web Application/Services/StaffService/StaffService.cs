@@ -34,15 +34,10 @@ namespace Management_Web_Application.Services.StaffService
 
         public async Task<IEnumerable<StaffDomainModel>> GetAllStaffAsync(string token)
         {
-            //var accessToken = await Microsoft.AspNetCore.Mvc.HttpContext.GetTokenAsync("access_token");
-/*            var _bearer_token = "";
-            if (_context.HttpContext.Response.Headers.TryGetValue(HeaderNames.Authorization.ToString(), out Microsoft.Extensions.Primitives.StringValues s))
+            if (!_client.DefaultRequestHeaders.Contains("Athorization"))
             {
-                _bearer_token = s;
+                _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
             }
-            
-            //var accessToken = await HttpContext.GetTokenAsync("access_token");*/
-            _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
             var response = await _client.GetAsync("GetAllStaff");
             if (response.StatusCode == HttpStatusCode.NotFound) 
             {
@@ -55,7 +50,10 @@ namespace Management_Web_Application.Services.StaffService
 
         public async Task<StaffDomainModel> GetStaffByIDAsnyc(int ID, string token)
         {
-            _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            if (!_client.DefaultRequestHeaders.Contains("Athorization"))
+            {
+                _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            }
             var response = await _client.GetAsync($"{ID}");
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
@@ -68,7 +66,11 @@ namespace Management_Web_Application.Services.StaffService
 
         public async Task<StaffDomainModel> CreateStaffAsync(StaffDomainModel staffDomainModel, string token)
         {
-            _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            if (!_client.DefaultRequestHeaders.Contains("Athorization"))
+            {
+                _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            }
+                
             var json = JsonSerializer.Serialize(staffDomainModel);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _client.PostAsync("CreateStaff", data);

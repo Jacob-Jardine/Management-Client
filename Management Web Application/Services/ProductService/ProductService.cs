@@ -30,7 +30,10 @@ namespace Management_Web_Application.Services.PurchaseService
 
         public async Task<PostToProductServiceDomainModel> GetProductById(int ID, string token)
         {
-            //_client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            if (!_client.DefaultRequestHeaders.Contains("Authorization"))
+            {
+                _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            }
             var response = await _client.GetAsync($"/api/products/{ID}");
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
@@ -42,7 +45,10 @@ namespace Management_Web_Application.Services.PurchaseService
 
         public async Task<IEnumerable<PostToProductServiceDomainModel>> GetProducts(string token)
         {
-            _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            if (!_client.DefaultRequestHeaders.Contains("Authorization"))
+            {
+                _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            }
             var response = await _client.GetAsync($"/api/products/");
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
@@ -54,7 +60,10 @@ namespace Management_Web_Application.Services.PurchaseService
 
         public async Task<bool> PostProduct(PostToProductServiceDomainModel postToProductServiceDomainModel, string token)
         {
-            //_client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            if (!_client.DefaultRequestHeaders.Contains("Authorization"))
+            {
+                _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            }
             var json = JsonSerializer.Serialize(postToProductServiceDomainModel);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _client.PostAsync($"/api/products/", data);
@@ -68,7 +77,10 @@ namespace Management_Web_Application.Services.PurchaseService
 
         public async Task UpdateProductQty(UpdateProductQtyDomainModel updateProductQtyDomainModel,int id, string token)
         {
-            //_client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            if (!_client.DefaultRequestHeaders.Contains("Authorization"))
+            {
+                _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            }
             var json = JsonSerializer.Serialize(updateProductQtyDomainModel);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _client.PostAsync($"/api/products/{id}/stock", data);

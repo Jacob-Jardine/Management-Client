@@ -84,7 +84,7 @@ namespace Management_Web_Application.Controllers
                 sendPurchaseRequestDomainModel.ProductId = getPurchaseRequest.productId;
                 sendPurchaseRequestDomainModel.Quantity = getPurchaseRequest.quantity;
                 
-                await _sendPurchaseService.SendPurchaseRequest(sendPurchaseRequestDomainModel);
+                //await _sendPurchaseService.SendPurchaseRequest(sendPurchaseRequestDomainModel);
                 
                 await _getPurchaseService.UpdatePurchaseRequestStatus(getPurchaseRequest, accessToken, status);
 

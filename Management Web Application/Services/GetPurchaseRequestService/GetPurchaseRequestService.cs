@@ -31,7 +31,10 @@ namespace Management_Web_Application.Services.GetPurchaseRequestService
 
         public async Task<IEnumerable<GetPurchaseRequestDomainModel>> GetAllPurchaseAsync(string token)
         {
-            _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            if (!_client.DefaultRequestHeaders.Contains("Athorization"))
+            {
+                _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            }
             var response = await _client.GetAsync("");
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
@@ -44,7 +47,10 @@ namespace Management_Web_Application.Services.GetPurchaseRequestService
 
         public async Task<GetPurchaseRequestDomainModel> GetPurchaseRequestByIdAsync(int? ID, string token)
         {
-            _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            if (!_client.DefaultRequestHeaders.Contains("Athorization"))
+            {
+                _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            }
             var response = await _client.GetAsync($"{ID}");
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
