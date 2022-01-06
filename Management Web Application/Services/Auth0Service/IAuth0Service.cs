@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Management_Web_Application.Services.Auth0Service
 {
+    /// <summary>
+    /// Interface for Auth0Service
+    /// </summary>
     public interface IAuth0Service
     {
         public Task CreateAuth0User(CreateAuth0UserDomainModel auth0DomainModel);
