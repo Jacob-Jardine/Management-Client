@@ -19,11 +19,19 @@ using System.Net.Http;
 
 namespace Management_Web_Application.Services.StaffService
 {
+    /// <summary>
+    /// Concrete implentation for staff service requests
+    /// </summary>
     public class StaffService : IStaffService
     {
         private readonly IConfiguration _config;
         private readonly HttpClient _client;
 
+        /// <summary>
+        /// Concrete implementation that interacts with the staff service
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="client"></param>
         public StaffService(IConfiguration config, HttpClient client) 
         {
             _config = config;
@@ -33,6 +41,11 @@ namespace Management_Web_Application.Services.StaffService
             _client = client;
         }
 
+        /// <summary>
+        /// Sends a get request to the staff service to get all staff accounts
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<StaffDomainModel>> GetAllStaffAsync(string token)
         {
             if (!_client.DefaultRequestHeaders.Contains("Authorization"))
@@ -49,6 +62,12 @@ namespace Management_Web_Application.Services.StaffService
             return staff;
         }
 
+        /// <summary>
+        /// Sends a get request to the staff service to get a staff member by ID
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
         public async Task<StaffDomainModel> GetStaffByIDAsnyc(int ID, string token)
         {
             if (!_client.DefaultRequestHeaders.Contains("Authorization"))
@@ -65,6 +84,12 @@ namespace Management_Web_Application.Services.StaffService
             return staff;
         }
 
+        /// <summary>
+        /// Sends a post request to the staff service to add a new staff member
+        /// </summary>
+        /// <param name="staffDomainModel"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
         public async Task<StaffDomainModel> CreateStaffAsync(StaffDomainModel staffDomainModel, string token)
         {
             if (!_client.DefaultRequestHeaders.Contains("Authorization"))
@@ -84,6 +109,12 @@ namespace Management_Web_Application.Services.StaffService
             return staff;
         }
 
+        /// <summary>
+        /// Sends a put request to the staff service to update a staff account
+        /// </summary>
+        /// <param name="staffDomainModel"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
         public async Task<bool> UpdateStaff(StaffUpdateDomainModel staffDomainModel, string token)
         {
             if (!_client.DefaultRequestHeaders.Contains("Authorization"))
@@ -100,6 +131,12 @@ namespace Management_Web_Application.Services.StaffService
             return true;
         }
 
+        /// <summary>
+        /// Sends a delete request to the staff service to delete a staff account
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
         public async Task DeleteStaff(int ID, string token)
         {
             if (!_client.DefaultRequestHeaders.Contains("Authorization"))

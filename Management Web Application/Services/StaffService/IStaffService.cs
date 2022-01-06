@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Management_Web_Application.Services.StaffService
 {
+    /// <summary>
+    /// Interface for staff service
+    /// </summary>
     public interface IStaffService
     {
         public Task<IEnumerable<StaffDomainModel>> GetAllStaffAsync(string token);
