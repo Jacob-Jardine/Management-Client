@@ -12,6 +12,6 @@ namespace Management_Web_Application.Services.StaffService
         public Task<StaffDomainModel> GetStaffByIDAsnyc(int ID, string token);
         public Task<StaffDomainModel> CreateStaffAsync(StaffDomainModel staffDomainModel, string token);
         public Task<bool> UpdateStaff(StaffUpdateDomainModel staffDomainModel, string token);
-        public Task DeleteStaff(int ID);
+        public Task DeleteStaff(int ID, string token);
     }
 }

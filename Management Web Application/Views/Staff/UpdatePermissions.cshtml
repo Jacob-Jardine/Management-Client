@@ -16,7 +16,7 @@
                 {
                     <tr>
                         <td>@Html.DisplayNameFor(m => m.CustomerAccountDeleltionRequestBool)</td>
-                        <td>@Html.CheckBoxFor(x => x.CustomerAccountDeleltionRequestBool)</td>
+                        <td>@Html.CheckBoxFor(x => x.CustomerAccountDeleltionRequestBool, false)</td>
                     </tr>
                 }
                 @if (Model.OrderBool == false)
@@ -24,14 +24,14 @@
                     <tr>
 
                         <td>@Html.DisplayNameFor(m => m.OrderBool)</td>
-                        <td>@Html.CheckBoxFor(x => x.OrderBool)</td>
+                        <td>@Html.CheckBoxFor(x => x.OrderBool, false)</td>
                     </tr>
                 }
                 @if (Model.ProductBool == false)
                 {
                     <tr>
                         <td>@Html.DisplayNameFor(m => m.ProductBool)</td>
-                        <td>@Html.CheckBoxFor(x => x.ProductBool)</td>
+                        <td>@Html.CheckBoxFor(x => x.ProductBool, false)</td>
                     </tr>
                 }
                 @if (Model.ProductReviewBool == false)

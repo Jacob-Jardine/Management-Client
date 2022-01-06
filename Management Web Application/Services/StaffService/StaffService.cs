@@ -35,7 +35,7 @@ namespace Management_Web_Application.Services.StaffService
 
         public async Task<IEnumerable<StaffDomainModel>> GetAllStaffAsync(string token)
         {
-            if (!_client.DefaultRequestHeaders.Contains("Athorization"))
+            if (!_client.DefaultRequestHeaders.Contains("Authorization"))
             {
                 _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
             }
@@ -51,7 +51,7 @@ namespace Management_Web_Application.Services.StaffService
 
         public async Task<StaffDomainModel> GetStaffByIDAsnyc(int ID, string token)
         {
-            if (!_client.DefaultRequestHeaders.Contains("Athorization"))
+            if (!_client.DefaultRequestHeaders.Contains("Authorization"))
             {
                 _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
             }
@@ -67,7 +67,7 @@ namespace Management_Web_Application.Services.StaffService
 
         public async Task<StaffDomainModel> CreateStaffAsync(StaffDomainModel staffDomainModel, string token)
         {
-            if (!_client.DefaultRequestHeaders.Contains("Athorization"))
+            if (!_client.DefaultRequestHeaders.Contains("Authorization"))
             {
                 _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
             }
@@ -86,7 +86,7 @@ namespace Management_Web_Application.Services.StaffService
 
         public async Task<bool> UpdateStaff(StaffUpdateDomainModel staffDomainModel, string token)
         {
-            if (!_client.DefaultRequestHeaders.Contains("Athorization"))
+            if (!_client.DefaultRequestHeaders.Contains("Authorization"))
             {
                 _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
             }
@@ -100,8 +100,12 @@ namespace Management_Web_Application.Services.StaffService
             return true;
         }
 
-        public async Task DeleteStaff(int ID)
+        public async Task DeleteStaff(int ID, string token)
         {
+            if (!_client.DefaultRequestHeaders.Contains("Authorization"))
+            {
+                _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            }
             var response = await _client.DeleteAsync($"delete/{ID}");
             if (response.StatusCode == HttpStatusCode.NotFound)
             {

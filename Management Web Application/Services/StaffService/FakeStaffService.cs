@@ -54,7 +54,7 @@ namespace Management_Web_Application.Services.StaffService
             return true;
         }
 
-        public Task DeleteStaff(int ID)
+        public Task DeleteStaff(int ID, string token)
         {
             var deleteStaffDomainModel = GetStaffByIDAsnyc(ID, "");
             _staffList.RemoveAll(x => x.StaffID == deleteStaffDomainModel.Result.StaffID);
