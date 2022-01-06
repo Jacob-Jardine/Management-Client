@@ -7,6 +7,7 @@ using Management_Web_Application.Services.Auth0Service;
 using Management_Web_Application.Services.StaffService;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -40,11 +41,13 @@ namespace Management_Web_Application.Controllers
         {
             try
             {
-                var accessToken = await HttpContext.GetTokenAsync("access_token");
+                //var accessToken = await HttpContext.GetTokenAsync("access_token");
+                var accessToken = await GetAuthToken(HttpContext, "access_token");
+                //var accessToken = await HttpContext.GetTokenAsync("access_token");
                 var getAllStaff = await _staffService.GetAllStaffAsync(accessToken);
                 return View(_mapper.Map<IEnumerable<StaffReadViewModel>>(getAllStaff));
             }
-            catch
+            catch (Exception e)
             {
                 return Redirect($"{_baseURL}home/noaction");
             }
@@ -54,7 +57,7 @@ namespace Management_Web_Application.Controllers
         {
             try
             {
-                var accessToken = await HttpContext.GetTokenAsync("access_token");
+                var accessToken = await GetAuthToken(HttpContext, "access_token");
                 var getStaffByID = await _staffService.GetStaffByIDAsnyc(ID, accessToken);
                 if (getStaffByID != null)
                 {
@@ -88,7 +91,7 @@ namespace Management_Web_Application.Controllers
             try
             {
                 staffCreateViewModel.StaffEmailAddress = staffCreateViewModel.StaffEmailAddress.ToLower();
-                var accessToken = await HttpContext.GetTokenAsync("access_token");
+                var accessToken = await GetAuthToken(HttpContext, "access_token");
                 var auth0DomainModel = new CreateAuth0UserDomainModel()
                 {
                     given_name = staffCreateViewModel.StaffFirstName,
@@ -172,7 +175,7 @@ namespace Management_Web_Application.Controllers
                 {
                     return View(staffUpdateViewModel);
                 }
-                var accessToken = await HttpContext.GetTokenAsync("access_token");
+                var accessToken = await GetAuthToken(HttpContext, "access_token");
                 var getStaffByID = await _staffService.GetStaffByIDAsnyc(ID, accessToken);
                 var getAuth0User = await _auth0Service.SearchByEmail(getStaffByID.StaffEmailAddress);
                 if (getStaffByID != null)
@@ -201,7 +204,7 @@ namespace Management_Web_Application.Controllers
             }
             try
             {
-                var accessToken = await HttpContext.GetTokenAsync("access_token");
+                var accessToken = await GetAuthToken(HttpContext, "access_token");
                 var staffModel = _mapper.Map<StaffUpdateDomainModel>(staffUpdateViewModel);
                 if(await _staffService.UpdateStaff(staffModel, accessToken) == true)
                 {
@@ -222,7 +225,7 @@ namespace Management_Web_Application.Controllers
         {
             try
             {
-                var accessToken = await HttpContext.GetTokenAsync("access_token");
+                var accessToken = await GetAuthToken(HttpContext, "access_token");
                 var getStaffByID = await _staffService.GetStaffByIDAsnyc(ID, accessToken);
                 if (getStaffByID != null)
                 {
@@ -253,7 +256,7 @@ namespace Management_Web_Application.Controllers
                 {
                     return View(staffUpdateViewModel);
                 }
-                var accessToken = await HttpContext.GetTokenAsync("access_token");
+                var accessToken = await GetAuthToken(HttpContext, "access_token");
                 var getStaffByID = await _staffService.GetStaffByIDAsnyc(ID, accessToken);
                 var getAuth0User = await _auth0Service.SearchByEmail(getStaffByID.StaffEmailAddress);
                 var test = getAuth0User.First().user_id;
@@ -589,7 +592,7 @@ namespace Management_Web_Application.Controllers
                 {
                     permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:visible_product_reviews" });
                 }
-                var accessToken = await HttpContext.GetTokenAsync("access_token");
+                var accessToken = await GetAuthToken(HttpContext, "access_token");
                 var getStaffByID = await _staffService.GetStaffByIDAsnyc(staffUpdateViewModel.StaffID, accessToken);
                 var getAuth0User = await _auth0Service.SearchByEmail(getStaffByID.StaffEmailAddress);
                 var test = getAuth0User.First().user_id;
@@ -625,7 +628,7 @@ namespace Management_Web_Application.Controllers
                 {
                     return View(staffUpdateViewModel);
                 }
-                var accessToken = await HttpContext.GetTokenAsync("access_token");
+                var accessToken = await GetAuthToken(HttpContext, "access_token");
                 var getStaffByID = await _staffService.GetStaffByIDAsnyc(ID, accessToken);
                 var getAuth0User = await _auth0Service.SearchByEmail(getStaffByID.StaffEmailAddress);
                 var test = getAuth0User.First().user_id;
@@ -937,7 +940,7 @@ namespace Management_Web_Application.Controllers
                 {
                     permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:visible_product_reviews" });
                 }
-                var accessToken = await HttpContext.GetTokenAsync("access_token");
+                var accessToken = await GetAuthToken(HttpContext, "access_token");
                 var getStaffByID = await _staffService.GetStaffByIDAsnyc(staffUpdateViewModel.StaffID, accessToken);
                 var getAuth0User = await _auth0Service.SearchByEmail(getStaffByID.StaffEmailAddress);
                 var test = getAuth0User.First().user_id;
@@ -948,6 +951,15 @@ namespace Management_Web_Application.Controllers
             {
                 return Redirect($"{_baseURL}home/noaction");
             }
+        }
+        public async static Task<string> GetAuthToken(HttpContext context, string key)
+        {
+            string token = context.Session.GetString(key); if (String.IsNullOrEmpty(token))
+            {
+                token = await context.GetTokenAsync(key);
+                context.Session.SetString(key, token);
+            }
+            return token;
         }
     }
 }

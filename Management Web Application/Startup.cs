@@ -89,7 +89,12 @@ namespace Management_Web_Application
                 services.AddHttpClient<IGetPurchaseRequestService, GetPurchaseRequestService>()
                     .AddPolicyHandler(GetRetryPolicy())
                     .AddPolicyHandler(GetCircuitBreakerPolicy());
-            }     
+            }
+
+            services.AddDistributedMemoryCache();
+            services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromMinutes(1);//You can set Time   
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -112,6 +117,7 @@ namespace Management_Web_Application
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

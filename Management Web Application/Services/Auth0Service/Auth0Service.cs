@@ -25,13 +25,16 @@ namespace Management_Web_Application.Services.Auth0Service
             client.BaseAddress = _config.GetValue<Uri>("AUTH0_URL");
             client.Timeout = TimeSpan.FromSeconds(5);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
-            var token = authToken();
-            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
             _client = client;
         }
 
         public async Task CreateAuth0User(CreateAuth0UserDomainModel auth0DomainModel)
         {
+            if (!_client.DefaultRequestHeaders.Contains("Athorization"))
+            {
+                var token = authToken();
+                _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            }
             var json = JsonSerializer.Serialize(auth0DomainModel);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             var responses = await _client.PostAsync("users", data);
@@ -40,6 +43,11 @@ namespace Management_Web_Application.Services.Auth0Service
 
         public async Task<IEnumerable<SearchAuth0UserDoimainModel>> SearchByEmail(string email)
         {
+            //if (!_client.DefaultRequestHeaders.Contains("Athorization"))
+            //{
+            //    var token = authToken();
+            //    _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            //}
             var responses = await _client.GetAsync($"users-by-email?email={email}");
             if (responses.StatusCode == HttpStatusCode.NotFound)
             {
@@ -52,6 +60,11 @@ namespace Management_Web_Application.Services.Auth0Service
 
         public async Task<bool> UpdateAuth0UserPermissions(AddAuth0PermissionsDomainModels auth0DomainModel, string id)
         {
+            //if (!_client.DefaultRequestHeaders.Contains("Athorization"))
+            //{
+            //    var token = authToken();
+            //    _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            //}
             var json = JsonSerializer.Serialize(auth0DomainModel);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             var responses = await _client.PostAsync($"users/{id}/permissions", data);
@@ -72,7 +85,7 @@ namespace Management_Web_Application.Services.Auth0Service
             request.AddHeader("cache-control", "no-cache");
             request.AddHeader("Authorization", "Bearer " + token);
             request.AddJsonBody(json);
-            IRestClient restClient = new RestClient($"https://thamco-group-a.eu.auth0.com/api/v2/users/{id}/permissions");
+            IRestClient restClient = new RestClient($"https://dev-03ydhf5b.us.auth0.com/api/v2/users/{id}/permissions");
             IRestResponse restResponse = restClient.Delete(request);
 
             if(restResponse.StatusCode != HttpStatusCode.NoContent)
@@ -84,6 +97,11 @@ namespace Management_Web_Application.Services.Auth0Service
 
         public async Task<IEnumerable<ReadAuth0PermissionsDomainModel>> ReadAuth0Permissions(string id)
         {
+            if (!_client.DefaultRequestHeaders.Contains("Athorization"))
+            {
+                var token = authToken();
+                _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            }
             var response = await _client.GetAsync($"users/{id}/permissions");
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
@@ -96,16 +114,21 @@ namespace Management_Web_Application.Services.Auth0Service
 
         private string authToken()
         {
-            var client = new RestClient("https://thamco-group-a.eu.auth0.com/oauth/token");
+            var client = new RestClient("https://dev-03ydhf5b.us.auth0.com/oauth/token");
             var request = new RestRequest(Method.POST);
             request.AddHeader("content-type", "application/json");
-            request.AddParameter("application/json", "{\"client_id\":\"VZZcF5zG7yyJ7J1lrO53MEUiHYJnbsCc\",\"client_secret\":\"cFFDfQ5q6iRS4UGtxAj_rfkxOvTpZ7fa42yZiIzXMfymXp9zEgIVm8h9c6dZF8_a\",\"audience\":\"https://thamco-group-a.eu.auth0.com/api/v2/\",\"grant_type\":\"client_credentials\"}", ParameterType.RequestBody);
+            request.AddParameter("application/json", "{\"client_id\":\"kRm1S9F3MPcH0klqFrWa0spHVhurjFiZ\",\"client_secret\":\"7mn6rdFNSlRktBsV-dLFfXSRyU8qT8ipQbf0dse5-KwaVaL0bkIX2dhUZWgChTRJ\",\"audience\":\"https://dev-03ydhf5b.us.auth0.com/api/v2/\",\"grant_type\":\"client_credentials\"}", ParameterType.RequestBody);
             IRestResponse response = client.Execute(request);
             return JsonSerializer.Deserialize<Auth0DesirializeResponseModel>(response.Content).access_token;
         }
 
         public async Task DeleteAuth0User(string Auth0Id)
         {
+            if (!_client.DefaultRequestHeaders.Contains("Athorization"))
+            {
+                var token = authToken();
+                _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            }
             var responses = await _client.DeleteAsync($"users/{Auth0Id}");
             responses.EnsureSuccessStatusCode();
         }

@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -15,6 +14,8 @@ using Auth0.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using System.Net.Http;
 
 namespace Management_Web_Application.Services.StaffService
 {
@@ -109,9 +110,6 @@ namespace Management_Web_Application.Services.StaffService
             response.EnsureSuccessStatusCode();
             return;
         }
-
-
-        
     }
 }
 
