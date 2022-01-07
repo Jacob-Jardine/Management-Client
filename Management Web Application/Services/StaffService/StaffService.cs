@@ -20,7 +20,7 @@ using System.Net.Http;
 namespace Management_Web_Application.Services.StaffService
 {
     /// <summary>
-    /// Concrete implentation for staff service requests
+    /// Concrete implementation that interacts with the staff service
     /// </summary>
     public class StaffService : IStaffService
     {
@@ -28,7 +28,7 @@ namespace Management_Web_Application.Services.StaffService
         private readonly HttpClient _client;
 
         /// <summary>
-        /// Concrete implementation that interacts with the staff service
+        /// Constructor instantiating configuring the HttpClient
         /// </summary>
         /// <param name="config"></param>
         /// <param name="client"></param>
