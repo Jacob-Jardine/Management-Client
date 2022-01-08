@@ -76,19 +76,25 @@ namespace Management_Web_Application
                 services.AddHttpClient<ISendPurchaseRequestService, SendPurchaseRequestService>();
                 services.AddHttpClient<IProductService, ProductService>();
             }
-            else if(_env.IsStaging()|| _env.IsProduction())
+            else if(!_env.IsDevelopment())
             {
-                services.AddHttpClient<IStaffService, StaffService>()
-                    .AddPolicyHandler(GetRetryPolicy())
-                    .AddPolicyHandler(GetCircuitBreakerPolicy());
+                services.AddHttpClient<IStaffService, StaffService>();
+                services.AddHttpClient<IAuth0Service, Auth0Service>();
+                services.AddHttpContextAccessor();
+                services.AddHttpClient<IGetPurchaseRequestService, GetPurchaseRequestService>();
+                services.AddHttpClient<ISendPurchaseRequestService, SendPurchaseRequestService>();
+                services.AddHttpClient<IProductService, ProductService>();
+                //services.AddHttpClient<IStaffService, StaffService>()
+                //    .AddPolicyHandler(GetRetryPolicy())
+                //    .AddPolicyHandler(GetCircuitBreakerPolicy());
 
-                services.AddHttpClient<ISendPurchaseRequestService, SendPurchaseRequestService>()
-                    .AddPolicyHandler(GetRetryPolicy())
-                    .AddPolicyHandler(GetCircuitBreakerPolicy());
+                //services.AddHttpClient<ISendPurchaseRequestService, SendPurchaseRequestService>()
+                //    .AddPolicyHandler(GetRetryPolicy())
+                //    .AddPolicyHandler(GetCircuitBreakerPolicy());
 
-                services.AddHttpClient<IGetPurchaseRequestService, GetPurchaseRequestService>()
-                    .AddPolicyHandler(GetRetryPolicy())
-                    .AddPolicyHandler(GetCircuitBreakerPolicy());
+                //services.AddHttpClient<IGetPurchaseRequestService, GetPurchaseRequestService>()
+                //    .AddPolicyHandler(GetRetryPolicy())
+                //    .AddPolicyHandler(GetCircuitBreakerPolicy());
             }
 
             services.AddDistributedMemoryCache();
