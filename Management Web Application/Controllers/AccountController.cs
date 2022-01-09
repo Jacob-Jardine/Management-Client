@@ -12,10 +12,16 @@ using System.Threading.Tasks;
 namespace Management_Web_Application.Controllers
 {
 
-    // admin@example.com
-    // Password123
+    /// <summary>
+    /// Controller that deals with Auth0 account actions
+    /// </summary>
     public class AccountController : Controller
     {
+        /// <summary>
+        /// Login action for Auth0
+        /// </summary>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
         public async Task Login(string returnUrl = "/")
         {
             var authenticationProperties = new LoginAuthenticationPropertiesBuilder()
@@ -29,6 +35,10 @@ namespace Management_Web_Application.Controllers
             
         }
 
+        /// <summary>
+        /// Gets the profile of the user that is currently logged in
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
         public IActionResult Profile()
         {
@@ -40,6 +50,10 @@ namespace Management_Web_Application.Controllers
             });
         }
 
+        /// <summary>
+        /// Logs out the current user
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
         public async Task Logout()
         {

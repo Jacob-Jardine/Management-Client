@@ -79,5 +79,9 @@ namespace Management_Web_Application.Models.StaffModels
         public bool ReadThirdPartyStockBool { get; set; }
         [Display(Name = "Read Visible Product Reviews")]
         public bool ReadVisibleProductReviewsBool { get; set; }
+        [Display(Name = "Read All Price Histories Of All Products")]
+        public bool ReadAllPriceHistoryOfAllProducts { get; set; }
+        [Display(Name = "Read A Product's Price History")]
+        public bool ReadProductPriceHistory { get; set; }
     }
 }

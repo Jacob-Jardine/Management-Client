@@ -248,11 +248,18 @@
                 {
 
                 }
-                @if (Model.ReadVisibleProductReviewsBool == false)
+                @if (Model.ReadAllPriceHistoryOfAllProducts == false)
                 {
                     <tr>
-                        <td>@Html.DisplayNameFor(m => m.ReadVisibleProductReviewsBool)</td>
-                        <td>@Html.CheckBoxFor(x => x.ReadVisibleProductReviewsBool)</td>
+                        <td>@Html.DisplayNameFor(m => m.ReadAllPriceHistoryOfAllProducts)</td>
+                        <td>@Html.CheckBoxFor(x => x.ReadAllPriceHistoryOfAllProducts)</td>
+                    </tr>
+                }
+                @if (Model.ReadProductPriceHistory == false)
+                {
+                    <tr>
+                        <td>@Html.DisplayNameFor(m => m.ReadProductPriceHistory)</td>
+                        <td>@Html.CheckBoxFor(x => x.ReadProductPriceHistory)</td>
                     </tr>
                 }
             </tbody>

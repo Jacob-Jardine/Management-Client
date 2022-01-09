@@ -408,6 +408,10 @@ namespace Management_Web_Application.Controllers
                     {
                         staffUpdateViewModel.ReadVisibleProductReviewsBool = true;
                     }
+                    if (item.permission_name.Equals("read:product_price_history"))
+                    {
+                        staffUpdateViewModel.ReadProductPriceHistory = true;
+                    }
                 }
             }
             catch
@@ -591,6 +595,14 @@ namespace Management_Web_Application.Controllers
                 if (staffUpdateViewModel.ReadVisibleProductReviewsBool == true)
                 {
                     permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:visible_product_reviews" });
+                }
+                if (staffUpdateViewModel.ReadAllPriceHistoryOfAllProducts == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:product_prices" });
+                }
+                if (staffUpdateViewModel.ReadProductPriceHistory == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:product_price_history" });
                 }
                 var accessToken = await GetAuthToken(HttpContext, "access_token");
                 var getStaffByID = await _staffService.GetStaffByIDAsnyc(staffUpdateViewModel.StaffID, accessToken);
@@ -818,6 +830,14 @@ namespace Management_Web_Application.Controllers
                     {
                         staffUpdateViewModel.ReadVisibleProductReviewsBool = false;
                     }
+                    if (item.permission_name.Equals("read:product_prices"))
+                    {
+                        staffUpdateViewModel.ReadAllPriceHistoryOfAllProducts = false;
+                    }
+                    if (item.permission_name.Equals("read:product_price_history"))
+                    {
+                        staffUpdateViewModel.ReadProductPriceHistory = false;
+                    }
                 }
                 
             }
@@ -979,6 +999,14 @@ namespace Management_Web_Application.Controllers
                 if (staffUpdateViewModel.ReadVisibleProductReviewsBool == true)
                 {
                     permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:visible_product_reviews" });
+                }
+                if (staffUpdateViewModel.ReadAllPriceHistoryOfAllProducts == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:product_prices" });
+                }
+                if (staffUpdateViewModel.ReadProductPriceHistory == true)
+                {
+                    permissionList.permissions.Add(new AddAuth0PermissionsDomainModel() { permission_name = "read:product_price_history" });
                 }
                 var accessToken = await GetAuthToken(HttpContext, "access_token");
                 var getStaffByID = await _staffService.GetStaffByIDAsnyc(staffUpdateViewModel.StaffID, accessToken);

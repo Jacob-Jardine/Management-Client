@@ -8,12 +8,8 @@
         <table class="table">
             <thead class="thead-dark">
                 <tr>
-                    <th scope="col">Account Name</th>
                     <th scope="col">Quantity</th>
                     <th scope="col">Name</th>
-                    <th scope="col">Brand Name</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Total Price</th>
                     <th scope="col"></th>
                     <th scope="col"></th>
                 </tr>
@@ -22,12 +18,8 @@
                 @foreach (var item in @Model)
                 {
                 <tr>
-                    <td>@item.accountName</td>
                     <td>@item.quantity</td>
                     <td>@item.name</td>
-                    <td>@item.brandName</td>
-                    <td>£@item.price</td>
-                    <td>£@item.totalPrice</td>
                     @if (item.purchaseRequestStatus == 1)
                     {
                         <td><a class="btn btn-success" asp-controller="Purchase" asp-action="Payment" asp-route-id="@item.purchaseRequestID"><i class="fa fa-check"></i> Accept</a></td>

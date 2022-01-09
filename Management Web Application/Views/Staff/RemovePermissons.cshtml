@@ -167,7 +167,7 @@
                         <td>@Html.CheckBoxFor(x => x.ReadOrdersBool)</td>
                     </tr>
                 }
-                @if (Model.OrderBool == false)
+                @if (Model.ReadPendingInvoicesBool == false)
                 {
                     <tr>
                         <td>@Html.DisplayNameFor(m => m.ReadPendingInvoicesBool)</td>
@@ -253,6 +253,20 @@
                     <tr>
                         <td>@Html.DisplayNameFor(m => m.ReadVisibleProductReviewsBool)</td>
                         <td>@Html.CheckBoxFor(x => x.ReadVisibleProductReviewsBool)</td>
+                    </tr>
+                }
+                @if (Model.ReadAllPriceHistoryOfAllProducts == false)
+                {
+                    <tr>
+                        <td>@Html.DisplayNameFor(m => m.ReadAllPriceHistoryOfAllProducts)</td>
+                        <td>@Html.CheckBoxFor(x => x.ReadAllPriceHistoryOfAllProducts)</td>
+                    </tr>
+                }
+                @if (Model.ReadProductPriceHistory == false)
+                {
+                    <tr>
+                        <td>@Html.DisplayNameFor(m => m.ReadProductPriceHistory)</td>
+                        <td>@Html.CheckBoxFor(x => x.ReadProductPriceHistory)</td>
                     </tr>
                 }
             </tbody>
