@@ -31,6 +31,7 @@ namespace Management_Web_Application.Controllers
             _auth0Service = auth0Service;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
             return View();
@@ -53,6 +54,7 @@ namespace Management_Web_Application.Controllers
             }
         }
 
+        [Authorize]
         public async Task<ActionResult<StaffReadViewModel>> GetStaffByID(int ID)
         {
             try
@@ -75,6 +77,7 @@ namespace Management_Web_Application.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult CreateStaff()
         {
             return View();
@@ -111,6 +114,7 @@ namespace Management_Web_Application.Controllers
             }
         }
 
+        [Authorize]
         private async void addBasicRolesToUser(string staffEmailAddress)
         {
             try
@@ -167,6 +171,7 @@ namespace Management_Web_Application.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult> UpdateStaff(int ID, StaffUpdateViewModel staffUpdateViewModel)
         {
             try
@@ -196,6 +201,7 @@ namespace Management_Web_Application.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<ActionResult> UpdateStaff(StaffUpdateViewModel staffUpdateViewModel)
         {
             if (!ModelState.IsValid)
@@ -221,6 +227,7 @@ namespace Management_Web_Application.Controllers
             }
         }
 
+        [Authorize]
         public async Task<ActionResult> DeleteStaff(int ID)
         {
             try
@@ -247,6 +254,7 @@ namespace Management_Web_Application.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult> UpdatePermissions(int ID, StaffPermissionsViewModel staffUpdateViewModel)
         {
             try
@@ -447,6 +455,7 @@ namespace Management_Web_Application.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<ActionResult> UpdatePermissions(StaffPermissionsViewModel staffUpdateViewModel)
         {
             if (!ModelState.IsValid)
@@ -631,6 +640,7 @@ namespace Management_Web_Application.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult> RemovePermissons(int ID, StaffPermissionsViewModel staffUpdateViewModel)
         {
             try
@@ -851,6 +861,7 @@ namespace Management_Web_Application.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<ActionResult> RemovePermissons(StaffPermissionsViewModel staffUpdateViewModel)
         {
             if (!ModelState.IsValid)
@@ -1020,6 +1031,8 @@ namespace Management_Web_Application.Controllers
                 return Redirect($"{_baseURL}home/noaction");
             }
         }
+
+        [Authorize]
         public async static Task<string> GetAuthToken(HttpContext context, string key)
         {
             string token = context.Session.GetString(key); if (String.IsNullOrEmpty(token))

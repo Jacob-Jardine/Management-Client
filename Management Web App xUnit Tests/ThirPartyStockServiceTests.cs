@@ -16,7 +16,7 @@ using Management_Web_Application.Services.PurchaseService;
 
 namespace Management_Web_App_xUnit_Tests
 {
-    public class SendPurchaseRequestServiceTests
+    public class ThirPartyStockServiceTests
     {
         private Mock<HttpMessageHandler> CreateHttpMock(HttpStatusCode expectedCode,
                                                         string expectedJson)

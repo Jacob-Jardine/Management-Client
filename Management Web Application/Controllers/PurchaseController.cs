@@ -7,6 +7,7 @@ using Management_Web_Application.Services.GetPurchaseRequestService;
 using Management_Web_Application.Services.ProductService;
 using Management_Web_Application.Services.PurchaseService;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,7 @@ namespace Management_Web_Application.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<PurchaseReadViewModel>>> Index()
         {
             var accessToken = await HttpContext.GetTokenAsync("access_token");
@@ -49,6 +51,7 @@ namespace Management_Web_Application.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<SendPaymentModel>> Payment(int ID, SendPaymentModel paymentModel)
         {
             try
@@ -70,6 +73,7 @@ namespace Management_Web_Application.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<SendPaymentModel>> Payment(SendPaymentModel paymentModel)
         {
             try
@@ -128,37 +132,7 @@ namespace Management_Web_Application.Controllers
                 return Redirect($"{_baseURL}Purchase");
             }
         }
-
-        public async Task<ActionResult> SendPurchaseRequest(int ID, PurchaseSendViewModel purchaseReadViewModel)
-        {
-            var accessToken = await HttpContext.GetTokenAsync("access_token");
-            string baseURL = Environment.GetEnvironmentVariable("BASE_URL");
-            try 
-            {
-                // Status 2 = Approved
-                var status = 2;
-                
-                // Getting the purchase request information from the model
-                var getPurchaseRequest = await _getPurchaseService.GetPurchaseRequestByIdAsync(ID, accessToken);
-                
-                // Sending the purchase request to the Third Party Stock Service
-                //await _sendPurchaseService.SendPurchaseRequest(purchaseRequest);
-                
-                // Sending the updated status of the purchase request to the Purchase Service
-                await _getPurchaseService.UpdatePurchaseRequestStatus(getPurchaseRequest, accessToken, status);
-
-                // Sending the new amount of stock to the Product Service
-                var updateProductQtyDomainModel = new UpdateProductQtyDomainModel();
-                updateProductQtyDomainModel.productQuantityToAdd = getPurchaseRequest.quantity;
-                await _productService.UpdateProductQty(updateProductQtyDomainModel, ID, accessToken);
-
-                return Redirect($"{baseURL}purchase/Index?test");
-            }
-            catch (Exception e)
-            {
-                return Redirect($"{baseURL}purchase/Index");
-            }
-        }
+        [Authorize]
         public async Task<ActionResult> DenyPurchaseRequest(int ID, PurchaseSendViewModel purchaseReadViewModel)
         {
             var accessToken = await HttpContext.GetTokenAsync("access_token");
@@ -182,6 +156,7 @@ namespace Management_Web_Application.Controllers
             }
         }
 
+        [Authorize]
         public IActionResult NoConnection()
         {
             return View();
