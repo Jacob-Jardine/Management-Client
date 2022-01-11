@@ -6,11 +6,15 @@ using System.Threading.Tasks;
 
 namespace Management_Web_Application.DomainModel
 {
-    public class StaffUpdateDomainModel
+    public class StaffDTO
     {
         [Required]
         public int StaffID { get; set; }
+        [Required]
         public string StaffFirstName { get; set; }
+        [Required]
         public string StaffLastName { get; set; }
+        [Required]
+        public string StaffEmailAddress { get; set; }
     }
 }

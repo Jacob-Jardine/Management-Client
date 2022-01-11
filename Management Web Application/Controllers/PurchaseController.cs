@@ -18,13 +18,13 @@ namespace Management_Web_Application.Controllers
 {
     public class PurchaseController : Controller
     {
-        private readonly ISendPurchaseRequestService _sendPurchaseService;
+        private readonly IThirdPartyStockService _sendPurchaseService;
         private readonly IGetPurchaseRequestService _getPurchaseService;
         private readonly IProductService _productService;
         private IMapper _mapper;
         private readonly string _baseURL = Environment.GetEnvironmentVariable("BASE_URL");
 
-        public PurchaseController(ISendPurchaseRequestService sendPurchaseService, IGetPurchaseRequestService getPurchaseRequestService, IProductService productService,IMapper mapper)
+        public PurchaseController(IThirdPartyStockService sendPurchaseService, IGetPurchaseRequestService getPurchaseRequestService, IProductService productService,IMapper mapper)
         {
             _sendPurchaseService = sendPurchaseService;
             _getPurchaseService = getPurchaseRequestService;
@@ -84,7 +84,7 @@ namespace Management_Web_Application.Controllers
                 sendPurchaseRequestDomainModel.ProductId = getPurchaseRequest.productId;
                 sendPurchaseRequestDomainModel.Quantity = getPurchaseRequest.quantity;
                 
-                //await _sendPurchaseService.SendPurchaseRequest(sendPurchaseRequestDomainModel);
+                await _sendPurchaseService.SendPurchaseRequest(sendPurchaseRequestDomainModel);
                 
                 await _getPurchaseService.UpdatePurchaseRequestStatus(getPurchaseRequest, accessToken, status);
 
@@ -145,7 +145,7 @@ namespace Management_Web_Application.Controllers
                 //await _sendPurchaseService.SendPurchaseRequest(purchaseRequest);
                 
                 // Sending the updated status of the purchase request to the Purchase Service
-                //await _getPurchaseService.UpdatePurchaseRequestStatus(getPurchaseRequest, accessToken, status);
+                await _getPurchaseService.UpdatePurchaseRequestStatus(getPurchaseRequest, accessToken, status);
 
                 // Sending the new amount of stock to the Product Service
                 var updateProductQtyDomainModel = new UpdateProductQtyDomainModel();

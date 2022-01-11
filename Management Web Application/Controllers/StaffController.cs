@@ -98,8 +98,8 @@ namespace Management_Web_Application.Controllers
                     family_name = staffCreateViewModel.StaffLastName,
                     email = staffCreateViewModel.StaffEmailAddress
                 };
-                var staffModel = _mapper.Map<StaffDomainModel>(staffCreateViewModel);
-                StaffDomainModel newStaffDomainModel = await _staffService.CreateStaffAsync(staffModel, accessToken);
+                var staffModel = _mapper.Map<StaffDTO>(staffCreateViewModel);
+                StaffDTO newStaffDomainModel = await _staffService.CreateStaffAsync(staffModel, accessToken);
                 await _auth0Service.CreateAuth0User(auth0DomainModel);
                 Thread.Sleep(500);
                 addBasicRolesToUser(staffCreateViewModel.StaffEmailAddress);
@@ -205,7 +205,7 @@ namespace Management_Web_Application.Controllers
             try
             {
                 var accessToken = await GetAuthToken(HttpContext, "access_token");
-                var staffModel = _mapper.Map<StaffUpdateDomainModel>(staffUpdateViewModel);
+                var staffModel = _mapper.Map<StaffUpdateDTO>(staffUpdateViewModel);
                 if(await _staffService.UpdateStaff(staffModel, accessToken) == true)
                 {
                     return Redirect($"{_baseURL}staff/GetStaffById/{staffUpdateViewModel.StaffID}");

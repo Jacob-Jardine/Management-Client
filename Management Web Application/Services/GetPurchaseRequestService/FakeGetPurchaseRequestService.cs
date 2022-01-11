@@ -15,7 +15,8 @@ namespace Management_Web_Application.Services.GetPurchaseRequestService
         {
             _purchaseList = new List<GetPurchaseRequestDomainModel>()
             {
-                //new GetPurchaseRequestDomainModel() {Id = 2, AccountName = "GROUP A Test", CardNumber = "GROUP A Test", ProductId = 1, Quantity = 1, When = DateTime.Now, ProductName = "sample string 3", ProductEan = "sample string 4", TotalPrice = 1.1M}
+                new GetPurchaseRequestDomainModel() {quantity = 1, name = "Screen Protector", purchaseRequestStatus = 1},
+                new GetPurchaseRequestDomainModel() {quantity = 2, name = "Phone", purchaseRequestStatus = 1}
             };
         }
 
@@ -29,9 +30,18 @@ namespace Management_Web_Application.Services.GetPurchaseRequestService
 
         public Task<GetPurchaseRequestDomainModel> GetPurchaseRequestByIdAsync(int? ID, string token) => Task.FromResult(_purchaseList.FirstOrDefault(x => x.purchaseRequestID == ID));
 
-        public Task UpdatePurchaseRequestStatus(GetPurchaseRequestDomainModel purchaseRequestDomainModel, string token, int status)
+        public async Task UpdatePurchaseRequestStatus(GetPurchaseRequestDomainModel purchaseRequestDomainModel, string token, int status)
         {
-            throw new NotImplementedException();
+            if(status == 2)
+            {
+                var purchaseRequest = _purchaseList.FirstOrDefault(x => x.purchaseRequestID == purchaseRequestDomainModel.purchaseRequestID);
+                purchaseRequest.purchaseRequestStatus = 2;
+            }
+            else if( status == 3)
+            {
+                var purchaseRequest = _purchaseList.FirstOrDefault(x => x.purchaseRequestID == purchaseRequestDomainModel.purchaseRequestID);
+                purchaseRequest.purchaseRequestStatus = 3;
+            }
         }
     }
 }

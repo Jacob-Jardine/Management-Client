@@ -12,15 +12,15 @@ namespace Management_Web_Application.Profiles
     {
         public StaffProfile()
         {
-            CreateMap<StaffDomainModel, StaffReadViewModel>();
-            CreateMap<StaffCreateViewModel, StaffDomainModel>();
-            CreateMap<StaffDomainModel, StaffUpdateViewModel>();
-            CreateMap<StaffUpdateViewModel, StaffDomainModel>();
-            CreateMap<StaffDomainModel, StaffUpdateViewModel>();
-            CreateMap<StaffUpdateDomainModel, StaffDomainModel>();
-            CreateMap<StaffDomainModel, StaffUpdateDomainModel>();
-            CreateMap<StaffUpdateDomainModel, StaffUpdateViewModel>();
-            CreateMap<StaffUpdateViewModel, StaffUpdateDomainModel>();
+            CreateMap<StaffDTO, StaffReadViewModel>();
+            CreateMap<StaffCreateViewModel, StaffDTO>();
+            CreateMap<StaffDTO, StaffUpdateViewModel>();
+            CreateMap<StaffUpdateViewModel, StaffDTO>();
+            CreateMap<StaffDTO, StaffUpdateViewModel>();
+            CreateMap<StaffUpdateDTO, StaffDTO>();
+            CreateMap<StaffDTO, StaffUpdateDTO>();
+            CreateMap<StaffUpdateDTO, StaffUpdateViewModel>();
+            CreateMap<StaffUpdateViewModel, StaffUpdateDTO>();
         }
     }
 }

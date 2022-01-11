@@ -12,13 +12,13 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Production",
+        "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation",
         "BASE_URL": "https://localhost:44322/",
         //"STAFF_BASE_URL": "https://localhost:5001/api/staff/",
         "STAFF_BASE_URL": "https://t7077222-staging-staff.azurewebsites.net/api/staff/",
-        "PURCHASE_BASE_URL": "https://localhost:44326/api/third-party/",
-        "GET_PURCHASE_URL": "https://thamco-staging-purchase-requests.azurewebsites.net/api/purchase-requests/",
+        "PURCHASE_BASE_URL": "https://t7077222-staging-purchase.azurewebsites.net/api/Third-Party/",
+        "GET_PURCHASE_URL": "https://thamco-staging-purchase-requests.azurewebsites.net/",
         "AUTH0_URL": "https://dev-03ydhf5b.us.auth0.com/api/v2/",
         "PRODUCT_BASE_URL": "https://thamco-staging-products.azurewebsites.net/api/products/"
       }

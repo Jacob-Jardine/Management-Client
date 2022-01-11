@@ -14,20 +14,35 @@ using Management_Web_Application.Services.ProductService;
 
 namespace Management_Web_Application.Services.PurchaseService
 {
+    /// <summary>
+    /// Concrete implementation that interacts with the product service
+    /// </summary>
     public class ProductService : IProductService
     {
         private readonly IConfiguration _config;
         private readonly HttpClient _client;
 
+        /// <summary>
+        /// Constructor instantiating configuring the HttpClient
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="client"></param>
         public ProductService(IConfiguration config, HttpClient client)
         {
             _config = config;
-            client.BaseAddress = _config.GetValue<Uri>("PRODUCT_BASE_URL");
+            string baseUrl = config["PRODUCT_BASE_URL"];
+            client.BaseAddress = new System.Uri(baseUrl);
             client.Timeout = TimeSpan.FromSeconds(5);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
             _client = client;
         }
 
+        /// <summary>
+        /// Sends a request to the product service to return product with ID
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
         public async Task<PostToProductServiceDomainModel> GetProductById(int ID, string token)
         {
             if (!_client.DefaultRequestHeaders.Contains("Authorization"))
@@ -43,6 +58,11 @@ namespace Management_Web_Application.Services.PurchaseService
             return staff;
         }
 
+        /// <summary>
+        /// Sends request to product service to get all prodcuts
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<PostToProductServiceDomainModel>> GetProducts(string token)
         {
             if (!_client.DefaultRequestHeaders.Contains("Authorization"))
@@ -58,6 +78,12 @@ namespace Management_Web_Application.Services.PurchaseService
             return staff;
         }
 
+        /// <summary>
+        /// Sends request to the product service to post new product to product service
+        /// </summary>
+        /// <param name="postToProductServiceDomainModel"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
         public async Task<bool> PostProduct(PostToProductServiceDomainModel postToProductServiceDomainModel, string token)
         {
             if (!_client.DefaultRequestHeaders.Contains("Authorization"))
@@ -75,6 +101,13 @@ namespace Management_Web_Application.Services.PurchaseService
             return true;
         }
 
+        /// <summary>
+        /// Sends request to product service to update product quantity
+        /// </summary>
+        /// <param name="updateProductQtyDomainModel"></param>
+        /// <param name="id"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
         public async Task UpdateProductQty(UpdateProductQtyDomainModel updateProductQtyDomainModel,int id, string token)
         {
             if (!_client.DefaultRequestHeaders.Contains("Authorization"))

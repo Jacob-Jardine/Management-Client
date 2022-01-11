@@ -35,7 +35,8 @@ namespace Management_Web_Application.Services.StaffService
         public StaffService(IConfiguration config, HttpClient client) 
         {
             _config = config;
-            client.BaseAddress = _config.GetValue<Uri>("STAFF_BASE_URL");
+            string baseUrl = config["STAFF_BASE_URL"];
+            client.BaseAddress = new System.Uri(baseUrl);
             client.Timeout = TimeSpan.FromSeconds(5);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
             _client = client;
@@ -46,7 +47,7 @@ namespace Management_Web_Application.Services.StaffService
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<StaffDomainModel>> GetAllStaffAsync(string token)
+        public async Task<IEnumerable<StaffDTO>> GetAllStaffAsync(string token)
         {
             if (!_client.DefaultRequestHeaders.Contains("Authorization"))
             {
@@ -58,7 +59,7 @@ namespace Management_Web_Application.Services.StaffService
                 return null;
             }
             response.EnsureSuccessStatusCode();
-            var staff = await response.Content.ReadAsAsync<IEnumerable<StaffDomainModel>>();
+            var staff = await response.Content.ReadAsAsync<IEnumerable<StaffDTO>>();
             return staff;
         }
 
@@ -68,7 +69,7 @@ namespace Management_Web_Application.Services.StaffService
         /// <param name="ID"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public async Task<StaffDomainModel> GetStaffByIDAsnyc(int ID, string token)
+        public async Task<StaffDTO> GetStaffByIDAsnyc(int ID, string token)
         {
             if (!_client.DefaultRequestHeaders.Contains("Authorization"))
             {
@@ -80,7 +81,7 @@ namespace Management_Web_Application.Services.StaffService
                 return null;
             }
             response.EnsureSuccessStatusCode();
-            var staff = await response.Content.ReadAsAsync<StaffDomainModel>();
+            var staff = await response.Content.ReadAsAsync<StaffDTO>();
             return staff;
         }
 
@@ -90,7 +91,7 @@ namespace Management_Web_Application.Services.StaffService
         /// <param name="staffDomainModel"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public async Task<StaffDomainModel> CreateStaffAsync(StaffDomainModel staffDomainModel, string token)
+        public async Task<StaffDTO> CreateStaffAsync(StaffDTO staffDomainModel, string token)
         {
             if (!_client.DefaultRequestHeaders.Contains("Authorization"))
             {
@@ -105,7 +106,7 @@ namespace Management_Web_Application.Services.StaffService
                 return null;
             }
             response.EnsureSuccessStatusCode();
-            var staff = await response.Content.ReadAsAsync<StaffDomainModel>();
+            var staff = await response.Content.ReadAsAsync<StaffDTO>();
             return staff;
         }
 
@@ -115,7 +116,7 @@ namespace Management_Web_Application.Services.StaffService
         /// <param name="staffDomainModel"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public async Task<bool> UpdateStaff(StaffUpdateDomainModel staffDomainModel, string token)
+        public async Task<bool> UpdateStaff(StaffUpdateDTO staffDomainModel, string token)
         {
             if (!_client.DefaultRequestHeaders.Contains("Authorization"))
             {
@@ -137,7 +138,7 @@ namespace Management_Web_Application.Services.StaffService
         /// <param name="ID"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public async Task DeleteStaff(int ID, string token)
+        public async Task<bool> DeleteStaff(int ID, string token)
         {
             if (!_client.DefaultRequestHeaders.Contains("Authorization"))
             {
@@ -146,10 +147,10 @@ namespace Management_Web_Application.Services.StaffService
             var response = await _client.DeleteAsync($"delete/{ID}");
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
-                return;
+                return false;
             }
             response.EnsureSuccessStatusCode();
-            return;
+            return true;
         }
     }
 }

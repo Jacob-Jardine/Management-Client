@@ -67,13 +67,13 @@ namespace Management_Web_Application
 
             if (_env.IsDevelopment()) 
             {
-                //services.AddSingleton<IStaffService, FakeStaffService>();
-                services.AddHttpClient<IStaffService, StaffService>();
+                services.AddSingleton<IStaffService, FakeStaffService>();
+                //services.AddHttpClient<IStaffService, StaffService>();
                 services.AddHttpClient<IAuth0Service, Auth0Service>();
                 services.AddHttpContextAccessor();
-                services.AddHttpClient<IGetPurchaseRequestService, GetPurchaseRequestService>();
+                services.AddSingleton<IGetPurchaseRequestService, FakeGetPurchaseRequestService>();
                 //services.AddSingleton<ISendPurchaseRequestService, FakeSendPurchaseRequestService>();
-                services.AddHttpClient<ISendPurchaseRequestService, SendPurchaseRequestService>();
+                services.AddSingleton<IThirdPartyStockService, FakeThirdPartyStockService>();
                 services.AddHttpClient<IProductService, ProductService>();
             }
             else if(!_env.IsDevelopment())
@@ -82,7 +82,7 @@ namespace Management_Web_Application
                 services.AddHttpClient<IAuth0Service, Auth0Service>();
                 services.AddHttpContextAccessor();
                 services.AddHttpClient<IGetPurchaseRequestService, GetPurchaseRequestService>();
-                services.AddHttpClient<ISendPurchaseRequestService, SendPurchaseRequestService>();
+                services.AddHttpClient<IThirdPartyStockService, ThirdPartyStockService>();
                 services.AddHttpClient<IProductService, ProductService>();
                 //services.AddHttpClient<IStaffService, StaffService>()
                 //    .AddPolicyHandler(GetRetryPolicy())
