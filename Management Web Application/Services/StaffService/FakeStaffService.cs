@@ -9,7 +9,7 @@ namespace Management_Web_Application.Services.StaffService
 {
     public class FakeStaffService : IStaffService
     {
-        private readonly List<StaffDTO> _staffList;
+        public List<StaffDTO> _staffList;
 
         public FakeStaffService() 
         {

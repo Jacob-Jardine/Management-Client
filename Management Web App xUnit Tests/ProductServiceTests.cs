@@ -43,7 +43,7 @@ namespace Management_Web_App_xUnit_Tests
             return mock;
         }
 
-        private IProductService SendPurcahseReqeust(HttpClient client)
+        private IProductService ProductService(HttpClient client)
         {
             var mockConfiguration = new Mock<IConfiguration>(MockBehavior.Strict);
             mockConfiguration.Setup(c => c["PRODUCT_BASE_URL"])
@@ -52,19 +52,19 @@ namespace Management_Web_App_xUnit_Tests
         }
 
         [Fact]
-        public async void SendPurchaseRequest_True()
+        public async void GetAllProducts_True()
         {
             //Arrange
             var expectedResult = new PostToProductServiceDomainModel[]
             { 
                 new PostToProductServiceDomainModel() {productID = 1, productName = "Product Name", productDescription = "Product Desc", productPrice = 100, productQuantity = 10},
-                new PostToProductServiceDomainModel() {productID = 1, productName = "Product Name", productDescription = "Product Desc", productPrice = 100, productQuantity = 10}
+                new PostToProductServiceDomainModel() {productID = 2, productName = "Product Name", productDescription = "Product Desc", productPrice = 10, productQuantity = 5}
             };
             var expectedJson = JsonConvert.SerializeObject(expectedResult);
             var expectedUri = new Uri("https://thamco-staging-products.azurewebsites.net/api/products/");
             var mock = CreateHttpMock(HttpStatusCode.OK, expectedJson);
             var client = new HttpClient(mock.Object);
-            var service = SendPurcahseReqeust(client);
+            var service = ProductService(client);
 
             //Act
             var result = (await service.GetProducts(String.Empty)).ToArray();
@@ -76,6 +76,31 @@ namespace Management_Web_App_xUnit_Tests
             {
                 Assert.Equal(expectedResult[i].productID, result[i].productID);
             }
+
+            mock.Protected()
+                .Verify("SendAsync",
+                        Times.Once(),
+                        ItExpr.Is<HttpRequestMessage>(
+                            req => req.Method == HttpMethod.Get
+                                   && req.RequestUri == expectedUri),
+                        ItExpr.IsAny<CancellationToken>()
+                        );
+        }
+
+        [Fact]
+        public async void GetAllProducts_False()
+        {
+            //Arrange
+            var expectedUri = new Uri("https://thamco-staging-products.azurewebsites.net/api/products/");
+            var mock = CreateHttpMock(HttpStatusCode.NotFound, string.Empty);
+            var client = new HttpClient(mock.Object);
+            var service = ProductService(client);
+
+            //Act
+            var result = await service.GetProducts(String.Empty);
+
+            //Assert
+            Assert.Null(result);
 
             mock.Protected()
                 .Verify("SendAsync",

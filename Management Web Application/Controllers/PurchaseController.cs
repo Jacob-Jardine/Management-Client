@@ -104,7 +104,6 @@ namespace Management_Web_Application.Controllers
                         flag = false;
                     }
                 }
-                Thread.Sleep(500);
                 if(flag == true)
                 {
                     var postProd = new PostToProductServiceDomainModel();
